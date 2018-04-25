@@ -1,30 +1,30 @@
-#TODO
+# TODO
 
 * список на функционалност
 * список на save-dev инструменти
 * архитектура
 * список на библиотеки
 
-#Функционалност
+# Функционалност
 
-#Библиотеки
+# Библиотеки
 
-#save-dev инструменти
+# save-dev инструменти
 
-##before commit
+## before commit
 
 **eslint**
 
 * airbnb config
 * prettier config
 
-##Параметри на редактор
+## Параметри на редактор
 
 ```
 "editor.tabSize": 2
 ```
 
-##prettier
+## prettier
 
 параметри:
 

@@ -7,6 +7,24 @@
 
 # Функционалност
 
+* user
+* admin
+  * can block users
+  * can block user-ip
+  * can manupulate videos/users/comments
+
+# База данни
+
+таблици:
+
+* users
+* videos
+* user_videos
+* comments - comments to videos
+* likes - likes to videos
+* playlists
+* last_seen - history of videos
+
 # Библиотеки
 
 # save-dev инструменти

@@ -12,7 +12,7 @@
   2.  added news automatically publish on facebook
   3.  have facebook bot in messanger.com for users who use facebook account. Bot send statistic inforamtion about user videos and comments
 * user
-  1.  has name
+  1.  (must) has name
   1.  has username
   1.  has password
   1.  has status admin / not admin
@@ -21,9 +21,12 @@
   1.  can create multiple playlist
   1.  can edit and delete own video , comment, playlist
   1.  can comment video
-  1.  can stream video from web camera
+  1.  (may be) can stream video from web camera
   1.  can login using accounts from other servicies (google, github, facebook)
   1.  can write letter to support
+  1.  can search video by name
+  1.  can see all video of another user
+  1.  can subscribe to the channel of another user. After has notifications from that user
 * admin
   1.  can activate/deactivate profiles
   1.  can block users
@@ -40,6 +43,7 @@
   1.  has watched counter
   1.  has comments
   1.  is stored to local folder
+  1.  has tags for best searching
 
 # База данни
 

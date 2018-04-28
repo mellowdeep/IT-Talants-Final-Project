@@ -8,10 +8,30 @@
 # Функционалност
 
 * user
+  -has name
+  -has username
+  -has password
+  -isAdmin
+  -activated/deactivated status
+  -can upload video
+  -can creat multiple playlist
+  -can edit and delete own video , comment, playlist
+  -can comment video
 * admin
-  * can block users
-  * can block user-ip
-  * can manupulate videos/users/comments
+  - can activate/deactivate profiles
+  - can block users
+  - can block user-ip
+  - can manupulate videos/users/comments
+  
+* video
+  -has name
+  -has date
+  -has owner
+  -has status - public/private
+  -has reference to address where video is stored
+  -has watched counter
+  -has comments
+  -is stored to local folder
 
 # База данни
 

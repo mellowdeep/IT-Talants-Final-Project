@@ -7,43 +7,67 @@
 
 # Функционалност
 
+* site
+  1.  adaptive website
+  2.  added news automatically publish on facebook
+  3.  have facebook bot for users who logged as facebook account. Bot send statistic inforamtion about user videos and comments
 * user
-  -has name
-  -has username
-  -has password
-  -isAdmin
-  -activated/deactivated status
-  -can upload video
-  -can creat multiple playlist
-  -can edit and delete own video , comment, playlist
-  -can comment video
+  1.  has name
+  1.  has username
+  1.  has password
+  1.  has status admin / not admin
+  1.  activated/deactivated status
+  1.  can upload video
+  1.  can create multiple playlist
+  1.  can edit and delete own video , comment, playlist
+  1.  can comment video
+  1.  can stream video from web camera
+  1.  can login using accounts from other servicies (google, github, facebook)
+  1.  can write letter to support
 * admin
-  - can activate/deactivate profiles
-  - can block users
-  - can block user-ip
-  - can manupulate videos/users/comments
-  
+  1.  can activate/deactivate profiles
+  1.  can block users
+  1.  can block user-ip
+  1.  can manupulate videos/users/comments
+  1.  can puplish news on site
+  1.  can read letters to support and answer to user
 * video
-  -has name
-  -has date
-  -has owner
-  -has status - public/private
-  -has reference to address where video is stored
-  -has watched counter
-  -has comments
-  -is stored to local folder
+  1.  has name
+  1.  has date
+  1.  has owner
+  1.  has status - public/private
+  1.  has reference to address where video is stored
+  1.  has watched counter
+  1.  has comments
+  1.  is stored to local folder
 
 # База данни
 
-таблици:
+**таблици:**
 
-* users
-* videos
-* user_videos
-* comments - comments to videos
-* likes - likes to videos
-* playlists
-* last_seen - history of videos
+* **users**
+  * fields:
+  1.  name
+  2.  email
+  3.  login
+* **videos**
+  * fields:
+  1.
+* **user_videos**
+  * fields:
+  1.
+* **comments** - comments to videos
+  * fields:
+  1.
+* **likes** - likes to videos
+  * fields:
+  1.
+* **playlists**
+  * fields:
+  1.
+* **last_seen** - history of videos
+  * fields:
+  1.
 
 # Библиотеки
 

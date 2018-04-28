@@ -11,6 +11,7 @@
   1.  adaptive website
   2.  added news automatically publish on facebook
   3.  have facebook bot in messanger.com for users who use facebook account. Bot send statistic inforamtion about user videos and comments
+  4.  can see last seen videos without loggin (store in local storage)
 * user
   1.  (must) has name
   1.  has username
@@ -27,6 +28,7 @@
   1.  can search video by name
   1.  can see all video of another user
   1.  can subscribe to the channel of another user. After has notifications from that user
+  1.  has playlist for last seen videos
 * admin
   1.  can activate/deactivate profiles
   1.  can block users

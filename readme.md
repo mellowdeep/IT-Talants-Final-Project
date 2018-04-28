@@ -10,7 +10,7 @@
 * site
   1.  adaptive website
   2.  added news automatically publish on facebook
-  3.  have facebook bot for users who logged as facebook account. Bot send statistic inforamtion about user videos and comments
+  3.  have facebook bot in messanger.com for users who use facebook account. Bot send statistic inforamtion about user videos and comments
 * user
   1.  has name
   1.  has username

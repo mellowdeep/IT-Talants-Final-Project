@@ -1,8 +1,7 @@
 {
   "name": "ittfinal",
   "version": "1.0.0",
-  "description":
-    "* список на функционалност * список на save-dev инструменти * архитектура * список на библиотеки",
+  "description": "* список на функционалност * список на save-dev инструменти * архитектура * список на библиотеки",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,10 +24,18 @@
     "prettier": "^1.12.1"
   },
   "eslintConfig": {
-    "extends": ["airbnb-base", "prettier"],
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
     "rules": {
-      "no-restricted-syntax": ["error", "ForInStatement"],
-      "no-underscore-dangle": [0],
+      "no-restricted-syntax": [
+        "error",
+        "ForInStatement"
+      ],
+      "no-underscore-dangle": [
+        0
+      ],
       "no-console": 1
     },
     "globals": {

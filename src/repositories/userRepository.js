@@ -14,13 +14,17 @@ function createPromise(req) {
 
 const query = {
   findByUserName(username) {
-    return createPromise(`SELECT * FROM users as u WHERE u.username = ${db.escape(username)}`);
+    return createPromise(
+      `SELECT * FROM users as u WHERE u.username = ${db.escape(username)}`,
+    );
   },
   findAll() {
     return createPromise('SELECT * FROM users as u');
   },
   findById(id) {
-    return createPromise(`SELECT * FROM users as u WHERE u.id = ${db.escape(id)}`);
+    return createPromise(
+      `SELECT * FROM users as u WHERE u.id = ${db.escape(id)}`,
+    );
   },
 };
 

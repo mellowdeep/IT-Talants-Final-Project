@@ -1,5 +1,5 @@
 const express = require('express');
-const userService = require('../services/userService');
+const userService = require('../services/user-service');
 
 const controller = express.Router();
 
@@ -31,18 +31,16 @@ controller.get('/', (req, res) => {
 
 /* GET user by name page. */
 controller.get('/user/:username', (req, res) => {
-  userService.getUserByUserName(req.params.username)
-    .then((data) => {
-      res.send(data);
-    });
+  userService.getUserByUserName(req.params.username).then(data => {
+    res.send(data);
+  });
 });
 
 /* GET user by id page. */
 controller.get('/user/id/:id', (req, res) => {
-  userService.getUserById(req.params.id)
-    .then((data) => {
-      res.send(data);
-    });
+  userService.getUserById(req.params.id).then(data => {
+    res.send(data);
+  });
 });
 
 module.exports = controller;

@@ -1,16 +1,18 @@
 {
   "name": "ittfinal",
   "version": "1.0.0",
-  "description": "* список на функционалност * список на save-dev инструменти * архитектура * список на библиотеки",
+  "description":
+    "* список на функционалност * список на save-dev инструменти * архитектура * список на библиотеки",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "precommit": "pretty-quick --staged"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SmolnikovAM/ITT_HW_Final.git"
   },
-  "author": "",
+  "author": "Andrey Smolnikov / Anton Portenov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SmolnikovAM/ITT_HW_Final/issues"
@@ -21,34 +23,25 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.11.0",
+    "husky": "^1.0.0-rc.2",
     "prettier": "^1.12.1"
   },
   "eslintConfig": {
-    "extends": [
-      "airbnb-base",
-      "prettier"
-    ],
-    "rules": {
-      "no-restricted-syntax": [
-        "error",
-        "ForInStatement"
-      ],
-      "no-underscore-dangle": [
-        0
-      ],
-      "no-console": 1
+    "extends": ["airbnb-base", "prettier"],
+    "env": {
+      "node": true
     },
-    "globals": {
-      "window": true,
-      "document": true,
-      "WebSocket": true,
-      "XMLHttpRequest": true,
-      "fetch": true,
-      "Headers": true
+    "rules": {
+      "no-restricted-syntax": ["error", "ForInStatement"],
+      "no-underscore-dangle": [0],
+      "no-console": 1
     }
   },
   "prettier": {
     "trailingComma": "all",
     "singleQuote": true
+  },
+  "dependencies": {
+    "express": "^4.16.3"
   }
 }

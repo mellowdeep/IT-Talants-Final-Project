@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../config/dbs/sqlite-db');
 
 function createPromise(req) {
   return new Promise((resolve, reject) => {
@@ -13,18 +13,14 @@ function createPromise(req) {
 }
 
 const query = {
-  findByUserName: function(username) {
-    return createPromise(
-      'SELECT * FROM users as u WHERE u.username = ' + db.escape(username),
-    );
+  findByUserName(username) {
+    return createPromise(`SELECT * FROM users as u WHERE u.username = ${db.escape(username)}`);
   },
-  findAll: function() {
+  findAll() {
     return createPromise('SELECT * FROM users as u');
   },
-  findById: function(id) {
-    return createPromise(
-      'SELECT * FROM users as u WHERE u.id = ' + db.escape(id),
-    );
+  findById(id) {
+    return createPromise(`SELECT * FROM users as u WHERE u.id = ${db.escape(id)}`);
   },
 };
 

@@ -6,7 +6,7 @@ function getPasswordHash(password) {
   return hash;
 }
 
-  function comparePasswordAndHash(password, hash) {
+function comparePasswordAndHash(password, hash) {
   return bcrypt.compareSync(password, hash);
 }
 

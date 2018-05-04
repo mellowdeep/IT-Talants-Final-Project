@@ -1,12 +1,10 @@
 {
   "name": "ittfinal",
   "version": "1.0.0",
-  "description":
-    "* список на функционалност * список на save-dev инструменти * архитектура * список на библиотеки",
+  "description": "* список на функционалност * список на save-dev инструменти * архитектура * список на библиотеки",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "prettier --write \"src/**/*.js\""
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -27,13 +25,21 @@
     "prettier": "^1.12.1"
   },
   "eslintConfig": {
-    "extends": ["airbnb-base", "prettier"],
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
     "env": {
       "node": true
     },
     "rules": {
-      "no-restricted-syntax": ["error", "ForInStatement"],
-      "no-underscore-dangle": [0],
+      "no-restricted-syntax": [
+        "error",
+        "ForInStatement"
+      ],
+      "no-underscore-dangle": [
+        0
+      ],
       "no-console": 1
     }
   },
@@ -42,6 +48,12 @@
     "singleQuote": true
   },
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "express": "^4.16.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "prettier --write \"src/**/*.js\""
+    }
   }
 }

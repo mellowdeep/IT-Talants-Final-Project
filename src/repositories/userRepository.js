@@ -26,6 +26,11 @@ const query = {
       `SELECT * FROM users as u WHERE u.id = ${db.escape(id)}`,
     );
   },
+  findByUserNameAndPassword(username, password) {
+    return createPromise(
+    `SELECT * FROM users as u WHERE u.username = ${db.escape(username)} AND u.password = ${db.escape(password)}`,
+    );
+  }
 };
 
 module.exports = query;

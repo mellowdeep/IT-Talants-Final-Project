@@ -5,11 +5,13 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
+const validator = require('express-validator');
 
 const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(validator());
 app.use(cookieParser());
 app.use(
   session({

@@ -20,13 +20,15 @@ controller.get('/', (req, res) => {
   //     res.send(data);
   //   });
 
-  res.render('index', {
-    user: {
-      name: req.user.name,
-      image: req.user.image,
-      email: req.user.email,
-    },
-  });
+  res.send("Works");
+
+  // res.render('index', {
+  //   user: {
+  //     name: req.user.name,
+  //     image: req.user.image,
+  //     email: req.user.email,
+  //   },
+  // });
 });
 
 /* GET user by name page. */

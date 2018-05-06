@@ -1,4 +1,5 @@
 const express = require('express');
+const userService = require("../services/user-service");
 
 const controller = express.Router();
 
@@ -13,15 +14,14 @@ controller.get('/register', (req, res) => {
 });
 
 controller.post('/login', (req, res) => {
-  const email = req.body.eqmail;
-  const password = req.body.password;
+  const { email, password } = req.body;
   userService.getUser(email, password)
     .then(() => {
       // TBA checking for user credentials
       // res.send({});
       // req.redirect("/")
     });
-}
+});
 
   controller.post('/register', (req, res) => {
     req.check('email', ' Invalid email address')

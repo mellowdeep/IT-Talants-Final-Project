@@ -1,6 +1,8 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+const userService = require('../../services/user-service');
+
 module.exports = () => {
   passport.use(
     new GoogleStrategy(
@@ -11,16 +13,24 @@ module.exports = () => {
         callbackURL: 'http://localhost:3000/auth/google/callback',
       },
       (req, accessToken, refreshToken, profile, done) => {
-        const user = {
-          email: profile.emails[0].value,
+        let user = {
+          username: profile.emails[0].value,
           image: profile._json.image.url,
           name: profile.displayName,
-          google: {
-            id: profile.id,
-            token: accessToken,
-          },
+          provider: 'google',
         };
-        done(null, user);
+
+        userService.getUserByUserName(
+          user.username,
+          user.provider,
+          currentUser => {
+            if (!currentUser) {
+              user = userService.saveUser(user);
+            }
+
+            done(null, user);
+          },
+        );
       },
     ),
   );

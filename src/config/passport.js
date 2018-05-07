@@ -9,11 +9,12 @@ module.exports = app => {
     done(null, user.id)
   );
   passport.deserializeUser((user, done) => {
-    userService.getUserById(user.id).then(currentUser => {
-      done(null, currentUser);
+    userService.getUserById(user.id).then(user => {
+      done(null, user);
     });
   });
 
+  require("./strategies/local-strategy")();
   require("./strategies/google-strategy")();
   require("./strategies/twitter-strategy")();
 };

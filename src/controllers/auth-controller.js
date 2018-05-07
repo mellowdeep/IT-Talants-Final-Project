@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require("passport");
 const userService = require("../services/user-service");
 
 const controller = express.Router();
@@ -17,14 +18,13 @@ controller.get("/logout", (req, res) => {
   res.redirect("/")
 });
 
-controller.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  userService.getUser(email, password).then(() => {
-    // TBA checking for user credentials
-    // res.send({});
-    // req.redirect("/")
-  });
-});
+controller.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+  })
+);
 
 controller.post("/register", (req, res) => {
   // req.check("email", " Invalid email address").isEmail();

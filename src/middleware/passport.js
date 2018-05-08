@@ -9,8 +9,8 @@ module.exports = app => {
     done(null, user.id)
   );
   passport.deserializeUser((user, done) => {
-    userService.getUserById(user.id).then(user => {
-      done(null, user);
+    userService.getUserByUserName(user.id).then(dbUser => {
+      done(null, dbUser);
     });
   });
 

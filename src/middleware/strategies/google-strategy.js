@@ -18,6 +18,11 @@ module.exports = () => {
           image: profile._json.image.url,
           name: profile.displayName,
           provider: 'google',
+          status: "active",
+          google: {
+            id: profile.id,
+            token: accessToken
+          }
         };
 
         userService.getUserByUserName(

@@ -1,5 +1,5 @@
 const repository = require('../repositories/user-repository');
-const hash = require('../config/password');
+const hash = require('../middleware/password');
 
 const userFunction = {
   getUserByUserName: (username, provider) =>

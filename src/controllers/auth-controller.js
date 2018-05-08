@@ -27,8 +27,8 @@ controller.post(
 );
 
 controller.post("/register", (req, res) => {
-  // req.check("email", " Invalid email address").isEmail();
-  // req.check("username", " Username cannot be empty").isEmpty();
+  req.check("username", " Invalid email address").isEmail();
+  req.check("username", " Username cannot be empty").isEmpty();
   req.check("password1", " Password is too short").isLength({ min: 4 });
   req.check("password1", " Passwords missmatch").equals(req.body.password2);
 
@@ -41,7 +41,14 @@ controller.post("/register", (req, res) => {
 
     const errors = req.validationErrors();
     if (!errors) {
-      userService.saveUser(req.body.username, req.body.password1).then(() => {
+      const newUser = {
+        username: req.body.username,
+        name: req.body.name,
+        password: req.body.password1,
+        status: "active"
+      };
+
+      userService.saveUser(newUser).then(() => {
         res.redirect("/");
       });
     } else {

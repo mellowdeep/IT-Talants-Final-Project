@@ -1,9 +1,8 @@
-const db = require("./dbs/sql.lite.db");
+const db = require('./dbs/sqlite-db');
 
-
-const getSingleResult = (req, params) => {
-  return new Promise((resolve, reject) => {
-    db.run(req,params, (err, result) => {
+const getSingleResult = (req, params) =>
+  new Promise((resolve, reject) => {
+    db.run(req, params, (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -11,10 +10,9 @@ const getSingleResult = (req, params) => {
       }
     });
   });
-};
 
-const getMultipleResult = (req, params) => {
-  return new Promise((resolve, reject) => {
+const getMultipleResult = (req, params) =>
+  new Promise((resolve, reject) => {
     db.all(req, params, (err, result) => {
       if (err) {
         reject(err);
@@ -23,6 +21,5 @@ const getMultipleResult = (req, params) => {
       }
     });
   });
-};
 
-module.exports = {getSingleResult, getMultipleResult};
+module.exports = { getSingleResult, getMultipleResult };

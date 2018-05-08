@@ -3,7 +3,7 @@ const formidable = require('formidable');
 const videoService = require('../services/video-service');
 const fs = require('fs');
 const path = require('path');
-const uuid = require('../config/uuid');
+const uuid = require('../middleware/uuid');
 
 const controller = express.Router();
 
@@ -48,14 +48,15 @@ controller.post('/upload', (req, res) => {
   };
 
   const renameFile = (uniqueId, file) => {
-    const mime = file.name.split('.').pop();
-    const newName = `${uniqueId}.${mime}`;
+    const type = file.type.split("/").pop();
+    const newName = `${uniqueId}.${type}`;
     fs.rename(file.path, path.join(form.uploadDir, newName), err => {
       if (err) {
         fs.unlink(path.join(form.uploadDir, newName), err => {
           if (err) throw err;
         });
       }
+
 
       videoService.save(); // video
     });

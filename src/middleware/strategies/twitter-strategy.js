@@ -15,10 +15,15 @@ module.exports = () => {
       },
       (req, accessToken, tokenSecret, profile, done) => {
         let user = {
-          email: profile._json.email,
+          username: profile._json.email,
           image: profile._json.profile_image_url,
           name: profile.displayName,
-          provider: "twitter"
+          provider: "twitter",
+          status: "active",
+          twitter: {
+            id: profile.id,
+            token: accessToken
+          }
         };
 
         userService.getUserByUserName(user.email, user.provider, currentUser => {

@@ -16,14 +16,14 @@ app.use(cookieParser());
 app.use(
   session({
     secret: 'test',
-    maxAge: 24*60*60*1000,
+    maxAge: 24 * 60 * 60 * 1000,
     resave: true,
     saveUninitialized: true,
   }),
 );
 app.use(express.static(path.join(__dirname, '../public')));
 
-require('./config/passport')(app);
+require('./middleware/passport')(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, '../public/views'));

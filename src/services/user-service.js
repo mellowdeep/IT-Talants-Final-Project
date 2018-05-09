@@ -35,15 +35,21 @@ const userFunction = {
         return user;
       }),
   saveUser: (username, password) =>
-    repository.saveUser(username, hash.getPasswordHash(password)).then(user => {
-      if (user) {
-        return {
-          id: user.id,
-          name: user.username
-        };
-      }
-      return user;
-    })
+    repository
+      .saveUser(username, hash.getPasswordHash(password))
+      .then(id => repository.findById(id))
+      .then(user => {
+        if (user) {
+          return {
+            id: user.id,
+            name: user.username,
+            image: user.image,
+            status: user.status
+          };
+        }
+
+        return user;
+      })
 };
 
 module.exports = userFunction;

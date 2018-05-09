@@ -1,19 +1,11 @@
 const repository = require("../repositories/video-repository");
 
 const videoFunction = {
-  getOneByUUID: (uuid) => {
+  getOneByUUID: (uuid) =>
     repository.findByUUID(uuid).then(video => {
-      if (video) {
-        return {
-          // id: user.id,
-          // name: user.username
-        };
-      }
-
+      if (video) return video.id;
       return video;
     })
-  }
-
 };
 
 

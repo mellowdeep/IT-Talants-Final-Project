@@ -20,7 +20,7 @@ const query = {
     );
   },
   saveUser(username, password) {
-    return db.getSingleResult(
+    return db.insertObj(
       "INSERT INTO users (username, password) VALUES (?, ?)", [username, password]
     );
   }

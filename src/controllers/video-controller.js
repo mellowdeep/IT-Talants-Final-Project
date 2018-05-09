@@ -7,8 +7,14 @@ const uuid = require('../middleware/uuid');
 
 const controller = express.Router();
 
+controller.get("/:uuid", (req, res) => {
+    videoService.getOneByUUID(req.params.uuid).then(video => {
+      res.status(200).json(video);
+    }).catch(() => res.sendStatus(404))
+});
+
 controller.post('/upload', (req, res) => {
-  const video = {};
+  const videoObj = {};
   const files = [];
   const fields = [];
   const form = new formidable.IncomingForm();
@@ -25,7 +31,8 @@ controller.post('/upload', (req, res) => {
     files.push(file);
   });
 
-  form.on("field", (name, value) => {
+  // name - requeired; about - required ; visibility [public, private] required, tag - required
+  form.on('field', (name, value) => {
     fields.push({ name, value });
   });
 
@@ -35,9 +42,9 @@ controller.post('/upload', (req, res) => {
   });
 
   // once all the files have been uploaded, send a response to the client
-  form.on("end", () => {
+  form.on('end', () => {
     getUniqueUUID(renameFile);
-    res.end("success");
+    res.end('success');
   });
 
   // parse the incoming request containing the form data
@@ -50,6 +57,7 @@ controller.post('/upload', (req, res) => {
         getUniqueUUID(callback);
       } else {
         files.forEach(file => callback(uniqueId, file));
+        videoObj.uuid = uniqueId;
         sendVideoToDB();
       }
     });
@@ -57,9 +65,9 @@ controller.post('/upload', (req, res) => {
 
   // rename uploaded file with new name
   const renameFile = (uuid, file) => {
-    const type = file.type.split("/").pop();
-    const ref = file.type.split("/").shift();
-    const newName = `${uuid  }.${  type}`;
+    const type = file.type.split('/').pop();
+    const ref = file.type.split('/').shift();
+    const newName = `${uuid}.${type}`;
     fs.rename(file.path, path.join(form.uploadDir, newName), err => {
       if (err) {
         fs.unlink(path.join(form.uploadDir, newName), err => {
@@ -68,14 +76,24 @@ controller.post('/upload', (req, res) => {
       }
     });
 
-    video[ref] = newName;
+    videoObj[ref] = newName;
   };
 
   const sendVideoToDB = () => {
-    video.userId = req.session.user.id;
+    videoObj.userId = 1; /* req.session.user.id; */
+    videoObj.postDate = new Date().toLocaleDateString();
+
     for (const field of fields) {
-      video[field.name] = field.value;
+      videoObj[field.name] = field.value;
     }
+
+    videoService.saveVideo(videoObj).then(id => {
+      if (id) {
+        res.sendStatus(200);
+      } else {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    });
   };
 });
 

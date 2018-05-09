@@ -3,6 +3,8 @@ const LocalStrategy = require("passport-local").Strategy;
 
 const userService = require("../../services/user-service");
 
+const BLOCKED = "blocked";
+
 module.exports = () => {
   passport.use(
     new LocalStrategy((username, password, done) => {
@@ -11,6 +13,10 @@ module.exports = () => {
         .then(user => {
           if (!user) {
             return done(null, false, {message: "Invalid Credentials"});
+          }
+
+          if(user.status.toLowerCase() === BLOCKED) {
+            return done(null, false, {message: "User Blocked!"});
           }
 
           return done(null, user);

@@ -16,12 +16,10 @@ controller.get(
 );
 
 controller.get(
-  '/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    console.log();
-    res.redirect('/');
-  },
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => res.sendStatus(200)
 );
 
 module.exports = controller;
+

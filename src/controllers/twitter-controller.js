@@ -8,12 +8,9 @@ const passport = require('passport');
 controller.get('/auth/twitter', passport.authenticate('twitter'));
 
 controller.get(
-  '/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
-  (req, res) => {
-    // Successful authentication, check for user , if none add user to DB , redirect home.
-    res.redirect('/');
-  },
+  "/twitter/callback",
+  passport.authenticate("twitter", { failureRedirect: "/login" }),
+  (req, res) => res.sendStatus(200)
 );
 
 module.exports = controller;

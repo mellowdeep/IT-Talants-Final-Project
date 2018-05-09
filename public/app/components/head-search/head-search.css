@@ -1,30 +1,4 @@
-<!-- head-search- -->
-<span class="head-search-header_burger-menu">
-  <icon fa="fas fa-bars"></icon>
-</span>
-
-<span class="head-search-header_logo"></span>
-
-<span class="head-search-header_search">
-  <input class="head-search-header_search_input" type="text" placeholder=" search">
-  <span class="head-search-header_search_icon head-search-icon">
-    <icon fa="fas fa-search"></icon>
-  </span>
-</span>
-
-<span class="head-search-header_icons">
-  <span class="head-search-icon">
-    <icon fa="fas fa-user"></icon>
-  </span>
-  <span class="head-search-icon">
-    <icon fa="fas fa-bell"></icon>
-  </span>
-</span>
-
-
-
-<style>
-.head-search-header {
+.header {
   grid-area: header;
   width: 100%;
   font-size: 1.5em;
@@ -33,12 +7,12 @@
   grid-template-areas: '  burger-menu .   logo  . search . icons ';
 }
 
-.head-search-header_burger-menu {
+.header_burger-menu {
   grid-area: burger-menu;
   align-self: center;
 }
 
-.head-search-header_logo {
+.header_logo {
   grid-area: logo;
   align-self: center;
   background-image: url('../img/logo.png');
@@ -47,7 +21,7 @@
   height: 100%;
 }
 
-.head-search-header_search {
+.header_search {
   grid-area: search;
   text-align: center;
   display: grid;
@@ -55,7 +29,7 @@
   grid-gap: 2px;
 }
 
-.head-search-header_search_input {
+.header_search_input {
   grid-row: 1;
   font-size: 0.7em;
   width: 100%;
@@ -64,7 +38,7 @@
   border: solid 1px black;
 }
 
-.head-search-header_search_icon {
+.header_search_icon {
   grid-row: 1;
   height: 30px;
   width: 70px;
@@ -74,22 +48,20 @@
   padding-top: 5px;
 }
 
-.head-search-header_icons {
+.header_icons {
   grid-area: icons;
   align-self: center;
   text-align: right;
 }
 
-.head-search-icon {
+.icon {
   cursor: pointer;
   /* color: #555; */
 }
-.head-search-icon-hover {
+.icon-hover {
   color: rgb(246, 11, 11);
 }
 
-.head-search-header_icons > a:visited {
+.header_icons > a:visited {
   text-decoration: none;
 }
-
-</style>

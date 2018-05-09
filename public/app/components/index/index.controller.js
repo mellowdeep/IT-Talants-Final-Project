@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 (function(app) {
-  const moduleName = 'headSearch';
+  const moduleName = 'index';
   // eslint-disable-next-line
   const templateUrl = templateUrlGenerate(moduleName);
   // '/app/components/head-search/head-search.template.html';

@@ -33,8 +33,14 @@ controller.put('/playlist/:id/:uuid', (req, res) => {
 });
 
 controller.delete('/playlist/delete/:id/:uuid', (req, res) => {
-  playlistService.deletePlaylist(req.params.id, req.params.uuid)
-    .then(id =>  res.status(status.OK))
+  playlistVideosService.deleteVideoFromPlaylist(req.params.id, req.params.uuid)
+    .then(res.status(status.OK))
+    .catch((err) => res.sendStatus(err.statusCode).json(err.message));
+});
+
+controller.delete('/playlist/delete/:id', (req, res) => {
+  playlistService.deletePlaylist(req.params.id, req.params.session.id)
+    .then(res.status(status.OK))
     .catch((err) => res.sendStatus(err.statusCode).json(err.message));
 });
 

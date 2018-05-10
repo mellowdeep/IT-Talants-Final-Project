@@ -17,7 +17,7 @@ const playlistVideosFunction = {
         throw {message:'Videos not found',
           statusCode: status.NOT_FOUND};
       }),
-  removeVideo: (playlistId, videoUUID) =>
+  deleteVideoFromPlaylist: (playlistId, videoUUID) =>
     videoService.getOneByUUID(videoUUID)
      .then(videoId => repository.removeVideoFromPlaylist(playlistId, videoId))
       .then(rows => {

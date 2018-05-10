@@ -1,5 +1,6 @@
 const repository = require('../repositories/comment-repository');
 const videoService = require('../services/video-service');
+const userCommentLikesService = require('../services/user-comment-likes-service');
 const status = require('../config/status-code');
 
 const commentFunction = {
@@ -45,6 +46,39 @@ const commentFunction = {
           message: 'Cannot delete  comment',
           statusCode: status.UNAUTHORIZED,
         };
+      }),
+  addLike: (videoUUID, commentId, userId) =>
+    videoService
+      .getOneByUUID(uuid)
+      .then(videoId => repository.findByVideoAndCommentID(videoId, commentId))
+      .then(comment => {
+        if (!comment) {
+          throw {
+            message: 'Comment not found',
+            statusCode: status.NOT_FOUND,
+          };
+        }
+
+        const like = comment.likes_count++;
+        repository
+          .updateComment(
+            comment.text,
+            like,
+            comment.id,
+            comment.video_id,
+            comment.user_id,
+          )
+          .then(rows => {
+            if (rows) {
+              userCommentLikesService
+                .addLike(userId, commentId, 1)
+                .then(id => id);
+            }
+            throw {
+              message: 'Cannot add lie',
+              statusCode: status.INTERNAL_SERVER_ERROR,
+            };
+          });
       }),
 };
 

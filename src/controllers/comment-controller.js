@@ -12,6 +12,12 @@ controller.get("/:uuid/comments", (req, res) => {
     .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
 });
 
+controller.put("/:uuid/:id/like", (req, res) => {
+  commentService.addLike(req.params.uuid, req.params.id, req.session.user.id)
+    .then(res.status(status.OK))
+    .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
+});
+
 
 controller.put("/:uuid/add-comment", (req, res) => {
   const commentObj = {};
@@ -38,7 +44,7 @@ controller.update("/:uuid/update/:id", (req, res) => {
   commentService.updateComment(uuid, id, text, userId)
     .then(res.status(status.OK))
     .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
-}
+});
 
 
 module.exports = controller;

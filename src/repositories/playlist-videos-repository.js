@@ -8,6 +8,21 @@ const query = {
         playlistId
       ]
     )
+  },
+  findVideosByPlaylistId(playlistId) {
+    return db.getMultipleResult(
+      "SELECT * FROM playlists AS p " +
+      "join videos_playlists AS vp " +
+      "on vp.playlist_id = v.id " +
+      "join videos AS v " +
+      "on v.id = vp.video_id " +
+      "WHERE p.id = ?", playlistId
+    )
+  },
+  removeVideoFromPlaylist(playlistId, videoId){
+    return db.deleteObj(
+      "DELETE FROM playlists_videos AS vp WHERE vp.video_id = ? AND  vp.playlist_id = ?", [videoId, playlistId]
+    )
   }
 
 

@@ -12,14 +12,15 @@ const controller = express.Router();
 controller.get('/:uuid', (req, res) => {
   videoService
     .getOneByUUID(req.params.uuid)
-    .then(video => {
-      if (video) {
-        res.sendStatus(status.OK).json(video);
-      } else {
-        res.sendStatus(status.NOT_FOUND);
-      }
-    })
-    .catch(() => res.sendStatus(status.INTERNAL_SERVER_ERROR));
+    .then(video => res.sendStatus(status.OK).json(video))
+    .catch(err => res.sendStatus(err.statusCode).json(err.message));
+});
+
+controller.delete('/delete/:uuid', (req, res) => {
+  videoService
+    .deleteVideo(req.params.uuid, req.session.user.id)
+    .then(video => res.sendStatus(status.OK).json(video))
+    .catch(err => res.sendStatus(err.statusCode).json(err.message));
 });
 
 controller.post('/upload', (req, res) => {
@@ -61,15 +62,18 @@ controller.post('/upload', (req, res) => {
 
   const getUniqueUUID = callback => {
     const uniqueId = uuid();
-    videoService.getOneByUUID(uniqueId).then(video => {
-      if (video) {
-        getUniqueUUID(callback);
-      } else {
-        files.forEach(file => callback(uniqueId, file));
-        videoObj.uuid = uniqueId;
-        sendVideoToDB();
-      }
-    });
+    videoService
+      .getOneByUUID(uniqueId)
+      .then(video => {
+        if (video) {
+          getUniqueUUID(callback);
+        } else {
+          files.forEach(file => callback(uniqueId, file));
+          videoObj.uuid = uniqueId;
+          sendVideoToDB();
+        }
+      })
+      .catch((err) => res.sendStatus(err.statusCode).json(err.message));
   };
 
   // rename uploaded file with new name
@@ -77,13 +81,19 @@ controller.post('/upload', (req, res) => {
     const type = file.type.split('/').pop();
     const ref = file.type.split('/').shift();
     const newName = `${uuid}.${type}`;
-    fs.rename(file.path, path.join(form.uploadDir, newName), err => {
-      if (err) {
-        fs.unlink(path.join(form.uploadDir, newName), err => {
-          if (err) throw err;
-        });
-      }
-    });
+    fs
+      .rename(file.path, path.join(form.uploadDir, newName), err => {
+        if (err) {
+          fs.unlink(path.join(form.uploadDir, newName), err => {
+            if (err)
+              throw {
+                message: err,
+                statusCode: status.INTERNAL_SERVER_ERROR,
+              };
+          });
+        }
+      })
+      .catch(err => res.sendStatus(err.statusCode).json(err.message));
 
     videoObj[ref] = newName;
   };
@@ -99,11 +109,7 @@ controller.post('/upload', (req, res) => {
     videoService
       .addVideo(videoObj)
       .then(res.sendStatus(status.OK))
-      .catch(
-        res
-          .status(status.INTERNAL_SERVER_ERROR)
-          .json({ error: 'Internal server error' }),
-      );
+      .catch(err => res.sendStatus(err.statusCode).json(err.message));
   };
 });
 

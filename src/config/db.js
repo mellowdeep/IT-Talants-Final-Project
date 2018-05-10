@@ -1,8 +1,8 @@
 const db = require('./dbs/sqlite-db');
 
-const insertObj = (req, params) => {
-  return new Promise((resolve, reject) => {
-    db.run(req,params, function(err){
+const insertObj = (req, params) =>
+  new Promise((resolve, reject) => {
+    db.run(req, params, function(err) {
       if (err) {
         reject(err);
       } else {
@@ -10,7 +10,28 @@ const insertObj = (req, params) => {
       }
     });
   });
-};
+
+const deleteObj = (req, params) =>
+  new Promise((resolve, reject) => {
+    db.run(req, params, function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(this.changes);
+      }
+    });
+  });
+
+const updateObj = (req, params) =>
+  new Promise((resolve, reject) => {
+    db.run(req, params, function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(this.changes);
+      }
+    });
+  });
 
 const getSingleResult = (req, params) =>
   new Promise((resolve, reject) => {
@@ -34,4 +55,4 @@ const getMultipleResult = (req, params) =>
     });
   });
 
-module.exports = { getSingleResult, getMultipleResult, insertObj };
+module.exports = { getSingleResult, getMultipleResult, insertObj, deleteObj, updateObj };

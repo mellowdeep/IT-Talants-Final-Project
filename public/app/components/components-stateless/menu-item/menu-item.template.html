@@ -1,0 +1,36 @@
+<div class="cmp-menu-item-cmp-aside-menu-item-upper">
+  <icon fa="{{$ctrl.fa}}"></icon>
+  <div class="cmp-menu-item-cmp-aside-menu-item">
+    <a href="{{$ctrl.href}}">
+      <strong>{{ $ctrl.title }}</strong>
+    </a>
+    <ul class="cmp-menu-item-cmp-aside-menu_items-list" ng-if="!!$ctrl.links">
+      <li ng-repeat="link in $ctrl.links" class="cmp-menu-item-cmp-aside-menu_items-list_item">
+        <a href="{{link.link}}">{{link.name}}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+<style>
+.cmp-menu-item-cmp-aside-menu-icon {
+  height: 30px;
+}
+
+.cmp-menu-item-cmp-aside-menu-item-upper {
+  display: grid;
+  grid-template-columns: 30px auto;
+}
+
+.cmp-menu-item-cmp-aside-menu_items-list {
+  list-style-type: none;
+}
+
+.cmp-menu-item-cmp-aside-menu_items-list_item {
+  color: #666;
+  text-decoration: none;
+}
+
+</style>

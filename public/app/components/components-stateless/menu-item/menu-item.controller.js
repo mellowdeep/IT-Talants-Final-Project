@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 (function(app) {
-  const moduleName = 'icon';
+  const moduleName = 'menuItem';
   // eslint-disable-next-line
   const templateUrl = templateUrlGenerateStateless(moduleName);
   // '/app/components/head-search/head-search.template.html';
@@ -8,12 +8,13 @@
   // --------------------------------------------------
 
   const bindings = {
+    title: '@',
     fa: '@',
+    links: '=',
+    href: '@',
   };
 
-  function controller() {
-    this.hover = false;
-  }
+  function controller() {}
 
   // --------------------------------------------------
   // LOAD component

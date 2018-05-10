@@ -44,7 +44,7 @@ const userFunction = {
             id: user.id,
             name: user.username,
             image: user.image,
-            status: user.role
+            role: user.role
           };
         }
 

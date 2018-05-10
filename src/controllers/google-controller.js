@@ -1,7 +1,10 @@
 const express = require('express');
+const passport = require('passport');
+
+const status = require("../config/status-code");
 
 const controller = express.Router();
-const passport = require('passport');
+
 
 // google login
 
@@ -16,10 +19,14 @@ controller.get(
 );
 
 controller.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => res.sendStatus(200)
+  '/auth/google/callback',
+  passport.authenticate('google', (req, res) => {
+    if (req.session.user) {
+      res.sendStatus(status.OK);
+    } else {
+      res.sendStatus(status.UNAUTHORIZED);
+    }
+  }),
 );
 
 module.exports = controller;
-

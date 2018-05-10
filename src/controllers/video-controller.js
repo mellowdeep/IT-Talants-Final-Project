@@ -1,16 +1,25 @@
 const express = require('express');
 const formidable = require('formidable');
-const videoService = require('../services/video-service');
 const fs = require('fs');
 const path = require('path');
+
 const uuid = require('../middleware/uuid');
+const videoService = require('../services/video-service');
+const status = require('../config/status-code');
 
 const controller = express.Router();
 
-controller.get("/:uuid", (req, res) => {
-    videoService.getOneByUUID(req.params.uuid).then(video => {
-      res.status(200).json(video);
-    }).catch(() => res.sendStatus(404))
+controller.get('/:uuid', (req, res) => {
+  videoService
+    .getOneByUUID(req.params.uuid)
+    .then(video => {
+      if (video) {
+        res.sendStatus(status.OK).json(video);
+      } else {
+        res.sendStatus(status.NOT_FOUND);
+      }
+    })
+    .catch(() => res.sendStatus(status.INTERNAL_SERVER_ERROR));
 });
 
 controller.post('/upload', (req, res) => {
@@ -80,20 +89,23 @@ controller.post('/upload', (req, res) => {
   };
 
   const sendVideoToDB = () => {
-    videoObj.userId = 1; /* req.session.user.id; */
+    videoObj.userId = req.session.user.id;
     videoObj.postDate = new Date().toLocaleDateString();
 
     for (const field of fields) {
       videoObj[field.name] = field.value;
     }
 
-    videoService.saveVideo(videoObj).then(id => {
-      if (id) {
-        res.sendStatus(200);
-      } else {
-        res.status(500).json({ error: "Internal server error" });
-      }
-    });
+    videoService
+      .saveVideo(videoObj)
+      .then(id => {
+        if (id) res.sendStatus(status.OK);
+      })
+      .catch(
+        res
+          .status(status.INTERNAL_SERVER_ERROR)
+          .json({ error: 'Internal server error' }),
+      );
   };
 });
 

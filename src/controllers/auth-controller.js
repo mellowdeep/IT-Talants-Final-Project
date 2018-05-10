@@ -1,6 +1,8 @@
 const express = require('express');
 const passport = require('passport');
+
 const userService = require('../services/user-service');
+const status = require("../config/status-code");
 
 const controller = express.Router();
 
@@ -19,9 +21,12 @@ controller.get('/logout', (req, res) => {
 
 controller.post(
   '/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
+  passport.authenticate('local', (req, res) => {
+    if (req.session.user) {
+      res.sendStatus(status.OK);
+    } else {
+      res.sendStatus(status.BAD_REQUEST);
+    }
   }),
 );
 
@@ -40,13 +45,14 @@ controller.post('/register', (req, res) => {
 
     const errors = req.validationErrors();
     if (!errors) {
-      userService.saveUser(req.body.username, req.body.password1).then(user => {
-        req.session.user = user;
-        res.redirect('/');
-      });
+      userService
+        .saveUser(req.body.username, req.body.password1)
+        .then(currentUser => {
+          req.session.user = currentUser;
+          res.sendStatus(status.OK);
+        });
     } else {
-      req.session.errors = errors;
-      res.render('', { err: errors });
+      res.sendStatus(status.BAD_REQUEST).json({ error: errors });
     }
   });
 });

@@ -25,9 +25,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 require('./middleware/passport')(app);
 
-// view engine setup
-app.set('views', path.join(__dirname, '../public/views'));
-
 fs.readdirSync(path.join(__dirname, './controllers')).forEach(file => {
   app.use(require(`./controllers/${path.basename(file, '.js')}`));
 });

@@ -9,7 +9,7 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
-controller.get('/video/:uuid', (req, res) => {
+controller.get('/:uuid', (req, res) => {
   videoService
     .getOneByUUID(req.params.uuid)
     .then(video => res.sendStatus(status.OK).json(video))
@@ -23,7 +23,7 @@ controller.delete('/delete/:uuid', (req, res) => {
     .catch(err => res.sendStatus(err.statusCode).json(err.message));
 });
 
-controller.post('/video/upload', (req, res) => {
+controller.post('/upload', (req, res) => {
   const videoObj = {};
   const files = [];
   const fields = [];

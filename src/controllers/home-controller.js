@@ -13,7 +13,7 @@ const controller = express.Router();
 // });
 
 /* GET home page. Add session user to view */
-controller.get('/index', (req, res) => {
+controller.get('/', (req, res) => {
   res.sendStatus(200);
 });
 

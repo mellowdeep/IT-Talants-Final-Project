@@ -6,7 +6,7 @@ const status = require("../config/status-code");
 const controller = express.Router();
 
 
-controller.get("/video/:uuid/comments", (req, res) => {
+controller.get("/:uuid/comments", (req, res) => {
   commentService.getCommentsForVideo(req.params.uuid)
     .then(comments => res.status(status.OK).json(comments))
     .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
@@ -19,7 +19,7 @@ controller.put("/:uuid/:id/like", (req, res) => {
 });
 
 
-controller.put("/video/:uuid/add-comment", (req, res) => {
+controller.put("/:uuid/add-comment", (req, res) => {
   const commentObj = {};
   commentObj.text = req.body.text;
   commentObj.userId = req.session.user.id;
@@ -30,7 +30,7 @@ controller.put("/video/:uuid/add-comment", (req, res) => {
     .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
 });
 
-controller.delete("/video/:uuid/delete/:id", (req, res) => {
+controller.delete("/:uuid/delete/:id", (req, res) => {
       const {uuid, id} = req.params;
       const userId = req.session.user.id;
       commentService.deleteComment(uuid, id, userId)
@@ -38,7 +38,7 @@ controller.delete("/video/:uuid/delete/:id", (req, res) => {
         .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
 });
 
-controller.put("/video/:uuid/update/:id", (req, res) => {
+controller.put("/:uuid/update/:id", (req, res) => {
   const {uuid, id, text} = req.params;
   const userId = req.session.user.id;
   commentService.updateComment(uuid, id, text, userId)

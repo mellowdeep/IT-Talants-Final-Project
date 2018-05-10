@@ -97,10 +97,8 @@ controller.post('/upload', (req, res) => {
     }
 
     videoService
-      .saveVideo(videoObj)
-      .then(id => {
-        if (id) res.sendStatus(status.OK);
-      })
+      .addVideo(videoObj)
+      .then(res.sendStatus(status.OK))
       .catch(
         res
           .status(status.INTERNAL_SERVER_ERROR)

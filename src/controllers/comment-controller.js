@@ -35,3 +35,6 @@ controller.put("/:uuid/add-comment", (req, res) => {
     })
     .catch(() => res.status(status.INTERNAL_SERVER_ERROR).json({ error: "Internal server error" }));
 });
+
+
+module.exports = controller;

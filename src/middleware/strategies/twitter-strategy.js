@@ -14,7 +14,7 @@ module.exports = () => {
         passReqToCallback: true
       },
       (req, accessToken, tokenSecret, profile, done) => {
-        let user = {
+        const user = {
           username: profile._json.email,
           image: profile._json.profile_image_url,
           name: profile.displayName,
@@ -28,7 +28,7 @@ module.exports = () => {
 
         userService.getUserByUserName(user.email, user.provider, currentUser => {
           if (!currentUser) {
-            user = userService.saveUser(user.email);
+            userService.saveUser(user);
           }
 
           done(null, user);

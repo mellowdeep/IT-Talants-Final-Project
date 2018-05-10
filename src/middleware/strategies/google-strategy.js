@@ -13,7 +13,7 @@ module.exports = () => {
         callbackURL: 'http://localhost:3000/auth/google/callback',
       },
       (req, accessToken, refreshToken, profile, done) => {
-        let user = {
+        const user = {
           username: profile.emails[0].value,
           image: profile._json.image.url,
           name: profile.displayName,
@@ -30,7 +30,7 @@ module.exports = () => {
           user.provider,
           currentUser => {
             if (!currentUser) {
-              user = userService.saveUser(user);
+              userService.saveUser(user);
             }
 
             done(null, user);

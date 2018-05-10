@@ -4,7 +4,7 @@ const videoService = require("../services/video-service");
 const getVideoID = uuid =>
   videoService.getOneByUUID(uuid).then(video => {
     if (video) return video.id;
-    return video;
+    throw "Not found";
   });
 
 
@@ -15,7 +15,7 @@ const commentFunction = {
       .then(commentId => commentId),
   getCommentsForVideo: uuid => {
     getVideoID(uuid)
-      .then(videoId => repository.repository.getCommentsByVideoId(videoId))
+      .then(videoId => repository.getCommentsByVideoId(videoId))
       .then(comments => comments);
   }
 };

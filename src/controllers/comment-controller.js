@@ -8,14 +8,8 @@ const controller = express.Router();
 
 controller.get("/:uuid/comments", (req, res) => {
   commentService.getCommentsForVideo(req.params.uuid)
-    .then(comments => {
-      if(comments) {
-        res.status(status.OK).json(comments);
-      } else {
-        res.sendStatus(status.NOT_FOUND);
-      }
-    })
-    .catch(() => res.status(status.INTERNAL_SERVER_ERROR).json({ error: "Internal server error" }));
+    .then(comments => res.status(status.OK).json(comments))
+    .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
 });
 
 
@@ -26,15 +20,25 @@ controller.put("/:uuid/add-comment", (req, res) => {
   commentObj.postDate = new Date().toLocaleDateString();
 
   commentService.addComment(commentObj, req.params.uuid)
-    .then(id => {
-      if(id){
-        res.status(s);
-      } else {
-        res.sendStatus(status.NOT_FOUND);
-      }
-    })
-    .catch(() => res.status(status.INTERNAL_SERVER_ERROR).json({ error: "Internal server error" }));
+    .then(id => res.status(status.OK).json(id))
+    .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
 });
+
+controller.delete("/:uuid/delete/:id", (req, res) => {
+      const {uuid, id} = req.params;
+      const userId = req.session.user.id;
+      commentService.deleteComment(uuid, id, userId)
+        .then(res.status(status.OK))
+        .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
+});
+
+controller.update("/:uuid/update/:id", (req, res) => {
+  const {uuid, id, text} = req.params;
+  const userId = req.session.user.id;
+  commentService.updateComment(uuid, id, text, userId)
+    .then(res.status(status.OK))
+    .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
+}
 
 
 module.exports = controller;

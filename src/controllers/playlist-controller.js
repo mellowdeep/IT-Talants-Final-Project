@@ -15,11 +15,10 @@ controller.post('/playlist/create', (req, res) => {
   playlistService
     .createPlaylist(playlist)
     .then(id => res.status(status.OK).json(id))
-    .catch(() =>
+    .catch((err) =>
       res
         .status(status.INTERNAL_SERVER_ERROR)
-        .json({ error: 'Internal server error' }),
-    );
+        .json({ error: err }));
 });
 
 controller.put('/playlist/:id/:uuid', (req, res) => {
@@ -30,7 +29,13 @@ controller.put('/playlist/:id/:uuid', (req, res) => {
   playlistVideosService
     .addVideo(playlistId, videoUUID, userId)
     .then(id =>  res.status(status.OK).json(id))
-    .catch(() => res.sendStatus(status.BAD_REQUEST));
+    .catch((err) => res.sendStatus(err.statusCode).json(err.message));
+});
+
+controller.delete('/playlist/delete/:id/:uuid', (req, res) => {
+  playlistService.deletePlaylist(req.params.id, req.params.uuid)
+    .then(id =>  res.status(status.OK))
+    .catch((err) => res.sendStatus(err.statusCode).json(err.message));
 });
 
 module.exports = controller;

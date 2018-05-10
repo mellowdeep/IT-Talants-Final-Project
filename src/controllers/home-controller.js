@@ -13,8 +13,8 @@ const controller = express.Router();
 // });
 
 /* GET home page. Add session user to view */
-controller.get('/', (req, res) => {
-  res.render('index', { user: req.user });
+controller.get('/index', (req, res) => {
+  res.sendStatus(200);
 });
 
 module.exports = controller;

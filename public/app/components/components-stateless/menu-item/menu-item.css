@@ -1,0 +1,17 @@
+.aside-menu-icon {
+  height: 30px;
+}
+
+.aside-menu-item-upper {
+  display: grid;
+  grid-template-columns: 30px auto;
+}
+
+.aside-menu_items-list {
+  list-style-type: none;
+}
+
+.aside-menu_items-list_item {
+  color: #666;
+  text-decoration: none;
+}

@@ -1,0 +1,46 @@
+.border {
+  border: 1px black solid;
+}
+
+.container {
+  height: auto;
+  display: grid;
+  grid-template-rows: 15px 41px 40px 40px auto 5px 300px;
+  grid-template-columns: 30px 190px 10px auto 30px 30px;
+  grid-template-areas:
+    ' . .      .      .      .       .'
+    ' . header header header header  .'
+    ' . .      .      .      .       .'
+    ' . .  .  container-list .   .'
+    ' . aside .  container-list .   .'
+    ' footer footer      .      .      .       . '
+    ' footer footer      .      .      .       .';
+}
+
+.container-list {
+  grid-area: container-list;
+}
+
+.content-header {
+  text-align: left;
+  grid-area: content-header;
+}
+
+.header {
+  grid-area: header;
+}
+
+.aside-menu {
+  grid-area: aside;
+}
+
+.content {
+  grid-area: content;
+}
+
+.footer {
+  grid-area: footer;
+  font-size: 4em;
+  text-align: center;
+  align-self: center;
+}

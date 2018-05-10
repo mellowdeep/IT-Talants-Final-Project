@@ -1,23 +1,21 @@
 // eslint-disable-next-line
 (function(app) {
-  const moduleName = 'icon';
+  const moduleName = 'menu';
   // eslint-disable-next-line
-  const templateUrl = templateUrlGenerateStateless(moduleName);
+  const templateUrl = templateUrlGenerate(moduleName);
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = {
-    fa: '@',
-  };
-
   function controller() {
-    this.hover = false;
+    this.favorite = [{ name: 'My favorite video', link: '#/' }];
+    this.myVideos = [{ name: 'My favorite video', link: '#/' }];
+    this.channels = [{ name: 'My favorite video', link: '#/' }];
   }
 
   // --------------------------------------------------
   // LOAD component
-  app.component(moduleName, { templateUrl, controller, bindings });
+  app.component(moduleName, { templateUrl, controller });
   // END module
   // eslint-disable-next-line
 })(app);

@@ -1,31 +1,32 @@
 <!-- head-search- -->
-<span class="head-search-header_burger-menu">
-  <icon fa="fas fa-bars"></icon>
-</span>
-
-<span class="head-search-header_logo"></span>
-
-<span class="head-search-header_search">
-  <input class="head-search-header_search_input" type="text" placeholder=" search">
-  <span class="head-search-header_search_icon head-search-icon">
-    <icon fa="fas fa-search"></icon>
+<div class="cmp-head-search-cmp-header-grid">
+  <span class="cmp-head-search-cmp-header_burger-menu">
+    <icon fa="fas fa-bars"></icon>
   </span>
-</span>
 
-<span class="head-search-header_icons">
-  <span class="head-search-icon">
-    <icon fa="fas fa-user"></icon>
+  <a href="#/" class="cmp-head-search-cmp-header_logo"></a>
+
+  <span class="cmp-head-search-cmp-header_search">
+    <input class="cmp-head-search-cmp-header_search_input" type="text" placeholder=" search">
+    <span class="cmp-head-search-cmp-header_search_icon cmp-head-search-cmp-icon">
+      <icon fa="fas fa-search"></icon>
+    </span>
   </span>
-  <span class="head-search-icon">
-    <icon fa="fas fa-bell"></icon>
+
+  <span class="cmp-head-search-cmp-header_icons">
+    <span class="cmp-head-search-cmp-icon">
+      <icon fa="fas fa-user"></icon>
+    </span>
+    <span class="cmp-head-search-cmp-icon">
+      <icon fa="fas fa-bell"></icon>
+    </span>
   </span>
-</span>
+</div>
 
 
 
 <style>
-.head-search-header {
-  grid-area: header;
+.cmp-head-search-cmp-header-grid {
   width: 100%;
   font-size: 1.5em;
   display: grid;
@@ -33,21 +34,24 @@
   grid-template-areas: '  burger-menu .   logo  . search . icons ';
 }
 
-.head-search-header_burger-menu {
+.cmp-head-search-cmp-header_burger-menu {
+  margin-top: 4px;
   grid-area: burger-menu;
   align-self: center;
 }
 
-.head-search-header_logo {
+.cmp-head-search-cmp-header_logo {
   grid-area: logo;
   align-self: center;
   background-image: url('../img/logo.png');
   background-repeat: no-repeat;
   display: inline-block;
   height: 100%;
+  cursor: pointer;
 }
 
-.head-search-header_search {
+.cmp-head-search-cmp-header_search {
+  margin-top: 4px;
   grid-area: search;
   text-align: center;
   display: grid;
@@ -55,16 +59,17 @@
   grid-gap: 2px;
 }
 
-.head-search-header_search_input {
+.cmp-head-search-cmp-header_search_input {
   grid-row: 1;
   font-size: 0.7em;
   width: 100%;
   height: 30px;
   align-self: right;
+
   border: solid 1px black;
 }
 
-.head-search-header_search_icon {
+.cmp-head-search-cmp-header_search_icon {
   grid-row: 1;
   height: 30px;
   width: 70px;
@@ -74,21 +79,21 @@
   padding-top: 5px;
 }
 
-.head-search-header_icons {
+.cmp-head-search-cmp-header_icons {
   grid-area: icons;
   align-self: center;
   text-align: right;
 }
 
-.head-search-icon {
+.cmp-head-search-cmp-icon {
   cursor: pointer;
   /* color: #555; */
 }
-.head-search-icon-hover {
+.cmp-head-search-cmp-icon-hover {
   color: rgb(246, 11, 11);
 }
 
-.head-search-header_icons > a:visited {
+.cmp-head-search-cmp-header_icons > a:visited {
   text-decoration: none;
 }
 

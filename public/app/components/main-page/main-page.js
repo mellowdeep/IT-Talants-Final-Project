@@ -2,7 +2,8 @@
 (function(app) {
   // START MODULE
   const moduleName = 'mainPage';
-  const templateUrl = '/app/components/main-page/main-page.template.html';
+  // eslint-disable-next-line
+  const templateUrl = templateUrlGenerate(moduleName);
 
   function controller() {
     this.value = 0;

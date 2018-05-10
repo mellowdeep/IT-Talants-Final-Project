@@ -9,8 +9,11 @@
 
   function controller() {
     this.favorite = [{ name: 'My favorite video', link: '#/' }];
-    this.myVideos = [{ name: 'My favorite video', link: '#/' }];
-    this.channels = [{ name: 'My favorite video', link: '#/' }];
+    this.myVideos = [{ name: 'My video', link: '#/' }];
+    this.channels = [
+      { name: 'chinnels i subscribe', link: '#/' },
+      { name: 'chinnels i subscribe', link: '#/' },
+    ];
   }
 
   // --------------------------------------------------

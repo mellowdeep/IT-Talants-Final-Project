@@ -1,5 +1,4 @@
 const repository = require("../repositories/playlist-repository");
-const status = require("../config/status-code");
 
 const playlistFunction = {
   createPlaylist: (playlist) =>
@@ -28,6 +27,12 @@ const playlistFunction = {
       .then(rows => {
         if (rows) return rows;
         throw new Error("Unable to delete playlist");
+      }),
+  getOwnPlaylists: (userId) =>
+    repository.findAllOwnPlaylists(userId)
+      .then(playlists => {
+        if (playlists) return playlists;
+        throw new Error("Playlists not found");
       }),
 };
 

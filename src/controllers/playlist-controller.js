@@ -6,6 +6,19 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
+controller.get('/playlists', (req, res) => {
+  const userId = req.session.user ? req.session.user.id : 0;
+  playlistService.getOwnPlaylists(userId)
+    .then(playlists => res.json(playlists))
+    .catch(err => res.send(err));
+});
+
+controller.get('/:id/playlists', (req, res) => {
+  playlistService.getPlaylist(req.params.id)
+    .then(playlists => res.json(playlists))
+    .catch(err => res.send(err));
+});
+
 controller.post('/create/playlist', (req, res) => {
   const playlist = {};
   playlist.name = req.body.name;

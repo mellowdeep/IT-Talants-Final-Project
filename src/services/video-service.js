@@ -5,7 +5,11 @@ const videoFunction = {
   getOneByUUID: uuid =>
     repository.findByUUID(uuid)
       .then(video => {
-      if (video) return video;
+      if (video) {
+        repository.increeceWatchCounter(video.id, ++video.play_count);
+        return video;
+      }
+
         throw new Error("Video not found");
     }),
   addVideo: videoObj => repository.saveVideo(videoObj)

@@ -1,5 +1,6 @@
 const express = require('express');
 const videoService = require('../services/video-service');
+const recentlySeen = require('../services/recently-seen-service');
 
 const controller = express.Router();
 
@@ -18,6 +19,14 @@ const tags = ['muisc', 'news', 'trailers', 'animation'];
 controller.get('/home', (req, res) => {
   const videoObj = {};
   let index = 0;
+  const user = req.session.user;
+  if(user){
+    recentlySeen.getRecentlyVideos(user.id)
+      .then(videos => {
+        videoObj.recently = videos;
+      })
+  }
+
   const getVideos = (callback) => {
     videoService
       .getVideosByTag(tags[index])

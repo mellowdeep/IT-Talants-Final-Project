@@ -30,6 +30,11 @@ const query = {
     return db.deleteObj(
       "DELETE FROM playlists WHERE id = ? AND  user_id = ?", [id, userId]
     )
+  },
+  findAllOwnPlaylists(userId) {
+    return db.getMultipleResult(
+      "SELECT * FROM playlists AS p WHERE p.id = ?", userId
+    )
   }
 
 };

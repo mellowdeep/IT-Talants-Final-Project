@@ -5,6 +5,7 @@ const path = require('path');
 
 const uuid = require('../middleware/uuid');
 const videoService = require('../services/video-service');
+const recently = require('../services/recently-seen-service');
 const status = require('../config/status-code');
 
 const controller = express.Router();
@@ -27,7 +28,15 @@ controller.get('/:uuid', (req, res) => {
 
   videoService
     .getOneByUUID(req.params.uuid)
-    .then(video => res.json(video))
+    .then(video => {
+      if(req.session.user){
+        const userId = req.sesssion.id;
+        const seenDate = new Date().toLocaleDateString();
+        recently.addVideo(video.id, userId, seenDate)
+      }
+
+      res.json(video);
+    })
     .catch(err => res.send(err));
 });
 

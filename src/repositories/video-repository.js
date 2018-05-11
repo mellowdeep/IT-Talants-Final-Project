@@ -3,7 +3,12 @@ const db = require('../config/db');
 const query = {
   findByTag (tag) {
     return db.getMultipleResult(
-      "SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ?", [tag, 'public']
+      "SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ? LIMIT 10", [tag, 'public']
+    )
+  },
+  increeceWatchCounter(videoId, playCount) {
+    return db.updateObj(
+      "UPDATE videos SET play_count = ? WHERE id = ?", [playCount, videoId]
     )
   },
   findByUUID(uuid) {

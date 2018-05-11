@@ -7,16 +7,19 @@ const query = {
       [comment.text, comment.userId, videoId, comment.postDate],
     );
   },
-  getCommentsByVideoId(id) {
-    return db.getMultipleResult(
-      'SELECT * FROM comments AS c WHERE c.video_id = ? ORDERY BY c.post_date DESC',
-      id,
-    );
-  },
   getCommentByIdAndUserId(id, userId) {
     return db.getMultipleResult(
-      'SELECT * FROM comments AS c WHERE c.id = ? AND c.user_id = ?',
-      [id, userId],
+      'select c.id, c.text, c.post_date, u.name, j.like_sign from comments AS c ' +
+      'left join users as u ' +
+      'on u.id = c.user_id ' +
+      'left join (select cul.comment_id, cul.like_sign from comments_users_likes as cul  ' +
+      'join users as u ' +
+      'on u.id = cul.user_id ' +
+      'where u.id = ?) as j ' +
+      'on j.comment_id = c.id ' +
+      'where c.video_id = 1  ' +
+      'ORDER BY c.post_date DESC',
+      id, userId,
     );
   },
   deleteComment(videoId, commentId, userId) {

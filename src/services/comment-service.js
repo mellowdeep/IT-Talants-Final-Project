@@ -15,10 +15,10 @@ const commentFunction = {
           statusCode: status.NOT_FOUND,
         };
       }),
-  getCommentsForVideo: uuid =>
+  getCommentsForVideo: (uuid, userId) =>
     videoService
       .getOneByUUID(uuid)
-      .then(videoId => repository.getCommentsByVideoId(videoId))
+      .then(videoId => repository.getCommentByIdAndUserId(videoId, userId))
       .then(comments => {
         if (comments) return comments;
         throw 'Comments not found';
@@ -49,7 +49,7 @@ const commentFunction = {
       }),
   addLike: (videoUUID, commentId, userId) =>
     videoService
-      .getOneByUUID(uuid)
+      .getOneByUUID(videoUUID)
       .then(videoId => repository.findByVideoAndCommentID(videoId, commentId))
       .then(comment => {
         if (!comment) {

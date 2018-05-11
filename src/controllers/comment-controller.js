@@ -7,7 +7,7 @@ const controller = express.Router();
 
 
 controller.get("/:uuid/comments", (req, res) => {
-  commentService.getCommentsForVideo(req.params.uuid)
+  commentService.getCommentsForVideo(req.params.uuid, req.session.user.id)
     .then(comments => res.status(status.OK).json(comments))
     .catch((err) =>  res.sendStatus(err.statusCode).json({ error: err.message }));
 });

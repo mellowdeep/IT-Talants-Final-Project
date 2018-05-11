@@ -26,6 +26,13 @@ const videoFunction = {
           statusCode: status.INTERNAL_SERVER_ERROR
         };
       }),
+  getVideosByTag:(tag) =>
+    repository.findByTag(tag)
+      .then(videos => {
+        if (videos) return videos;
+        throw {message:'Video not found',
+          statusCode: status.NOT_FOUND};
+      }),
 };
 
 module.exports = videoFunction;

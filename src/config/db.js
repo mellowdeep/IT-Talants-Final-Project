@@ -35,7 +35,7 @@ const updateObj = (req, params) =>
 
 const getSingleResult = (req, params) =>
   new Promise((resolve, reject) => {
-    db.run(req, params, (err, result) => {
+    db.get(req, params, (err, result) => {
       if (err) {
         reject(err);
       } else {

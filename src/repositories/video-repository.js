@@ -1,11 +1,15 @@
 const db = require('../config/db');
 
 const query = {
+  findByTag (tag) {
+    return db.getMultipleResult(
+      "SELECT * FROM videos AS v WHERE v.tag = ?", tag
+    )
+  },
   findByUUID(uuid) {
     return db.getSingleResult(
-      'SELECT * FROM videos AS v WHERE v.uuid = ?',
-      uuid,
-    );
+      "SELECT * FROM videos AS v WHERE v.uuid = ?", uuid
+    )
   },
   saveVideo(videoObj) {
     return db.insertObj(

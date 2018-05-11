@@ -28,7 +28,7 @@ controller.put('/playlist/:id/:uuid', (req, res) => {
 
   playlistVideosService
     .addVideo(playlistId, videoUUID, userId)
-    .then(id =>  res.status(status.OK).json(id))
+    .then(id =>  res.json(id))
     .catch((err) => res.sendStatus(err.statusCode).json(err.message));
 });
 

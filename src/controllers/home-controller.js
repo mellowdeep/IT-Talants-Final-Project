@@ -1,7 +1,9 @@
 const express = require('express');
-const userService = require('../services/user-service');
+const videoService = require('../services/video-service');
 
 const controller = express.Router();
+
+const tags = ['muisc', 'news', 'trailers', 'animation'];
 // Should be added to private views
 
 // controller.use("/", (req, res, next) => {
@@ -12,9 +14,31 @@ const controller = express.Router();
 //   next();
 // });
 
-/* GET home page. Add session user to view */
-controller.get('/', (req, res) => {
-  res.sendStatus(200);
+ // return obj with tag : array of videos
+controller.get('/home', (req, res) => {
+  const videoObj = {};
+  let index = 0;
+  const getVideos = (callback) => {
+    videoService
+      .getVideosByTag(tags[index])
+      .then(videos => {
+        videoObj[tags[index]] = videos
+      })
+      .then(() => {
+        if (++index > tags.length - 1) {
+          callback();
+        } else {
+          getVideos(callback);
+        }
+      })
+      .catch(err => res.sendStatus(err.statusCode));
+  };
+
+  const sendData = () => {
+    res.json(videoObj);
+  };
+
+  getVideos(sendData);
 });
 
 module.exports = controller;

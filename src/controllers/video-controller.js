@@ -10,16 +10,31 @@ const status = require('../config/status-code');
 const controller = express.Router();
 
 controller.get('/:uuid', (req, res) => {
+  /* user_id
+    name:
+    play_count
+    about
+    id
+    video
+    image
+    status
+    likes_count
+    dislikes_count
+    post_date
+    tag
+    uuid
+    visibility - public/private */
+
   videoService
     .getOneByUUID(req.params.uuid)
-    .then(video => res.sendStatus(status.OK).json(video))
-    .catch(err => res.sendStatus(err.statusCode).json(err.message));
+    .then(video => res.json(video))
+    .catch(err => res.sendStatus(err.statusCode));
 });
 
 controller.delete('/delete/:uuid', (req, res) => {
   videoService
     .deleteVideo(req.params.uuid, req.session.user.id)
-    .then(video => res.sendStatus(status.OK).json(video))
+    .then(video => res.json(video))
     .catch(err => res.sendStatus(err.statusCode).json(err.message));
 });
 

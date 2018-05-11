@@ -21,7 +21,7 @@ const query = {
   },
   removeVideoFromPlaylist(playlistId, videoId){
     return db.deleteObj(
-      "DELETE FROM playlists_videos AS vp WHERE vp.video_id = ? AND  vp.playlist_id = ?", [videoId, playlistId]
+      "DELETE FROM videos_playlists WHERE video_id = ? AND playlist_id = ?", [videoId, playlistId]
     )
   }
 

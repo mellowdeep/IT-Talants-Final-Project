@@ -1,31 +1,28 @@
 const repository = require('../repositories/playlist-videos-repository');
 const videoService = require('../services/video-service');
 const playlistService = require('../services/playlist-service');
-const status = require("../config/status-code");
-
 
 const playlistVideosFunction = {
   addVideo: (playlistId, videoUUID, userId) =>
-    playlistService.getOwnPlaylist(playlistId, userId)
+    playlistService
+      .getOwnPlaylist(playlistId, userId)
       .then(videoService.getOneByUUID(videoUUID))
-      .then(videoId => repository.addVideoToPlaylist(playlistId, videoId, userId))
+      .then(video =>
+        repository.addVideoToPlaylist(playlistId, video.id, userId),
+      )
       .then(id => id),
-  getVideosByPlaylist: (playlistId) =>
-    repository.findVideosByPlaylistId(playlistId)
-      .then(videos => {
-        if(videos) return videos;
-        throw {message:'Videos not found',
-          statusCode: status.NOT_FOUND};
-      }),
+  getVideosByPlaylist: playlistId =>
+    repository.findVideosByPlaylistId(playlistId).then(videos => {
+      if (videos) return videos;
+      throw new Error('Video not found');
+    }),
   deleteVideoFromPlaylist: (playlistId, videoUUID) =>
-    videoService.getOneByUUID(videoUUID)
-     .then(videoId => repository.removeVideoFromPlaylist(playlistId, videoId))
+    videoService
+      .getOneByUUID(videoUUID)
+      .then(video => repository.removeVideoFromPlaylist(playlistId, video.id))
       .then(rows => {
-        if(rows) return rows;
-        throw {
-          message: 'Cannot delete video',
-          statusCode: status.INTERNAL_SERVER_ERROR
-        };
+        if (rows) return rows;
+        throw new Error('Unable to delete video');
       }),
 };
 

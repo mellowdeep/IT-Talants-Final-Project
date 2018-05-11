@@ -9,31 +9,25 @@ const playlistFunction = {
     repository.findById(id)
       .then(playlist => {
         if (playlist) return playlist;
-        throw {message:'Playlist not found',
-          statusCode: status.NOT_FOUND};
+        throw new Error("Playlist not found");
       }),
   getOwnPlaylist: (id, userId) =>
     repository.findOwnPlaylist(id, userId)
       .then(playlist => {
         if (playlist) return playlist;
-        throw {message:'Playlist not found',
-          statusCode: status.NOT_FOUND};
+        throw new Error("Playlist not found");
       }),
   getPublicPlaylistsByUser: (userId) =>
      repository.findByUserId(userId)
        .then(playlists => {
          if(playlists) return playlists;
-         throw {message:'Playlist not found',
-           statusCode: status.NOT_FOUND};
+         throw new Error("Playlist not found");
        }),
   deletePlaylist:(id, userId) =>
     repository.deletePlaylist(id, userId)
       .then(rows => {
         if (rows) return rows;
-        throw {
-          message: 'Cannot delete playlist',
-          statusCode: status.INTERNAL_SERVER_ERROR
-        };
+        throw new Error("Unable to delete playlist");
       }),
 };
 

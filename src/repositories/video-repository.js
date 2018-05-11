@@ -3,7 +3,7 @@ const db = require('../config/db');
 const query = {
   findByTag (tag) {
     return db.getMultipleResult(
-      "SELECT * FROM videos AS v WHERE v.tag = ?", tag
+      "SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ?", [tag, 'public']
     )
   },
   findByUUID(uuid) {

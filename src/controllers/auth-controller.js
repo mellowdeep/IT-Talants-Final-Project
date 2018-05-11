@@ -52,7 +52,7 @@ controller.post('/register', (req, res) => {
           res.sendStatus(status.OK);
         });
     } else {
-      res.sendStatus(status.BAD_REQUEST).json({ error: errors });
+      res.sendStatus(status.UNAUTHORIZED);
     }
   });
 });

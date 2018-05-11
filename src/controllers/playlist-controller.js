@@ -6,42 +6,42 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
-controller.post('/playlist/create', (req, res) => {
+controller.post('/create/playlist', (req, res) => {
   const playlist = {};
   playlist.name = req.body.name;
-  playlist.userId = req.session.user.id;
+  playlist.userId = req.session.user ? req.session.user.id : 0;
   playlist.visibility = req.body.visibility || 'public';
 
   playlistService
     .createPlaylist(playlist)
-    .then(id => res.status(status.OK).json(id))
-    .catch((err) =>
-      res
-        .status(status.INTERNAL_SERVER_ERROR)
-        .json({ error: err }));
+    .then(id => res.json(id))
+    .catch(err => res.send(err));
 });
 
 controller.put('/playlist/:id/:uuid', (req, res) => {
   const playlistId = req.params.id;
   const videoUUID = req.params.uuid;
-  const userId = req.session.user.id;
+  const userId = req.session.user ? req.session.user.id : 0;
 
   playlistVideosService
     .addVideo(playlistId, videoUUID, userId)
-    .then(id =>  res.json(id))
-    .catch((err) => res.sendStatus(err.statusCode).json(err.message));
+    .then(id => res.json(id))
+    .catch(err => res.send(err));
 });
 
-controller.delete('/playlist/delete/:id/:uuid', (req, res) => {
-  playlistVideosService.deleteVideoFromPlaylist(req.params.id, req.params.uuid)
-    .then(res.status(status.OK))
-    .catch((err) => res.sendStatus(err.statusCode).json(err.message));
+controller.delete('/delete/playlist/:id/:uuid', (req, res) => {
+  playlistVideosService
+    .deleteVideoFromPlaylist(req.params.id, req.params.uuid)
+    .then(res.sendStatus(status.OK))
+    .catch(err => res.send(err));
 });
 
-controller.delete('/playlist/delete/:id', (req, res) => {
-  playlistService.deletePlaylist(req.params.id, req.params.session.id)
-    .then(res.status(status.OK))
-    .catch((err) => res.sendStatus(err.statusCode).json(err.message));
+controller.delete('/delete/playlist/:id', (req, res) => {
+  const userId = req.session.user ? req.session.user.id : 0;
+  playlistService
+    .deletePlaylist(req.params.id, userId)
+    .then(res.sendStatus(status.OK))
+    .catch(err => res.send(err));
 });
 
 module.exports = controller;

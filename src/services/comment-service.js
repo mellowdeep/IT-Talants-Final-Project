@@ -10,10 +10,7 @@ const commentFunction = {
       .then(video => repository.saveComment(comment, video.id))
       .then(commentId => {
         if (commentId) return commentId;
-        throw {
-          message: 'Comment not found',
-          statusCode: status.NOT_FOUND,
-        };
+        throw new Error("Comment not found")
       }),
   getCommentsForVideo: (uuid, userId) =>
     videoService
@@ -21,7 +18,7 @@ const commentFunction = {
       .then(video => repository.getCommentByIdAndUserId(video.id, userId))
       .then(comments => {
         if (comments) return comments;
-        throw 'Comments not found';
+        throw new Error("Comment not found")
       }),
   deleteComment: (uuid, commentId, userId) =>
     videoService
@@ -29,10 +26,7 @@ const commentFunction = {
       .then(video => repository.deleteComment(video.id, commentId, userId))
       .then(rows => {
         if (rows) return rows;
-        throw {
-          message: 'Cannot delete  comment',
-          statusCode: status.UNAUTHORIZED,
-        };
+        throw new Error("Cannot delete comment")
       }),
   updateComment: (uuid, commentId, text, userId) =>
     videoService
@@ -42,10 +36,7 @@ const commentFunction = {
       )
       .then(rows => {
         if (rows) return rows;
-        throw {
-          message: 'Cannot delete  comment',
-          statusCode: status.UNAUTHORIZED,
-        };
+        throw new Error("Unable to delete comment")
       }),
   addRemoveLike: (videoUUID, commentId, userId, isLike) =>
     videoService
@@ -53,10 +44,7 @@ const commentFunction = {
       .then(video => repository.findByVideoAndCommentID(video.id, commentId))
       .then(comment => {
         if (comment) return comment;
-        throw {
-          message: 'Comment not found',
-          statusCode: status.NOT_FOUND,
-        };
+        throw new Error("Comment not found")
       })
       .then(comment =>
         repository.updateComment(
@@ -67,10 +55,7 @@ const commentFunction = {
         ))
       .then(rows => {
         if (rows) return rows;
-        throw {
-          message: 'Cannot add like',
-          statusCode: status.INTERNAL_SERVER_ERROR,
-        };
+        throw new Error("Unable to like/unlike comment")
       })
       .then(() => userCommentLikesService.getLikeByCommentAndUser(userId, commentId))
       .then(like  => like ? userCommentLikesService.updateLike(userId, commentId, isLike):

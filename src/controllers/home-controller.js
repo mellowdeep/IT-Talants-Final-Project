@@ -31,7 +31,7 @@ controller.get('/home', (req, res) => {
           getVideos(callback);
         }
       })
-      .catch(err => res.sendStatus(err.statusCode));
+      .catch(err => res.send(err));
   };
 
   const sendData = () => {

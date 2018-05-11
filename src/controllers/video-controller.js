@@ -28,14 +28,14 @@ controller.get('/:uuid', (req, res) => {
   videoService
     .getOneByUUID(req.params.uuid)
     .then(video => res.json(video))
-    .catch(err => res.sendStatus(err.statusCode));
+    .catch(err => res.send(err));
 });
 
 controller.delete('/delete/:uuid', (req, res) => {
   videoService
     .deleteVideo(req.params.uuid, req.session.user.id)
     .then(video => res.json(video))
-    .catch(err => res.sendStatus(err.statusCode).json(err.message));
+    .catch(err => res.send(err));
 });
 
 controller.post('/upload', (req, res) => {
@@ -101,14 +101,11 @@ controller.post('/upload', (req, res) => {
         if (err) {
           fs.unlink(path.join(form.uploadDir, newName), err => {
             if (err)
-              throw {
-                message: err,
-                statusCode: status.INTERNAL_SERVER_ERROR,
-              };
+              throw err;
           });
         }
       })
-      .catch(err => res.sendStatus(err.statusCode).json(err.message));
+      .catch(err => res.send(err));
 
     videoObj[ref] = newName;
   };
@@ -124,7 +121,7 @@ controller.post('/upload', (req, res) => {
     videoService
       .addVideo(videoObj)
       .then(res.sendStatus(status.OK))
-      .catch(err => res.sendStatus(err.statusCode).json(err.message));
+      .catch(err => res.send(err));
   };
 });
 

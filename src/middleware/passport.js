@@ -6,10 +6,10 @@ module.exports = app => {
   app.use(passport.session());
 
   passport.serializeUser((user, done) =>
-    done(null, user.id)
+    done(null, user)
   );
   passport.deserializeUser((user, done) => {
-    userService.getUserByUserName(user.id).then(dbUser => {
+    userService.getUserByUserName(user.username, user.provider).then(dbUser => {
       done(null, dbUser);
     });
   });

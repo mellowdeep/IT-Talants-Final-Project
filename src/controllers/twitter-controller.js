@@ -13,8 +13,8 @@ controller.get('/auth/twitter', passport.authenticate('twitter'));
 controller.get(
   '/twitter/callback',
   passport.authenticate('twitter', (req, res) => {
-    if (req.session.user) {
-      res.sendStatus(status.OK);
+    if (req.user) {
+      res.send(req.user);
     } else {
       res.sendStatus(status.BAD_REQUEST);
     }

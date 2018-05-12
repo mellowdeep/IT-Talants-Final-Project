@@ -16,12 +16,13 @@ const query = {
   },
   findByUserNameAndPassword(username, password, provider) {
     return db.getSingleResult(
-      "SELECT * FROM users as u WHERE u.username = ? AND u.password = ? AND u.provider = ?", [username, password, provider]
+      "SELECT * FROM users as u WHERE u.username = ? AND u.password = ? AND u.provider is ?", [username, password, provider]
     );
   },
-  saveUser(username, password, name, role) {
+  saveUser(username, password, name, role, status) {
     return db.insertObj(
-      "INSERT INTO users (username, password, name, role) VALUES (?,?,?,?)", [username, password, name, role]
+      "INSERT INTO users (username, password, name, role, status) VALUES (?,?,?,?,?)",
+      [username, password, name, role, status]
     );
   }
 };

@@ -21,8 +21,8 @@ controller.get(
 controller.get(
   '/auth/google/callback',
   passport.authenticate('google', (req, res) => {
-    if (req.session.user) {
-      res.sendStatus(status.OK);
+    if (req.user) {
+      res.send(req.user);
     } else {
       res.sendStatus(status.UNAUTHORIZED);
     }

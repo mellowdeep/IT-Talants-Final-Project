@@ -8,13 +8,13 @@ const controller = express.Router();
 
 controller.post(
   '/login',
-  passport.authenticate('local', (req, res) => {
-    if (req.session.user) {
-      res.sendStatus(status.OK);
+  passport.authenticate('local'), (req, res) => {
+    if (req.user) {
+      res.send(req.user);
     } else {
       res.sendStatus(status.BAD_REQUEST);
     }
-  }),
+  },
 );
 
 controller.post('/register', (req, res) => {
@@ -33,12 +33,14 @@ controller.post('/register', (req, res) => {
     const errors = req.validationErrors();
     if (!errors) {
       const role = "user";
+      const status = "active";
       userService
         .saveUser(
           req.body.username,
           req.body.password1,
           req.body.name || 'anonymous',
-          role
+          role,
+          status
         )
         .then(currentUser => {
           req.session.user = currentUser;

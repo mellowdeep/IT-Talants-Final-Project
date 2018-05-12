@@ -8,6 +8,12 @@ const videoService = require('../services/video-service');
 const recently = require('../services/recently-seen-service');
 const status = require('../config/status-code');
 
+const PENDING = "pending";
+const NO_USER = 0;
+const LIKE = 1;
+const DISLIKE = 0;
+
+
 const controller = express.Router();
 
 controller.get('/:uuid', (req, res) => {
@@ -35,7 +41,7 @@ controller.get('/:uuid', (req, res) => {
         recently.addVideo(video.id, userId, seenDate)
       }
 
-      res.json(video);
+      res.send(video);
       return video;
     })
     .then(video => videoService.increaseCounter(video))
@@ -43,15 +49,16 @@ controller.get('/:uuid', (req, res) => {
 });
 
 controller.delete('/delete/:uuid', (req, res) => {
+  const userId = req.session.user ? req.session.user.id : NO_USER;
   videoService
-    .deleteVideo(req.params.uuid, req.session.user.id)
+    .deleteVideo(req.params.uuid, userId)
     .then(video => res.json(video))
     .catch(err => res.status(status.UNAUTHORIZED).send(err));
 });
 
 controller.put("/:uuid/like/:isLike", (req, res) => {
-  const isLike = req.params.isLike === 'true' ? 1 : 0;
-  const userId = req.session.user ? req.session.user.id : 1;
+  const isLike = req.params.isLike === 'true' ? LIKE : DISLIKE;
+  const userId = req.session.user ? req.session.user.id : NO_USER;
   videoService.addRemoveLike(req.params.uuid, userId , isLike)
     .then(res.sendStatus(status.OK))
     .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
@@ -137,6 +144,7 @@ controller.post('/upload', (req, res) => {
   const sendVideoToDB = () => {
     videoObj.userId = req.session.user.id;
     videoObj.postDate = new Date().toLocaleDateString();
+    videoObj.status = PENDING;
 
     for (const field of fields) {
       videoObj[field.name] = field.value;

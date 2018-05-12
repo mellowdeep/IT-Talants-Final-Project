@@ -6,13 +6,18 @@ const query = {
       "SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ? LIMIT 10", [tag, 'public']
     )
   },
-  updateVideo(name, about, tag, visibility, likes, videoId) {
+  updateVideo(name, about, tag, visibility, status, likes, videoId) {
     return db.updateObj(
-      'UPDATE videos SET name = ?, about = ?, tag = ?, visibility = ?,  likes_count = ? WHERE id = ? ',
-      [name, about, tag, visibility, likes, videoId],
+      'UPDATE videos SET name = ?, about = ?, tag = ?, visibility = ?, status = ?, likes_count = ? WHERE id = ? ',
+      [name, about, tag, visibility, status, likes, videoId],
     );
   },
-  increeceWatchCounter(videoId, playCount) {
+  getVideoById(id) {
+    return db.getSingleResult(
+      "SELECT * FROM videos AS v WHERE v.id = ?", id
+    );
+  },
+  increceWatchCounter(videoId, playCount) {
     return db.updateObj(
       "UPDATE videos SET play_count = ? WHERE id = ?", [playCount, videoId]
     )
@@ -41,9 +46,16 @@ const query = {
   },
   deleteVideo(uuid, userId) {
     return db.deleteObj(
-      'DELETE FROM videos AS v WHERE v.uuid = ? AND v.user_id = ? ',
-      [uuid, userId],
+      'DELETE FROM videos AS v WHERE v.uuid = ? AND ' +
+      '(v.user_id = ? OR ' +
+      '(SELECT u.role FROM users as u WHERE u.id = ?) = admin)',
+      [uuid, userId, userId],
     );
+  },
+  findByStatus(status) {
+    return db.getMultipleResult(
+      "SELECT * FROM videos AS v WHERE v.status = ?", status
+    )
   },
 };
 

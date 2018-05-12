@@ -24,6 +24,19 @@ const videoFunction = {
       if (videos) return videos;
       throw new Error('Video not found');
     }),
+  updateVideo: (obj, id) =>
+    videoFunction.getVideoById(id)
+      .then(video => {
+        const name = obj.name || video.name;
+        const about = obj.about || video.about;
+        const tag = obj.tag || video.tag;
+        const visibility = obj.visibility || video.visibility;
+        const status = obj.status || video.status;
+        const likes = obj.likes_count || video.likes_count;
+        return repository.updateVideo(name, about, tag, visibility, status, likes, video.id)
+      })
+      .then(row => row),
+
   addRemoveLike: (uuid, userId, isLike) => {
     let videoId;
     return videoFunction
@@ -35,6 +48,7 @@ const videoFunction = {
           video.about,
           video.tag,
           video.visibility,
+          video.status,
           isLike ? ++video.likes_count : --video.likes_count,
           videoId,
         );
@@ -53,11 +67,20 @@ const videoFunction = {
       .then(id => id);
   },
   increaseCounter: (video) =>
-    repository.increeceWatchCounter(video.id, ++video.play_count)
+    repository.increceWatchCounter(video.id, ++video.play_count)
       .then(row => {
         if (row) return row;
         throw new Error('Unable to increase play counter');
     }),
+  getVideosByStatus: (status) =>
+    repository.findByStatus(status)
+      .then(videos => videos),
+  getVideoById: (id) =>
+    repository.getVideoById(id)
+      .then(video => {
+        if(video) return video;
+        throw new Error("Video not found");
+      })
 };
 
 module.exports = videoFunction;

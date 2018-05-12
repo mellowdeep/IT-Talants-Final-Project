@@ -6,19 +6,6 @@ const status = require("../config/status-code");
 
 const controller = express.Router();
 
-controller.get('/login', (req, res) => {
-  res.render('login');
-});
-
-controller.get('/register', (req, res) => {
-  res.render('register');
-});
-
-controller.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
-
 controller.post(
   '/login',
   passport.authenticate('local', (req, res) => {

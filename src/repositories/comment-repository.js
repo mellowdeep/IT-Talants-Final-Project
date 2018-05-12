@@ -24,8 +24,8 @@ const query = {
   },
   deleteComment(videoId, commentId, userId) {
     return db.deleteObj(
-      'DELETE FROM comments  WHERE id = ? AND video_id = ? AND user_id = ?',
-      [commentId, videoId, userId],
+      'DELETE FROM comments  WHERE id = ? AND video_id = ? AND (user_id = ? OR (select u.role from users as u where u.id = ?) = admin)',
+      [commentId, videoId, userId, userId],
     );
   },
   updateComment(videoId, text, likes, commentId) {

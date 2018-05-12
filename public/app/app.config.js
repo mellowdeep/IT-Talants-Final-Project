@@ -14,6 +14,9 @@ angular.module('app').config([
       .when('/signup', {
         template: '<sign-up></sign-up>',
       })
+      .when('/search', {
+        template: '<search></search>',
+      })
       .when('/test', {
         template: '<h1>h to test</h1>',
       })

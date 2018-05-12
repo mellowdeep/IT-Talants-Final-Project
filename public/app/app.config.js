@@ -6,16 +6,13 @@ angular.module('app').config([
 
     $routeProvider
       .when('/', {
-        template: `<logo-menu></logo-menu>
-                    <go-to></go-to>
-                    <content-wrapper>
-                      <channel-update></channel-update>
-                      <row-videos></row-videos>
-                      <row-playlists></row-playlists>
-                      <row-channels></row-channels>
-                      <pagination></pagination>
-                    </content-wrapper>
-                  <row-footer></row-footer`,
+        template: `<init-page></init-page>`,
+      })
+      .when('/login', {
+        template: '<login></login>',
+      })
+      .when('/signup', {
+        template: '<sign-up></sign-up>',
       })
       .when('/test', {
         template: '<h1>h to test</h1>',

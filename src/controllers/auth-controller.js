@@ -32,11 +32,11 @@ controller.post(
 
 controller.post('/register', (req, res) => {
   req.check('username', ' Invalid email address').isEmail();
-  req.check('username', ' Username cannot be empty').isEmpty();
+  req.check('username', ' Username cannot be empty').notEmpty();
   req.check('password1', ' Password is too short').isLength({ min: 4 });
   req.check('password1', ' Passwords missmatch').equals(req.body.password2);
 
-  userService.getUserByUserName(req.body.username, null).then(user => {
+  userService.getUserByUserName(req.body.username, "").then(user => {
     if (user) {
       req
         .check('username', 'There is already registration with this email')

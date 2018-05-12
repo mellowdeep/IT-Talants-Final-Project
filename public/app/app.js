@@ -1,4 +1,5 @@
 angular.module('app', ['ngRoute']);
+
 // .component('testInfo1', {
 //   templateUrl: '/app/components/test/test1.template.html',
 //   controller() {

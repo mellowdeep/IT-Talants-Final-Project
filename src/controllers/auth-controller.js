@@ -10,7 +10,7 @@ controller.get('/login', (req, res) => {
   if(req.user){
     res.send(req.user);
   }else{
-    res.send(status.UNAUTHORIZED)
+    res.send(false)
   }
 });
 
@@ -18,7 +18,7 @@ controller.get('/register', (req, res) => {
   if(req.user){
     res.send(req.user);
   }else{
-    res.send(status.UNAUTHORIZED)
+    res.send(false)
   }
 });
 

@@ -6,6 +6,12 @@ const query = {
       "SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ? LIMIT 10", [tag, 'public']
     )
   },
+  updateVideo(name, about, tag, visibility, likes, videoId) {
+    return db.updateObj(
+      'UPDATE videos SET name = ?, about = ?, tag = ?, visibility = ?,  likes_count = ? WHERE id = ? ',
+      [name, about, tag, visibility, likes, videoId],
+    );
+  },
   increeceWatchCounter(videoId, playCount) {
     return db.updateObj(
       "UPDATE videos SET play_count = ? WHERE id = ?", [playCount, videoId]

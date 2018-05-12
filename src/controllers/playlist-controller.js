@@ -10,13 +10,13 @@ controller.get('/playlists', (req, res) => {
   const userId = req.session.user ? req.session.user.id : 0;
   playlistService.getOwnPlaylists(userId)
     .then(playlists => res.json(playlists))
-    .catch(err => res.send(err));
+    .catch(err => res.status(status.NOT_FOUND).send(err));
 });
 
 controller.get('/:id/playlists', (req, res) => {
   playlistService.getPlaylist(req.params.id)
     .then(playlists => res.json(playlists))
-    .catch(err => res.send(err));
+    .catch(err => res.status(status.NOT_FOUND).send(err));
 });
 
 controller.post('/create/playlist', (req, res) => {
@@ -28,7 +28,7 @@ controller.post('/create/playlist', (req, res) => {
   playlistService
     .createPlaylist(playlist)
     .then(id => res.json(id))
-    .catch(err => res.send(err));
+    .catch(err => res.status(status.BAD_REQUEST).send(err));
 });
 
 controller.put('/playlist/:id/:uuid', (req, res) => {
@@ -39,7 +39,7 @@ controller.put('/playlist/:id/:uuid', (req, res) => {
   playlistVideosService
     .addVideo(playlistId, videoUUID, userId)
     .then(id => res.json(id))
-    .catch(err => res.send(err));
+    .catch(err => res.status(status.NOT_FOUND).send(err));
 });
 
 controller.delete('/delete/playlist/:id/:uuid', (req, res) => {
@@ -54,7 +54,7 @@ controller.delete('/delete/playlist/:id', (req, res) => {
   playlistService
     .deletePlaylist(req.params.id, userId)
     .then(res.sendStatus(status.OK))
-    .catch(err => res.send(err));
+    .catch(err => res.status(status.UNAUTHORIZED).send(err));
 });
 
 module.exports = controller;

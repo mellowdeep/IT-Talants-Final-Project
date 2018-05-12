@@ -15,7 +15,7 @@ controller.get("/:uuid/comments", (req, res) => {
   const userId = req.session.user ? req.session.user.id : 0;
   commentService.getCommentsForVideo(req.params.uuid, userId)
     .then(comments => res.json(comments))
-    .catch((err) =>  res.sendStatus(err.statusCode));
+    .catch((err) =>  res.status(status.NOT_FOUND).send(err));
 });
 
 controller.put("/:uuid/:id/like/:isLike", (req, res) => {
@@ -23,7 +23,7 @@ controller.put("/:uuid/:id/like/:isLike", (req, res) => {
   const userId = req.session.user ? req.session.user.id : 0;
   commentService.addRemoveLike(req.params.uuid, req.params.id, userId , isLike)
     .then(res.sendStatus(status.OK))
-    .catch((err) =>  res.send(err));
+    .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
 });
 
 
@@ -35,21 +35,21 @@ controller.put("/:uuid/add-comment", (req, res) => {
 
   commentService.addComment(commentObj, req.params.uuid)
     .then(id => res.json(id))
-    .catch((err) =>  res.send(err));
+    .catch((err) =>  res.status(status.NOT_FOUND).send(err));
 });
 
 controller.delete("/:uuid/delete/:id", (req, res) => {
       const userId = req.session.user ? req.session.user.id : 0;
       commentService.deleteComment(req.params.uuid, req.params.id , userId)
         .then(res.sendStatus(status.OK))
-        .catch((err) =>  res.send(err));
+        .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
 });
 
 controller.put("/:uuid/update/:id", (req, res) => {
   const userId = req.session.user ? req.session.user.id : 0;
   commentService.updateComment(req.params.uuid, req.params.id, req.body.text, userId)
     .then(res.sendStatus(status.OK))
-    .catch((err) =>  res.send(err));
+    .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
 });
 
 

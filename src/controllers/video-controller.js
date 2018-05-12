@@ -36,18 +36,30 @@ controller.get('/:uuid', (req, res) => {
       }
 
       res.json(video);
+      return video;
     })
-    .catch(err => res.send(err));
+    .then(video => videoService.increaseCounter(video))
+    .catch(err => res.status(status.NOT_FOUND).send(err));
 });
 
 controller.delete('/delete/:uuid', (req, res) => {
   videoService
     .deleteVideo(req.params.uuid, req.session.user.id)
     .then(video => res.json(video))
-    .catch(err => res.send(err));
+    .catch(err => res.status(status.UNAUTHORIZED).send(err));
 });
 
+controller.put("/:uuid/like/:isLike", (req, res) => {
+  const isLike = req.params.isLike === 'true' ? 1 : 0;
+  const userId = req.session.user ? req.session.user.id : 1;
+  videoService.addRemoveLike(req.params.uuid, userId , isLike)
+    .then(res.sendStatus(status.OK))
+    .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
+});
+
+
 controller.post('/upload', (req, res) => {
+  let newName;
   const videoObj = {};
   const files = [];
   const fields = [];
@@ -104,19 +116,22 @@ controller.post('/upload', (req, res) => {
   const renameFile = (uuid, file) => {
     const type = file.type.split('/').pop();
     const ref = file.type.split('/').shift();
-    const newName = `${uuid}.${type}`;
-    fs
-      .rename(file.path, path.join(form.uploadDir, newName), err => {
+         newName = `${uuid}.${type}`;
+    fs.rename(file.path, path.join(form.uploadDir, newName), err => {
         if (err) {
-          fs.unlink(path.join(form.uploadDir, newName), err => {
-            if (err)
-              throw err;
-          });
+          removeFile(newName);
         }
       })
       .catch(err => res.send(err));
 
     videoObj[ref] = newName;
+  };
+
+  const removeFile = () => {
+    fs.unlink(path.join(form.uploadDir, newName), err => {
+      if (err)
+        throw err;
+    });
   };
 
   const sendVideoToDB = () => {
@@ -130,7 +145,10 @@ controller.post('/upload', (req, res) => {
     videoService
       .addVideo(videoObj)
       .then(res.sendStatus(status.OK))
-      .catch(err => res.send(err));
+      .catch(err => {
+        removeFile(newName);
+        res.status(status.NOT_FOUND).send(err);
+      })
   };
 });
 

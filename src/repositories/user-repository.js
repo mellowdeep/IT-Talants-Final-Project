@@ -3,7 +3,7 @@ const db = require('../config/db');
 const query = {
   findByUserName(username, provider) {
     return db.getSingleResult(
-      "SELECT * FROM users as u WHERE u.username = ? AND u.provider = ?", [username, provider]
+      "SELECT * FROM users as u WHERE u.username = ? AND u.provider is ?", [username, provider]
     );
   },
   findAll() {
@@ -19,9 +19,9 @@ const query = {
       "SELECT * FROM users as u WHERE u.username = ? AND u.password = ? AND u.provider = ?", [username, password, provider]
     );
   },
-  saveUser(username, password) {
+  saveUser(username, password, name, role) {
     return db.insertObj(
-      "INSERT INTO users (username, password) VALUES (?, ?)", [username, password]
+      "INSERT INTO users (username, password, name, role) VALUES (?,?,?,?)", [username, password, name, role]
     );
   }
 };

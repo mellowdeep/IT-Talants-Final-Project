@@ -36,7 +36,7 @@ controller.post('/register', (req, res) => {
   req.check('password1', ' Password is too short').isLength({ min: 4 });
   req.check('password1', ' Passwords missmatch').equals(req.body.password2);
 
-  userService.getUserByUserName(req.body.username, "").then(user => {
+  userService.getUserByUserName(req.body.username, null).then(user => {
     if (user) {
       req
         .check('username', 'There is already registration with this email')
@@ -45,14 +45,20 @@ controller.post('/register', (req, res) => {
 
     const errors = req.validationErrors();
     if (!errors) {
+      const role = "user";
       userService
-        .saveUser(req.body.username, req.body.password1)
+        .saveUser(
+          req.body.username,
+          req.body.password1,
+          req.body.name || 'anonymous',
+          role
+        )
         .then(currentUser => {
           req.session.user = currentUser;
-          res.sendStatus(status.OK);
+          res.send(currentUser);
         });
     } else {
-      res.sendStatus(status.UNAUTHORIZED);
+      res.status(status.UNAUTHORIZED).send(errors);
     }
   });
 });

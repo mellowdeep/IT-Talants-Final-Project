@@ -7,7 +7,8 @@ const userFunction = {
       if (user) {
         return {
           id: user.id,
-          name: user.username
+          name: user.name,
+          role: user.role
         };
       }
       return user;
@@ -34,9 +35,9 @@ const userFunction = {
         }
         return user;
       }),
-  saveUser: (username, password) =>
+  saveUser: (username, password, name, role) =>
     repository
-      .saveUser(username, hash.getPasswordHash(password))
+      .saveUser(username, hash.getPasswordHash(password), name, role)
       .then(id => repository.findById(id))
       .then(user => {
         if (user) {

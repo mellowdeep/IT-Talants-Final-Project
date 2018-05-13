@@ -23,8 +23,8 @@ controller.get('/register', (req, res) => {
 });
 
 controller.get('/logout', (req, res) => {
-  req.logout();
-  res.status(status.OK)
+  req.session.destroy();
+  res.send(status.OK)
 });
 
 controller.post(
@@ -33,7 +33,7 @@ controller.post(
     if (req.user) {
       res.send(req.user);
     } else {
-      res.sendStatus(status.BAD_REQUEST);
+      res.send(status.BAD_REQUEST);
     }
   },
 );

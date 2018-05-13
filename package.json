@@ -65,6 +65,7 @@
     "passport-google-oauth": "^1.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
+    "s3fs": "^2.5.0",
     "sqlite3": "^4.0.0"
   }
 }

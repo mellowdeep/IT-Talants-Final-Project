@@ -1,12 +1,60 @@
 angular.module('app').factory('authService', function($http) {
+  const USER_NOT_LOGGED = { auth: false };
+  let user = null;
+
   return {
     signUp,
+    login,
+    isLogin,
+    auth,
+    logout,
   };
 
+  function auth() {
+    if (user === null) return isLogin();
+    return Promise.resolve(user);
+  }
+
+  function logout() {
+    // return Promise.resolve().then(isLogin);
+    return $http.get('/logout').then(isLogin);
+  }
+
+  function isLogin() {
+    return $http.get('/login').then(res => {
+      console.log('user', res.data);
+      if (res.data === false) user = USER_NOT_LOGGED;
+      else {
+        user = res.data;
+        user.auth = true;
+      }
+      return user;
+    });
+  }
+
   function signUp({ password1, password2, username, name }) {
-    $http
+    return $http
       .post('/register', { password1, password2, username, name })
-      .then(res => console.log(res));
+      .then(res => {
+        if (res.data === false) user = USER_NOT_LOGGED;
+        else {
+          user = res.data;
+          user.auth = true;
+        }
+        return res;
+      });
+    // .then(res => res.json());
+  }
+
+  function login({ password, username /* , agreeToRemember */ }) {
+    return $http.post('/login', { password, username }).then(res => {
+      if (res.data === false) user = USER_NOT_LOGGED;
+      else {
+        user = res.data;
+        user.auth = true;
+      }
+      return user;
+    });
   }
 
   // const cacheSession = function() {

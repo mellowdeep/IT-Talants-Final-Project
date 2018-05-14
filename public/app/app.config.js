@@ -10,9 +10,11 @@ angular.module('app').config([
       })
       .when('/login', {
         template: '<login></login>',
+        controller: 'preSignUp as vm',
       })
       .when('/signup', {
         template: '<sign-up></sign-up>',
+        controller: 'preSignUp as vm',
       })
       .when('/search', {
         template: '<search></search>',

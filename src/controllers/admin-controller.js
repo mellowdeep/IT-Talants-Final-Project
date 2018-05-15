@@ -11,7 +11,7 @@ const controller = express.Router();
 controller.get('/admin/approve', (req, res) => {
     videoService.getVideosByStatus(PENDING)
       .then(videos => res.send(videos))
-      .catch(err => res.status(status.BAD_REQUEST).send(err))
+      .catch(err => res.status(status.BAD_REQUEST).send(err.message));
 });
 
 controller.put('/admin/approve/:id', (req, res) => {
@@ -21,7 +21,7 @@ controller.put('/admin/approve/:id', (req, res) => {
        return videoService.updateVideo(video, video.id)
       })
       .then(res.sendStatus(status.OK))
-      .catch(err => res.status(status.NOT_FOUND).send(err));
+      .catch(err => res.status(status.NOT_FOUND).send(err.message));
 });
 
 module.exports = controller;

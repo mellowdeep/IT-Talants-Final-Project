@@ -8,16 +8,33 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { user: '<' };
-  const injection = ['$window'];
-  function controller($window) {
+  const bindings = { user: '=' };
+  const injection = ['$window', '$scope'];
+  function controller($window, $scope) {
     console.log(`${moduleName} started`);
+
     this.$onChanges = changesObj => {
       console.log(changesObj);
-      if (!changesObj.user.auth) {
-        // $window.location.href = '#/';
-      }
     };
+
+    // setInterval(() => console.log(this.user), 1000);
+
+    $scope.$watch(
+      '$ctrl.name',
+      function(newValue, oldValue) {
+        console.log('watch', newValue, oldValue);
+      },
+      true,
+    );
+
+    // this.$onChanges = user => {
+    //   console.log(user);
+    //   if (user.currentValue && !user.currentValue.auth) {
+    //     console.log('change location');
+    //     // eslint-disable-next-line
+    //     $window.location.href = '#/';
+    //   }
+    // };
   }
 
   // --------------------------------------------------
@@ -28,5 +45,4 @@
     bindings,
   });
   // END module
-  // eslint-disable-next-line
 })();

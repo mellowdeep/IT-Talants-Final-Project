@@ -14,6 +14,10 @@
     this.username = '';
     this.agreeToRemember = false;
 
+    this.facebook = () => console.log('facebook');
+    this.twitter = () => console.log('twitter');
+    this.google = () => console.log('google');
+
     this.submit = () => {
       const { password, username, agreeToRemember } = this;
       authService.login({ password, username, agreeToRemember }).then(() => {

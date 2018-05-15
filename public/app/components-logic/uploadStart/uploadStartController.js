@@ -8,14 +8,20 @@
   // START MODULE
   // --------------------------------------------------
 
+  const bindings = { user: '<' };
   const injection = [];
-  function controller() {}
+  function controller() {
+    this.upload = () => {
+      console.log(this.user);
+    };
+  }
 
   // --------------------------------------------------
   // LOAD component
   angular.module('app').component(moduleName, {
     templateUrl,
     controller: [...injection, controller],
+    bindings,
   });
   // END module
   // eslint-disable-next-line

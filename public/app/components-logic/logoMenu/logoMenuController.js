@@ -7,7 +7,7 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = { search: '<' };
+  const bindings = { search: '<', user: '<' };
   const injection = ['authService', '$document', '$scope', '$window'];
   function controller(authService, $document, $scope, $window) {
     this.$onInit = () => {
@@ -16,11 +16,11 @@
 
     const handlerFunctions = [];
     this.dropDownUser = false;
-    this.user = { auth: false };
+    // this.user = { auth: false };
 
-    authService.auth().then(res => {
-      this.user = res;
-    });
+    // authService.auth().then(res => {
+    //   this.user = res;
+    // });
 
     this.upload = () => {
       console.log('test');
@@ -33,13 +33,9 @@
     };
 
     this.logout = () => {
-      authService
-        .logout()
-        .then(() => authService.auth())
-        .then(res => {
-          this.user = res;
-          this.dropDownUser = false;
-        });
+      authService.logout().then(() => {
+        this.dropDownUser = false;
+      });
     };
 
     this.$postLink = () => {

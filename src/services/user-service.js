@@ -32,9 +32,9 @@ const userFunction = {
         if (user) if (user) return mappUserWithPassword(user);
         return user;
       }),
-  saveUser: (username, password, name, role, status) =>
+  saveUser: (userId, username, password, name, role, status, provider, image) =>
     repository
-      .saveUser(username, hash.getPasswordHash(password), name, role, status)
+      .saveUser(userId, username, hash.getPasswordHash(password), name, role, status, provider, image)
       .then(id => repository.findById(id))
       .then(user => {
         if (user) if (user) return mappUser(user);

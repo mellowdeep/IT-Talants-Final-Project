@@ -14,23 +14,24 @@ module.exports = () => {
       },
       (req, accessToken, refreshToken, profile, done) => {
         const user = {
+          id: profile.id,
           username: profile.emails[0].value,
           image: profile._json.image.url,
           name: profile.displayName,
           provider: "google",
           google: {
-            id: profile.id,
             token: accessToken
           }
         };
 
         userService
-          .getUserByUserName(user.email, user.provider)
+          .getUserById(user.id)
           .then(currentUser => {
             if (!currentUser) {
-              userService.saveUser(user).then(dbUser => {
-                if (dbUser) done(null, dbUser);
-              });
+              userService.saveUser(user.id, user.username, '', user.name, 'user', 'active', user.provider, user.image)
+                .then(dbUser => {
+                  if (dbUser) done(null, dbUser);
+                });
             } else {
               done(null, currentUser);
             }

@@ -54,15 +54,15 @@ controller.post('/register', (req, res) => {
 
     const errors = req.validationErrors();
     if (!errors) {
-      const role = "user";
-      const status = "active";
       userService
         .saveUser(
+          null,
           req.body.username,
           req.body.password1,
           req.body.name || 'anonymous',
-          role,
-          status
+          "user",
+          "active",
+          null
         )
         .then(currentUser => {
           req.session.user = currentUser;

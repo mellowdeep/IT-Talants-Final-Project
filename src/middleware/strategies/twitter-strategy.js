@@ -15,23 +15,24 @@ module.exports = () => {
       },
       (req, accessToken, tokenSecret, profile, done) => {
         const user = {
-          email: profile._json.email,
+          id: profile.id,
+          username: profile._json.email,
           image: profile._json.profile_image_url,
           name: profile.displayName,
           provider: "twitter",
           twitter: {
-            id: profile.id,
             token: accessToken
           }
         };
 
         userService
-          .getUserByUserName(user.email, user.provider)
+          .getUserById(user.id)
           .then(currentUser => {
             if (!currentUser) {
-              userService.saveUser(user).then(dbUser => {
-                if (dbUser) done(null, dbUser);
-              });
+              userService.saveUser(user.id, user.username, '', user.name, 'user', 'active', user.provider, user.image)
+                .then(dbUser => {
+                  if (dbUser) done(null, dbUser);
+                });
             } else {
               done(null, currentUser);
             }

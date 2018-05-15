@@ -20,6 +20,11 @@
 
     this.mouseOnVideo = false;
     this.mouseOnPlus = false;
+    this.mouseOnPlayLists = false;
+
+    this.clickOnPlus = () => {
+      this.mouseOnPlus = !this.mouseOnPlus;
+    };
 
     const handlerFunctions = [];
 
@@ -28,19 +33,27 @@
         e.matches('.plus'),
       );
 
+      const ulPlayLists = Array.from($element.find('li')).find(
+        e => e.attributes.name && e.attributes.name.value === 'playlists',
+      );
+
       const fn = e => {
         const mouseOnVideo = e.path.some(elem => elem === $element[0]);
         const mouseOnPlus = e.path.some(elem => elem === elPlus);
+        const mouseOnPlayLists = e.path.some(elem => elem === ulPlayLists);
 
         if (
           this.mouseOnVideo !== mouseOnVideo ||
-          (this.mouseOnPlus === false && mouseOnPlus)
+          this.mouseOnPlayLists !== mouseOnPlayLists
         ) {
           $scope.$apply(() => {
-            this.mouseOnVideo = mouseOnVideo;
-            this.mouseOnPlus = mouseOnPlus;
+            this.mouseOnVideo = mouseOnVideo || mouseOnPlayLists || mouseOnPlus;
+            this.mouseOnPlus =
+              this.mouseOnPlus === true || mouseOnPlus || mouseOnPlayLists;
+            this.mouseOnPlayLists = mouseOnPlayLists;
             if (this.mouseOnVideo === false) {
               this.mouseOnPlus = false;
+              this.mouseOnPlayLists = false;
             }
           });
         }

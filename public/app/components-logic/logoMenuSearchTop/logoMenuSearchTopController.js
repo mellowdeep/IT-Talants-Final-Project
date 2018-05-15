@@ -1,6 +1,5 @@
-// eslint-disable-next-line
 (function() {
-  const moduleName = 'logoMenu';
+  const moduleName = 'logoMenuSearchTop';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // templateUrlGenerate(moduleName);
@@ -8,56 +7,44 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { search: '<' };
-  const injection = ['authService', '$document', '$scope'];
-  function controller(authService, $document, $scope) {
+  const injection = ['$window', '$scope', '$document'];
+  function controller($window, $scope, $document) {
+    console.log(`${moduleName} started`);
+    this.searchText = '';
+
     this.$onInit = () => {
-      // this.search ready
+      if (this.search && this.search.query) {
+        this.searchText = this.search.query;
+        console.log(this.search.query);
+      }
+    };
+
+    this.submit = () => {
+      $window.location.href = `#/search?query=${this.searchText.trim()}`;
     };
 
     const handlerFunctions = [];
-    this.dropDownUser = false;
-    this.user = { auth: false };
-
-    authService.auth().then(res => {
-      this.user = res;
-    });
-
-    this.buttonLogin = () => {
-      this.dropDownUser = !this.dropDownUser;
-    };
-
-    this.logout = () => {
-      authService
-        .logout()
-        .then(() => authService.auth())
-        .then(res => {
-          this.user = res;
-          this.dropDownUser = false;
-        });
-    };
+    this.dropDownSearchMenu = false;
 
     this.$postLink = () => {
       const fn = e => {
-        if (e.path.every(p => p.id !== 'logo-menu-drop-down-logout')) {
+        if (
+          e.path.every(p => p.id !== 'logo-menu-search-top-drop-down-logout')
+        ) {
           $scope.$apply(() => {
-            this.dropDownUser = false;
+            this.dropDownSearchMenu = false;
           });
-
-          // $scope.$digest();
         }
       };
       const event = 'click';
       handlerFunctions.push({ event, fn });
-
       $document.on(event, fn);
     };
 
     this.$onDestroy = () => {
-      handlerFunctions.forEach(({ event, fn }) => $document.on(event, fn));
+      handlerFunctions.forEach(({ event, fn }) => $document.off(event, fn));
       console.log('destroy');
     };
-
-    console.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------

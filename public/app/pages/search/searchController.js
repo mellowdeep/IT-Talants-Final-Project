@@ -7,14 +7,23 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-
-  function controller() {
+  const bindings = {};
+  const injection = ['$location'];
+  function controller($location) {
     console.log(`${moduleName} started`);
+    this.search = $location.search();
+    if (this.search.query) {
+      console.log(`searching for ${this.search.query}`);
+    }
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular.module('app').component(moduleName, { templateUrl, controller });
+  angular.module('app').component(moduleName, {
+    templateUrl,
+    bindings,
+    controller: [...injection, controller],
+  });
   // END module
   // eslint-disable-next-line
 })();

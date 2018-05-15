@@ -6,13 +6,16 @@ angular.module('app').config([
 
     $routeProvider
       .when('/', {
-        template: `<init-page></init-page>`,
+        template: `<init-page user="vm.user"></init-page>`,
+        controller: 'preInitPage as vm',
       })
       .when('/login', {
         template: '<login></login>',
+        controller: 'preSignUp as vm',
       })
       .when('/signup', {
         template: '<sign-up></sign-up>',
+        controller: 'preSignUp as vm',
       })
       .when('/search', {
         template: '<search></search>',

@@ -8,30 +8,42 @@
   // START MODULE
   // --------------------------------------------------
 
+  const injection = ['authService'];
   function controller(authService) {
+    console.log(`${moduleName} started`);
+
     this.name = '';
     this.username = '';
     this.password1 = '';
     this.password2 = '';
+    this.error = [];
 
     this.submit = () => {
+      console.log('ajax');
       const { name, username, password1, password2 } = this;
-      authService.signUp({
-        name,
-        username,
-        password1,
-        password2,
-      });
+      authService
+        .signUp({
+          name,
+          username,
+          password1,
+          password2,
+        })
+        .then(res => console.log(res))
+        .catch(e => {
+          console.log(e.data);
+          this.error = e.data.map(({ msg }) => msg);
+          this.password1 = '';
+          this.password2 = '';
+        });
     };
-
-    console.log(`${moduleName} started`);
+    // setInterval(() => console.log(this), 1000);
   }
 
   // --------------------------------------------------
   // LOAD component
   angular.module('app').component(moduleName, {
     templateUrl,
-    controller: ['authService', controller],
+    controller: [...injection, controller],
   });
   // END module
   // eslint-disable-next-line

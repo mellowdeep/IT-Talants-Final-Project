@@ -8,13 +8,24 @@
   // START MODULE
   // --------------------------------------------------
 
-  function controller() {
+  const injection = ['authService', '$window'];
+  function controller(authService, $window) {
     console.log(`${moduleName} started`);
+
+    // const status = await authService.isLogin();
+    // // console.log(status, $window);
+    // if (status.data !== false) {
+    //   $window.location.href = '#/';
+    //   // return;
+    // }
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular.module('app').component(moduleName, { templateUrl, controller });
+  angular.module('app').component(moduleName, {
+    templateUrl,
+    controller: [...injection, controller],
+  });
   // END module
   // eslint-disable-next-line
 })();

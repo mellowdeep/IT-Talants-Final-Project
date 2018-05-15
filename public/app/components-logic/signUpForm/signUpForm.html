@@ -54,7 +54,7 @@
             </div>
             <div class="row">
               <div class="col-lg-7">
-                <button type="submit" class="btn btn-cv1">Sign Up</button>
+                <button type="submit" class="btn btn-cv1" ng-click="console.log('click')">Sign Up</button>
               </div>
               <div class="col-lg-1 ortext">or</div>
               <div class="col-lg-4 signuptext">
@@ -62,8 +62,12 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-12 forgottext">
+              <!-- <div class="col-lg-12 forgottext">
                 <a href="#">By clicking "Sign Up" I agree to circle's Terms of Service.</a>
+              </div> -->
+              <div class="col-lg-12" ng-if="$ctrl.error.length">
+                <br>
+                <span class="color-active">{{ $ctrl.error.join(' ') }}</span>
               </div>
             </div>
           </form>

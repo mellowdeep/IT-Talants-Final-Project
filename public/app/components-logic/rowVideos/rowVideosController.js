@@ -8,13 +8,32 @@
   // START MODULE
   // --------------------------------------------------
 
+  const bindings = { user: '<' };
   function controller() {
     console.log(`${moduleName} started`);
+
+    this.videoList = [];
+
+    let i = 8;
+    while (i) {
+      this.videoList.push({
+        image: 'images/video1-1.png',
+        href: '#/',
+        time: '3:50',
+        title: "YoMan's Sky: 21 Minutes of New Gameplay - IGN First",
+        views: '27,548',
+        likeRate: '78%',
+        watched: Math.round(Math.random()),
+      });
+      i -= 1;
+    }
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular.module('app').component(moduleName, { templateUrl, controller });
+  angular
+    .module('app')
+    .component(moduleName, { templateUrl, controller, bindings });
   // END module
   // eslint-disable-next-line
 })();

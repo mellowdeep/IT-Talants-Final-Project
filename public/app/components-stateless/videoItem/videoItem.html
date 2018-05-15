@@ -1,0 +1,56 @@
+<div class="col-lg-3 col-sm-6 videoitem">
+  <div class="b-video">
+    <div class="v-img">
+      <a href="{{ $ctrl.videoParams.href }}">
+        <img ng-src="{{ $ctrl.videoParams.image }}" alt="video">
+        <div ng-if="$ctrl.videoParams.watched" class="watched-mask"></div>
+        <div ng-if="$ctrl.videoParams.watched" class="watched">WATCHED</div>
+      </a>
+      <div class="time">{{ $ctrl.videoParams.time }}</div>
+
+      <div ng-show="$ctrl.mouseOnVideo" class="plus" ng-click="$ctrl.clickOnPlus()">
+        <i class="cvicon-cv-plus" aria-hidden="true"></i>
+      </div>
+      <div ng-show="$ctrl.mouseOnPlus" class="plus-details" style="z-index:1">
+        <ul ng-show="$ctrl.user.auth">
+          <li>
+            <a href="#/">
+              <i class="cvicon-cv-watch-later" aria-hidden="true"></i> Watch Later</a>
+          </li>
+          <li name="playlists">
+            <a href="#">
+              <i class="cvicon-cv-playlist" aria-hidden="true"></i> Add to Playlist </a>
+            <ul ng-show="$ctrl.mouseOnPlayLists">
+              <li>playlist 1</li>
+              <li>playlist 2</li>
+              <li>playlist 3</li>
+              <li>playlist 4</li>
+            </ul>
+          </li>
+        </ul>
+        <ul ng-if="!$ctrl.user.auth">
+          <li>
+            Please Authorize
+          </li>
+          <li>
+            <a href="#/login">
+              <i class="cvicon-cv-user" aria-hidden="true"></i> LOGIN </a>
+          </li>
+          <li>
+            <a href="#/signup">
+              <i class="cvicon-cv-login" aria-hidden="true"></i> SIGN UP </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="v-desc">
+      <a href="{{ $ctrl.href }}">{{ $ctrl.videoParams.title }}</a>
+    </div>
+    <div class="v-views">
+      {{ $ctrl.videoParams.views }} views
+      <span class="v-percent">
+        <span class="v-circle"></span> {{ $ctrl.videoParams.likeRate }}</span>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,78 @@
 angular.module('app').factory('authService', function($http) {
-  return {
-    signUp,
+  const data = {
+    get user() {
+      return this._user;
+    },
+    set user(v) {
+      this._user.firstTime = false;
+      this._user.auth = v.auth;
+      this._user.id = v.id;
+      this._user.image = v.image;
+      this._user.name = v.name;
+      this._user.role = v.role;
+      this._user.status = v.status;
+    },
+    _user: { auth: false, firstTime: true },
   };
 
+  const USER_NOT_LOGGED = { auth: false };
+
+  return {
+    signUp,
+    login,
+    isLogin,
+    auth,
+    logout,
+    authObj,
+  };
+
+  function auth() {
+    if (data.user.firstTime) return isLogin();
+    return Promise.resolve(data.user);
+  }
+
+  function authObj() {
+    return data.user;
+  }
+
+  function logout() {
+    // return Promise.resolve().then(isLogin);
+    return $http.get('/logout').then(isLogin);
+  }
+
+  function isLogin() {
+    return $http.get('/login').then(res => {
+      if (res.data === false) data.user = USER_NOT_LOGGED;
+      else {
+        data.user = res.data;
+        data.user.auth = true;
+      }
+      return data.user;
+    });
+  }
+
   function signUp({ password1, password2, username, name }) {
-    $http
+    return $http
       .post('/register', { password1, password2, username, name })
-      .then(res => console.log(res));
+      .then(res => {
+        if (res.data === false) data.user = USER_NOT_LOGGED;
+        else {
+          data.user = res.data;
+          data.user.auth = true;
+        }
+        return res;
+      });
+  }
+
+  function login({ password, username /* , agreeToRemember */ }) {
+    return $http.post('/login', { password, username }).then(res => {
+      if (res.data === false) data.user = USER_NOT_LOGGED;
+      else {
+        data.user = res.data;
+        data.user.auth = true;
+      }
+      return data.user;
+    });
   }
 
   // const cacheSession = function() {

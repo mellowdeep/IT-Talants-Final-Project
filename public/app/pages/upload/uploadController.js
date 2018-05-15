@@ -8,31 +8,42 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { user: '=' };
-  const injection = ['$window', '$scope'];
-  function controller($window, $scope) {
+  const bindings = { user: '<' };
+  const injection = ['authService', '$window', '$scope'];
+  function controller(authService, $window, $scope) {
     console.log(`${moduleName} started`);
 
     this.$onChanges = changesObj => {
       console.log(changesObj);
     };
 
-    // setInterval(() => console.log(this.user), 1000);
+    const loginWatcher = user => {
+      if (user.auth === false) $window.location.href = '#/';
+    };
 
-    $scope.$watch(
-      '$ctrl.name',
-      function(newValue, oldValue) {
-        console.log('watch', newValue, oldValue);
-      },
-      true,
-    );
+    this.$onInit = () => {
+      authService.digest(loginWatcher);
+      // $scope.user = this.user;
+    };
+
+    this.$onDestroy = () => {
+      authService.removeDigest(loginWatcher);
+    };
+
+    // setInterval(() => console.log(this.user), 1000);
+    // $scope.$watch(
+    //   'user',
+    //   function(newValue) {
+    //     // eslint-disable-next-line
+    //     if (newValue.auth === false) $window.location.href = '#/';
+    //   },
+    //   true,
+    // );
 
     // this.$onChanges = user => {
     //   console.log(user);
     //   if (user.currentValue && !user.currentValue.auth) {
     //     console.log('change location');
-    //     // eslint-disable-next-line
-    //     $window.location.href = '#/';
     //   }
     // };
   }

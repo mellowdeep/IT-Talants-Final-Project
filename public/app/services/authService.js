@@ -11,8 +11,12 @@ angular.module('app').factory('authService', function($http) {
       this._user.name = v.name;
       this._user.role = v.role;
       this._user.status = v.status;
+      this.callbackArray.forEach(f => {
+        f(this._user);
+      });
     },
     _user: { auth: false, firstTime: true },
+    callbackArray: [],
   };
 
   const USER_NOT_LOGGED = { auth: false };
@@ -24,7 +28,18 @@ angular.module('app').factory('authService', function($http) {
     auth,
     logout,
     authObj,
+    digest,
+    removeDigest,
   };
+
+  function digest(fn) {
+    data.callbackArray.push(fn);
+  }
+
+  function removeDigest(fn) {
+    const idx = data.callbackArray.indexOf(fn);
+    if (idx !== -1) data.callbackArray.splice(idx, 1);
+  }
 
   function auth() {
     if (data.user.firstTime) return isLogin();

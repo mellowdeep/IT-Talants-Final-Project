@@ -1,6 +1,21 @@
 angular.module('app').factory('authService', function($http) {
+  const data = {
+    get user() {
+      return this._user;
+    },
+    set user(v) {
+      this._user.firstTime = false;
+      this._user.auth = v.auth;
+      this._user.id = v.id;
+      this._user.image = v.image;
+      this._user.name = v.name;
+      this._user.role = v.role;
+      this._user.status = v.status;
+    },
+    _user: { auth: false, firstTime: true },
+  };
+
   const USER_NOT_LOGGED = { auth: false };
-  let user = null;
 
   return {
     signUp,
@@ -8,11 +23,16 @@ angular.module('app').factory('authService', function($http) {
     isLogin,
     auth,
     logout,
+    authObj,
   };
 
   function auth() {
-    if (user === null) return isLogin();
-    return Promise.resolve(user);
+    if (data.user.firstTime) return isLogin();
+    return Promise.resolve(data.user);
+  }
+
+  function authObj() {
+    return data.user;
   }
 
   function logout() {
@@ -22,13 +42,12 @@ angular.module('app').factory('authService', function($http) {
 
   function isLogin() {
     return $http.get('/login').then(res => {
-      console.log('user', res.data);
-      if (res.data === false) user = USER_NOT_LOGGED;
+      if (res.data === false) data.user = USER_NOT_LOGGED;
       else {
-        user = res.data;
-        user.auth = true;
+        data.user = res.data;
+        data.user.auth = true;
       }
-      return user;
+      return data.user;
     });
   }
 
@@ -36,24 +55,23 @@ angular.module('app').factory('authService', function($http) {
     return $http
       .post('/register', { password1, password2, username, name })
       .then(res => {
-        if (res.data === false) user = USER_NOT_LOGGED;
+        if (res.data === false) data.user = USER_NOT_LOGGED;
         else {
-          user = res.data;
-          user.auth = true;
+          data.user = res.data;
+          data.user.auth = true;
         }
         return res;
       });
-    // .then(res => res.json());
   }
 
   function login({ password, username /* , agreeToRemember */ }) {
     return $http.post('/login', { password, username }).then(res => {
-      if (res.data === false) user = USER_NOT_LOGGED;
+      if (res.data === false) data.user = USER_NOT_LOGGED;
       else {
-        user = res.data;
-        user.auth = true;
+        data.user = res.data;
+        data.user.auth = true;
       }
-      return user;
+      return data.user;
     });
   }
 

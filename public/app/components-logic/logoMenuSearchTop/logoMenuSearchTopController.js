@@ -42,7 +42,7 @@
     };
 
     this.$onDestroy = () => {
-      handlerFunctions.forEach(({ event, fn }) => $document.on(event, fn));
+      handlerFunctions.forEach(({ event, fn }) => $document.off(event, fn));
       console.log('destroy');
     };
   }

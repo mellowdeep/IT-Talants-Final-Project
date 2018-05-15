@@ -8,8 +8,8 @@
   // START MODULE
   // --------------------------------------------------
 
-  const injection = ['authService', '$window'];
-  async function controller(authService) {
+  const injection = ['authService'];
+  function controller(authService) {
     console.log(`${moduleName} started`);
 
     this.name = '';
@@ -19,6 +19,7 @@
     this.error = [];
 
     this.submit = () => {
+      console.log('ajax');
       const { name, username, password1, password2 } = this;
       authService
         .signUp({
@@ -29,12 +30,13 @@
         })
         .then(res => console.log(res))
         .catch(e => {
-          // console.log(e.data);
+          console.log(e.data);
           this.error = e.data.map(({ msg }) => msg);
           this.password1 = '';
           this.password2 = '';
         });
     };
+    // setInterval(() => console.log(this), 1000);
   }
 
   // --------------------------------------------------

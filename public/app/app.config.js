@@ -6,7 +6,8 @@ angular.module('app').config([
 
     $routeProvider
       .when('/', {
-        template: `<init-page></init-page>`,
+        template: `<init-page user="vm.user"></init-page>`,
+        controller: 'preInitPage as vm',
       })
       .when('/login', {
         template: '<login></login>',

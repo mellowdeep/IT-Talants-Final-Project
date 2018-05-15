@@ -8,12 +8,14 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { user: '<' };
+  const bindings = { user: '<', headTitle: '@' };
   function controller() {
     console.log(`${moduleName} started`);
 
     this.videoList = [];
 
+    // this.videoList
+    // this.sort
     let i = 8;
     while (i) {
       this.videoList.push({

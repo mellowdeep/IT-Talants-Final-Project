@@ -8,13 +8,25 @@
   // START MODULE
   // --------------------------------------------------
 
-  function controller() {
+  const bindings = { user: '<' };
+  const injection = ['$window'];
+  function controller($window) {
     console.log(`${moduleName} started`);
+    this.$onChanges = changesObj => {
+      console.log(changesObj);
+      if (!changesObj.user.auth) {
+        // $window.location.href = '#/';
+      }
+    };
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular.module('app').component(moduleName, { templateUrl, controller });
+  angular.module('app').component(moduleName, {
+    templateUrl,
+    controller: [...injection, controller],
+    bindings,
+  });
   // END module
   // eslint-disable-next-line
 })();

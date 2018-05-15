@@ -17,6 +17,10 @@ angular.module('app').config([
         template: '<sign-up></sign-up>',
         controller: 'preSignUp as vm',
       })
+      .when('/upload', {
+        template: `<upload user="vm.user"></upload>`,
+        controller: 'preUpload as vm',
+      })
       .when('/search', {
         template: '<search></search>',
       })

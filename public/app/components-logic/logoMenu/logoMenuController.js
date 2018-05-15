@@ -8,8 +8,8 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { search: '<' };
-  const injection = ['authService', '$document', '$scope'];
-  function controller(authService, $document, $scope) {
+  const injection = ['authService', '$document', '$scope', '$window'];
+  function controller(authService, $document, $scope, $window) {
     this.$onInit = () => {
       // this.search ready
     };
@@ -21,6 +21,12 @@
     authService.auth().then(res => {
       this.user = res;
     });
+
+    this.upload = () => {
+      console.log('test');
+      if (this.user.auth) $window.location.href = '#/upload';
+      else $window.location.href = '#/login';
+    };
 
     this.buttonLogin = () => {
       this.dropDownUser = !this.dropDownUser;

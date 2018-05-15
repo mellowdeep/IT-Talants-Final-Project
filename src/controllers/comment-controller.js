@@ -16,16 +16,16 @@ controller.get("/:uuid/comments", (req, res) => {
   // comment owner_name  - name  ,
   // comment post date   -  post_date,
   // has i like that comment - like_sign (1 - true), (null-false)
-  const userId = req.session.user ? req.session.user.id : NO_USER;
+  const userId = req.user ? req.user.id : NO_USER;
   commentService.getCommentsForVideo(req.params.uuid, userId)
     .then(comments => res.json(comments))
     .catch((err) =>  res.status(status.NOT_FOUND).send(err));
 });
 
-controller.put("/:uuid/:id/like/:isLike", (req, res) => {
+controller.put("/:uuid/:commentId/like/:isLike", (req, res) => {
   const isLike = req.params.isLike === 'true' ? LIKE : DISLIKE;
-  const userId = req.session.user ? req.session.user.id : NO_USER;
-  commentService.addRemoveLike(req.params.uuid, req.params.id, userId , isLike)
+  const userId = req.user ? req.user.id : NO_USER;
+  commentService.addRemoveLike(req.params.uuid, req.params.commentId, userId , isLike)
     .then(res.sendStatus(status.OK))
     .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
 });
@@ -42,16 +42,16 @@ controller.put("/:uuid/add-comment", (req, res) => {
     .catch((err) =>  res.status(status.NOT_FOUND).send(err));
 });
 
-controller.delete("/:uuid/delete/:id", (req, res) => {
+controller.delete("/:uuid/delete/:commentId", (req, res) => {
       const userId = req.session.user ? req.session.user.id : NO_USER;
-      commentService.deleteComment(req.params.uuid, req.params.id , userId)
+      commentService.deleteComment(req.params.uuid, req.params.commentId , userId)
         .then(res.sendStatus(status.OK))
         .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
 });
 
-controller.put("/:uuid/update/:id", (req, res) => {
+controller.put("/:uuid/update/:commentId", (req, res) => {
   const userId = req.session.user ? req.session.user.id : NO_USER;
-  commentService.updateComment(req.params.uuid, req.params.id, req.body.text, userId)
+  commentService.updateComment(req.params.uuid, req.params.commentId, req.body.text, userId)
     .then(res.sendStatus(status.OK))
     .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
 });

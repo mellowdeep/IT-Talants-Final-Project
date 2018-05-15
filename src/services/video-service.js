@@ -1,5 +1,6 @@
 const repository = require('../repositories/video-repository');
 const userVideoLikesService = require('../services/user-video-likes-service');
+const userService = require('../services/user-service');
 
 const LIKE = 1;
 
@@ -66,8 +67,11 @@ const videoFunction = {
       )
       .then(id => id);
   },
+  getAllByMatchName:(keyword) =>
+    repository.fallByMatchName(keyword)
+      .then(videos => videos),
   increaseCounter: (video) =>
-    repository.increceWatchCounter(video.id, ++video.play_count)
+    repository.increaseCounter(video.id, ++video.play_count)
       .then(row => {
         if (row) return row;
         throw new Error('Unable to increase play counter');
@@ -80,7 +84,15 @@ const videoFunction = {
       .then(video => {
         if(video) return video;
         throw new Error("Video not found");
+      }),
+  getVideosByUserId: (userId, status) =>
+    userService.getUserById(userId)
+      .then(user => {
+        if(user) return user.id;
+        throw new Error('User not found');
       })
+      .then(repository.findAllByUserId(userId,status))
+      .then(videos => videos)
 };
 
 module.exports = videoFunction;

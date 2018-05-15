@@ -9,30 +9,33 @@ module.exports = () => {
       {
         consumerKey: "HduEgbiJLwrNloX1ZxputuWrN",
         consumerSecret: "TjPYLnQsoFjdAXoowLlZKX4H1nPYQ8XEE73EeT1tHbfCUC4NTt",
-        callbackURL: "http://localhost:3000/twitter/callback",
+        callbackURL: "https://127.0.0.1:443/twitter/callback",
         includeEmail: true,
         passReqToCallback: true
       },
       (req, accessToken, tokenSecret, profile, done) => {
         const user = {
-          username: profile._json.email,
+          email: profile._json.email,
           image: profile._json.profile_image_url,
           name: profile.displayName,
           provider: "twitter",
-          status: "active",
           twitter: {
             id: profile.id,
             token: accessToken
           }
         };
 
-        userService.getUserByUserName(user.email, user.provider, currentUser => {
-          if (!currentUser) {
-            userService.saveUser(user);
-          }
-
-          done(null, user);
-        });
+        userService
+          .getUserByUserName(user.email, user.provider)
+          .then(currentUser => {
+            if (!currentUser) {
+              userService.saveUser(user).then(dbUser => {
+                if (dbUser) done(null, dbUser);
+              });
+            } else {
+              done(null, currentUser);
+            }
+          });
       }
     )
   );

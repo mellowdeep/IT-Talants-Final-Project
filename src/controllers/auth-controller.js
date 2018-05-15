@@ -30,6 +30,7 @@ controller.get('/logout', (req, res) => {
 controller.post(
   '/login',
   passport.authenticate('local'), (req, res) => {
+    console.log();
     if (req.user) {
       res.send(req.user);
     } else {

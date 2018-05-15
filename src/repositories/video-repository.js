@@ -17,7 +17,7 @@ const query = {
       "SELECT * FROM videos AS v WHERE v.id = ?", id
     );
   },
-  increceWatchCounter(videoId, playCount) {
+  increaseCounter(videoId, playCount) {
     return db.updateObj(
       "UPDATE videos SET play_count = ? WHERE id = ?", [playCount, videoId]
     )
@@ -57,6 +57,16 @@ const query = {
       "SELECT * FROM videos AS v WHERE v.status = ?", status
     )
   },
+  findAllByUserId(userId, status) {
+    return db.getMultipleResult(
+      "SELECT * FROM videos AS v WHERE v.user_id = ? AND v.status IS NOT ?", userId, status
+    )
+  },
+  fallByMatchName(keyword) {
+    return db.getMultipleResult(
+      "SELECT * FROM videos AS v WHERE v.name like %?%", keyword
+    )
+  }
 };
 
 module.exports = query;

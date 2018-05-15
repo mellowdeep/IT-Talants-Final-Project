@@ -16,10 +16,10 @@ const tags = ['muisc', 'news', 'trailers', 'animation'];
 // });
 
  // return obj with tag : array of videos
-controller.get('/home', (req, res) => {
+controller.get('/', (req, res) => {
   const videoObj = {};
   let index = 0;
-  const user = req.session.user;
+  const user = req.user;
   if(user){
     recentlySeen.getRecentlyVideos(user.id)
       .then(videos => {
@@ -40,7 +40,7 @@ controller.get('/home', (req, res) => {
           getVideos(callback);
         }
       })
-      .catch(err => res.send(err));
+      .catch(err => res.send(err.message));
   };
 
   const sendData = () => {

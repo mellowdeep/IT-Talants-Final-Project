@@ -1,6 +1,7 @@
 const express = require('express');
 const videoService = require('../services/video-service');
 const recentlySeen = require('../services/recently-seen-service');
+const path = require('path');
 
 const controller = express.Router();
 
@@ -14,6 +15,10 @@ const tags = ['muisc', 'news', 'trailers', 'animation'];
 //
 //   next();
 // });
+
+controller.get('/home', (req, res) => {
+  res.sendFile('index.html', { root: path.join(__dirname, '../../public/test') });
+});
 
  // return obj with tag : array of videos
 controller.get('/', (req, res) => {

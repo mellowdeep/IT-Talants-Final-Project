@@ -161,9 +161,9 @@ controller.post('/upload', (req, res) => {
     const highQualityPath = path.join(form.uploadDir, 'high/', newName);
     const imagePath = path.join(form.uploadDir, 'thumbnails/');
 
-    if (ref.toLowerCase() !== VIDEO) {
-      res.status(status.BAD_REQUEST).send('Unsupported video format');
-    }
+    // if (ref.toLowerCase() !== VIDEO) {
+    //   res.status(status.BAD_REQUEST).send('Unsupported video format');
+    // }
 
     ffmpeg.ffprobe(path.join(file.path), (err, metadata) => {
       const duration = metadata.streams[0].duration.toString().split('.');

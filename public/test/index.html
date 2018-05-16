@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" href="./bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link type="text/css" href="./login.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-login">
+                <!--<div>-->
+                    <!--<h4>Welcome back.</h4>-->
+                    <!--<div>{{user.name}}</div>-->
+                    <!--<div>{{user.email}}</div>-->
+                <!--</div>-->
+                <!--<br/>-->
+                <!--<div>-->
+                    <!--<img src ="{{user.image}}"/>-->
+                <!--</div>-->
+                <!--<br/>-->
+            </div>
+        </div>
+
+    </div>
+    <div style="width: 500px; margin: auto">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
+                <button class="btn btn-lg upload-btn" type="button">Upload File</button>
+            </div>
+        </div>
+    </div>
+    <div class="loader"></div>
+
+    <input style="display: none" id="upload-input" type="file" name="file" ></br>
+    <input type="text" name="title" id="demotext" class="form-control input-sm chat-input"
+           placeholder="title"/>
+
+</div>
+<script type="application/javascript" src="test/bootstrap.min.js"></script>
+<script type="application/javascript" src="test/jquery-3.3.1.min.js"></script>
+<script type="application/javascript">$('.upload-btn').on('click', function (){
+  $('#upload-input').click();
+  $('.progress-bar').text('0%');
+  $('.progress-bar').width('0%');
+});
+
+$('#upload-input').on('change', function(){
+
+  var files = $(this).get(0).files;
+
+  if (files.length > 0){
+    // create a FormData object which will be sent as the data payload in the
+    // AJAX request
+    var formData = new FormData();
+    var data = $("#demotext").val();
+
+    // loop through all the selected files and add them to the formData object
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+
+      // add the files to formData object for the data payload
+      formData.append('uploads[]', file, file.name);
+      formData.append("name", data);
+      formData.append("about", " This is test video ");
+      formData.append("tag", "music");
+      formData.append("status", "public");
+    }
+
+    $.ajax({
+      url: '/upload',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(data){
+        // $('.loader').hide();
+        // $('.progress-bar').html('Done');
+        console.log('upload successful!\n' + data);
+      },
+      xhr: function() {
+        // create an XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+
+        // listen to the 'progress' event
+        xhr.upload.addEventListener('progress', function(evt) {
+
+          if (evt.lengthComputable) {
+            // calculate the percentage of upload completed
+            var percentComplete = evt.loaded / evt.total;
+            percentComplete = parseInt(percentComplete * 100 -1);
+
+            // update the Bootstrap progress bar with the new percentage
+            $('.progress-bar').text(percentComplete + '%');
+            $('.progress-bar').width(percentComplete + '%');
+
+            // if (percentComplete === 99) {
+            //     $('.loader').css('display', 'block');
+            // }
+
+          }
+
+        }, false);
+
+        return xhr;
+      }
+    });
+
+  }
+});</script>
+
+</body>
+</html>

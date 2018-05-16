@@ -1,7 +1,6 @@
 const express = require('express');
 const videoService = require('../services/video-service');
 const recentlySeen = require('../services/recently-seen-service');
-const path = require('path');
 
 const controller = express.Router();
 

@@ -147,7 +147,7 @@ controller.post('/upload', (req, res) => {
 
   const removeFile = () => {
     fs.unlink(path.join(form.uploadDir, newName), err => {
-      if (err) throw  new Error(err)
+      if (err) console.log(err.message)
     });
   };
 

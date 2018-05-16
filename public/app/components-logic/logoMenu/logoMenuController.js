@@ -32,10 +32,23 @@
       this.dropDownUser = !this.dropDownUser;
     };
 
+    this.modal = {
+      get accept() {
+        return this._value;
+      },
+      set accept(v) {
+        this.showModal = false;
+        if (v === true) {
+          authService.logout().then(() => {});
+        }
+      },
+      _value: false,
+      showModal: false,
+    };
+
     this.logout = () => {
-      authService.logout().then(() => {
-        this.dropDownUser = false;
-      });
+      this.modal.showModal = true;
+      this.dropDownUser = false;
     };
 
     this.$postLink = () => {

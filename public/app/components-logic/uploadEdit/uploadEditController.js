@@ -8,10 +8,11 @@
   // START MODULE
   // --------------------------------------------------
 
-  const injection = [];
-  function controller() {
-    this.videoAbout =
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit';
+  const injection = ['Upload', '$window'];
+  const bindings = { uploadFile: '=' };
+  function controller(Upload, $window) {
+    this.videoAbout = 'about';
+    // ('Lorem, ipsum dolor sit amet consectetur adipisicing elit');
     this.videoTitle = 'Title asdfasdf';
     // form
     this.fileSize = '130 MB';
@@ -20,11 +21,32 @@
     this.tags = ['music', 'nature', 'news'];
     // from
     this.cancelButton = () => {
-      console.log('cancel button');
+      $window.location.href = '#/';
+      // console.log('cancel button');
     };
 
-    this.saveButton = () => {
-      console.log('save button');
+    this.upload = () => {
+      const data = {
+        'uploads[]': this.uploadFile.file,
+        name: this.videoTitle,
+        about: this.videoAbout,
+        tag: this.tag,
+        status: this.isPrivate,
+      };
+
+      return Upload.upload({
+        url: '/upload',
+        method: 'POST',
+        data,
+      }).then(
+        resp => {
+          // $window.location.href = '#/';
+        },
+        null,
+        evt => {
+          this.percentComplete = parseInt(100.0 * evt.loaded / evt.total, 10);
+        },
+      );
     };
   }
 
@@ -33,6 +55,7 @@
   angular.module('app').component(moduleName, {
     templateUrl,
     controller: [...injection, controller],
+    bindings,
   });
   // END module
   // eslint-disable-next-line

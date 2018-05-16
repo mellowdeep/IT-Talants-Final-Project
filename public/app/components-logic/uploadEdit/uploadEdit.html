@@ -66,8 +66,8 @@
               <div class="form-group">
                 <label for="e4">Privacy Settings</label>
                 <select class="form-control" id="e4" ng-model="$ctrl.isPrivate">
-                  <option value="0">Public</option>
-                  <option value="1">Private</option>
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
                 </select>
               </div>
             </div>
@@ -75,8 +75,8 @@
             <div class="col-lg-3">
               <div class="form-group">
                 <label for="e4">Category</label>
-                <select class="form-control" id="e4">
-                  <option ng-repeat="tag in $ctrl.tags">{{ tag }} </option>
+                <select class="form-control" id="e4" ng-model="$ctrl.tag">
+                  <option value="{{ tag }}" ng-repeat="tag in $ctrl.tags">{{ tag }} </option>
                 </select>
               </div>
             </div>
@@ -85,8 +85,8 @@
         </div>
 
         <div class="u-area">
-          <form action="#" method="post">
-            <button class="btn btn-primary u-btn" disabled ng-click="$ctrl.saveButton()">Save</button>
+          <form>
+            <button class="btn btn-primary u-btn" ng-click="$ctrl.upload()">Save</button>
           </form>
         </div>
         <div class="u-terms">

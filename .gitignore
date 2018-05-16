@@ -4,3 +4,4 @@ node_modules/
 tmp_andrei_folder/
 start_server.cmd
 public/videos/video-1.mp4
+public/upload/

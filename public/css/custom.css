@@ -1,0 +1,6 @@
+.dragover {
+  -webkit-box-shadow: inset 0px 0px 0px 4px #f00;
+  -moz-box-shadow: inset 0px 0px 0px 4px #f00;
+  box-shadow: inset 0px 0px 0px 4px #f00;
+  /* border: 5px dashed white; */
+}

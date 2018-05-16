@@ -1,17 +1,22 @@
 <div class="content-wrapper">
   <div class="container">
     <div class="row">
-      <div class="col-lg-12 upload-page" style="border: solid 2px white;" id="drop_zone">
+      <div class="col-lg-12 upload-page">
 
-        <div class="u-area">
+        <div class="u-area" ngf-drop ngf-select ng-model="$ctrl.uploadFile.file"
+          class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false"
+          ngf-allow-dir="true" accept="video/*" ngf-pattern="'video/*'">
+
           <i class="cv cvicon-cv-upload-video"></i>
 
           <p class="u-text1">Select Video file to upload</p>
           <p class="u-text2">or drag and drop video files</p>
 
-          <form>
-            <button class="btn btn-primary u-btn" ng-click="$ctrl.upload()">Upload Video1</button>
-          </form>
+        </div>
+
+        <div class="u-area" style="height: 50px; padding-top:0px;">
+          <button class="btn btn-primary u-btn" ngf-select ng-model="$ctrl.uploadFile.file"
+            accept="video/*" ngf-pattern="'video/*'" ngf-multiple="false">Upload Video</button>
         </div>
 
         <div class="u-terms">
@@ -26,3 +31,4 @@
     </div>
   </div>
 </div>
+<!-- <input type="file" ng-model="$ctrl.inputFile"> -->

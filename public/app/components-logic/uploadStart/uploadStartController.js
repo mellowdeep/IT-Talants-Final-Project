@@ -8,12 +8,18 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { user: '<' };
+  const bindings = { user: '<', uploadFile: '=' };
   const injection = [];
   function controller() {
-    this.upload = () => {
-      console.log(this.user);
-    };
+    // this.$postLink = () => {
+    //   // input = $element.find('input')[0];
+    //   console.log(this.uploadFile);
+    // };
+    // this.uploadInput = () => {
+    //   console.log('uploadinput');
+    // };
+    // this.upload = () => {
+    // };
   }
 
   // --------------------------------------------------

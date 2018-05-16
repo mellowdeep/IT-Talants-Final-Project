@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute']);
+angular.module('app', ['ngRoute', 'ngFileUpload']);
 
 // .component('testInfo1', {
 //   templateUrl: '/app/components/test/test1.template.html',

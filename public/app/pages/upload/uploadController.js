@@ -9,44 +9,55 @@
   // --------------------------------------------------
 
   const bindings = { user: '<' };
-  const injection = ['authService', '$window', '$scope'];
-  function controller(authService, $window, $scope) {
+  const injection = ['authService', '$window', 'Upload'];
+  function controller(authService, $window, Upload) {
     console.log(`${moduleName} started`);
-
-    this.$onChanges = changesObj => {
-      console.log(changesObj);
+    const vm = this;
+    vm.SELECT_FILE = 'SELECT_FILE';
+    vm.EDIT_FILE = 'EDIT_FILE';
+    vm.pageStatus = vm.SELECT_FILE;
+    vm.file = {
+      get file() {
+        return this._file;
+      },
+      set file(v) {
+        console.log('watcher event', v);
+        this._file = v;
+        // $scope.aplly(() => {
+        vm.pageStatus = vm.EDIT_FILE;
+        vm.upload();
+        // });
+      },
+      _file: null,
     };
 
-    const loginWatcher = user => {
-      if (user.auth === false) $window.location.href = '#/';
-    };
+    vm.upload = () => {
+      const formData = new FormData();
+      formData.append('uploads[]', vm.file, vm.file.name);
+      formData.append('name', 'local');
+      formData.append('about', ' This is test video ');
+      formData.append('tag', 'music');
+      formData.append('status', 'public');
+      return Upload.upload({
+        url: '/upload',
+        data: formData,
+      }).then(res => console.log(res));
 
-    this.$onInit = () => {
+      //  LOGIN watcher
+    };
+  }
+  const loginWatcher = user => {
+    // eslint-disable-next-line
+    if (user.auth === false) $window.location.href = '#/';
+
+    vm.$onInit = () => {
       authService.digest(loginWatcher);
-      // $scope.user = this.user;
     };
 
-    this.$onDestroy = () => {
+    vm.$onDestroy = () => {
       authService.removeDigest(loginWatcher);
     };
-
-    // setInterval(() => console.log(this.user), 1000);
-    // $scope.$watch(
-    //   'user',
-    //   function(newValue) {
-    //     // eslint-disable-next-line
-    //     if (newValue.auth === false) $window.location.href = '#/';
-    //   },
-    //   true,
-    // );
-
-    // this.$onChanges = user => {
-    //   console.log(user);
-    //   if (user.currentValue && !user.currentValue.auth) {
-    //     console.log('change location');
-    //   }
-    // };
-  }
+  };
 
   // --------------------------------------------------
   // LOAD component

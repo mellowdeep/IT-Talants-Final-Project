@@ -145,8 +145,8 @@ controller.post('/upload', (req, res) => {
       })
   };
 
-  const removeFile = () => {
-    fs.unlink(path.join(form.uploadDir, newName), err => {
+  const removeFile = (filePath) => {
+    fs.unlink(filePath, err => {
       if (err) console.log(err.message)
     });
   };
@@ -245,10 +245,6 @@ controller.post('/upload', (req, res) => {
     videoService
       .addVideo(videoObj)
       .then(res.sendStatus(status.OK))
-      .catch(err => {
-        removeFile(newName);
-        return err;
-      })
       .catch(err => res.status(status.NOT_FOUND).send(err.message));
   };
 });

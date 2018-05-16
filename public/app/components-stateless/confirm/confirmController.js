@@ -2,7 +2,7 @@
 (function() {
   const moduleName = 'confirm';
   // eslint-disable-next-line
-  const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
+  const templateUrl = `/app/components-stateless/${moduleName}/${moduleName}.html`;
   // templateUrlGenerate(moduleName);
   // '/app/components/head-search/head-search.template.html';
   // START MODULE

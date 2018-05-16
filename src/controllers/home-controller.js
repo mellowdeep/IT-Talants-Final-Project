@@ -16,10 +16,6 @@ const tags = ['muisc', 'news', 'trailers', 'animation'];
 //   next();
 // });
 
-controller.get('/home', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, '../../public/test') });
-});
-
  // return obj with tag : array of videos
 controller.get('/', (req, res) => {
   const videoObj = {};

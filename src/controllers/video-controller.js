@@ -83,6 +83,11 @@ controller.put('/:uuid/like/:isLike', (req, res) => {
 });
 
 controller.post('/upload', (req, res) => {
+  if(!req.user) {
+    res.status(status.UNAUTHORIZED).send("User not found");
+    return;
+  }
+
   const videoObj = {};
   const fields = [];
   let file;
@@ -114,6 +119,11 @@ controller.post('/upload', (req, res) => {
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', () => {
+    if(!file) {
+      res.status(status.BAD_REQUEST).sendDate("File not found");
+      return;
+    }
+
     getUniqueUUID(converFile);
   });
 
@@ -129,16 +139,15 @@ controller.post('/upload', (req, res) => {
         if (video) {
           getUniqueUUID(callback);
         } else {
-          callback(uniqueId, file);
           videoObj.uuid = uniqueId;
-          sendVideoToDB();
+          callback(uniqueId, file);
         }
       })
   };
 
   const removeFile = () => {
     fs.unlink(path.join(form.uploadDir, newName), err => {
-      if (err) throw err;
+      if (err) throw  new Error(err)
     });
   };
 
@@ -146,9 +155,8 @@ controller.post('/upload', (req, res) => {
   const checkVideos = () => {
     videoCounter++;
     if (videoCounter >= 2) {
-      removeFile(file.path);
-      sendVideoToDB();
-      res.end('success');
+       removeFile(file.path);
+       sendVideoToDB();
     }
   };
 
@@ -161,9 +169,10 @@ controller.post('/upload', (req, res) => {
     const highQualityPath = path.join(form.uploadDir, 'high/', newName);
     const imagePath = path.join(form.uploadDir, 'thumbnails/');
 
-    // if (ref.toLowerCase() !== VIDEO) {
-    //   res.status(status.BAD_REQUEST).send('Unsupported video format');
-    // }
+    if (ref.toLowerCase() !== VIDEO) {
+      res.status(status.BAD_REQUEST).send('Unsupported video format');
+      return;
+    }
 
     ffmpeg.ffprobe(path.join(file.path), (err, metadata) => {
       const duration = metadata.streams[0].duration.toString().split('.');
@@ -210,8 +219,8 @@ controller.post('/upload', (req, res) => {
       .size('896x504')
       .save(highQualityPath)
       .on('error', (err) => {
-        removeFile(highQualityPath);
         videoObj.high = FALSE;
+        removeFile(highQualityPath);
         checkVideos();
         console.log(`An error occurred: ${  err.message}`);
       })
@@ -238,8 +247,9 @@ controller.post('/upload', (req, res) => {
       .then(res.sendStatus(status.OK))
       .catch(err => {
         removeFile(newName);
-        res.status(status.NOT_FOUND).send(err.message);
-      });
+        return err;
+      })
+      .catch(err => res.status(status.NOT_FOUND).send(err.message));
   };
 });
 

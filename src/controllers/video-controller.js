@@ -242,7 +242,7 @@ controller.post('/upload', (req, res) => {
 
     videoService
       .addVideo(videoObj)
-      .then(res.sendStatus(status.OK))
+      .then(id => res.sendStatus(status.OK).send({'id': id, 'uuid': uuid}))
       .catch(err => res.status(status.NOT_FOUND).send(err.message));
   };
 });

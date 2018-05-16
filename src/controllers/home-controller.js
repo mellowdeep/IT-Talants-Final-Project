@@ -16,7 +16,7 @@ const tags = ['muisc', 'news', 'trailers', 'animation'];
 // });
 
  // return obj with tag : array of videos
-controller.get('/', (req, res) => {
+controller.get('/main', (req, res) => {
   const videoObj = {};
   let index = 0;
   const user = req.user;

@@ -9,8 +9,8 @@
   // --------------------------------------------------
 
   const bindings = { user: '<' };
-  const injection = ['authService', '$window', 'Upload'];
-  function controller(authService, $window, Upload) {
+  const injection = ['authService', '$window', 'Upload', '$http'];
+  function controller(authService, $window, Upload, $http) {
     console.log(`${moduleName} started`);
     const vm = this;
     vm.SELECT_FILE = 'SELECT_FILE';
@@ -23,34 +23,15 @@
       set file(v) {
         console.log('watcher event', v);
         this._file = v;
-        // $scope.aplly(() => {
         vm.pageStatus = vm.EDIT_FILE;
-        vm.upload();
-        // });
       },
       _file: null,
     };
 
-    vm.upload = () => {
-      const formData = new FormData();
-      console.log('file name to upload', vm.uploadFile.file.name);
-      formData.append('uploads[]', vm.uploadFile.file, 'test video');
-      formData.append('name', 'local');
-      formData.append('about', ' This is test video ');
-      formData.append('tag', 'music');
-      formData.append('status', 'public');
-      return Upload.upload({
-        url: '/upload',
-        data: formData,
-        headers: new Headers({ processData: false, contentType: false }),
-      }).then(res => console.log(res));
-
-      //  LOGIN watcher
+    const loginWatcher = user => {
+      // eslint-disable-next-line
+      if (user.auth === false) $window.location.href = '#/';
     };
-  }
-  const loginWatcher = user => {
-    // eslint-disable-next-line
-    if (user.auth === false) $window.location.href = '#/';
 
     vm.$onInit = () => {
       authService.digest(loginWatcher);
@@ -59,7 +40,7 @@
     vm.$onDestroy = () => {
       authService.removeDigest(loginWatcher);
     };
-  };
+  }
 
   // --------------------------------------------------
   // LOAD component

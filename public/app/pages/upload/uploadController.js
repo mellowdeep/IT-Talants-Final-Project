@@ -16,7 +16,7 @@
     vm.SELECT_FILE = 'SELECT_FILE';
     vm.EDIT_FILE = 'EDIT_FILE';
     vm.pageStatus = vm.SELECT_FILE;
-    vm.file = {
+    vm.uploadFile = {
       get file() {
         return this._file;
       },
@@ -33,7 +33,8 @@
 
     vm.upload = () => {
       const formData = new FormData();
-      formData.append('uploads[]', vm.file, vm.file.name);
+      console.log('file name to upload', vm.uploadFile.file.name);
+      formData.append('uploads[]', vm.uploadFile.file, 'test video');
       formData.append('name', 'local');
       formData.append('about', ' This is test video ');
       formData.append('tag', 'music');
@@ -41,6 +42,7 @@
       return Upload.upload({
         url: '/upload',
         data: formData,
+        headers: new Headers({ processData: false, contentType: false }),
       }).then(res => console.log(res));
 
       //  LOGIN watcher

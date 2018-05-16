@@ -101,8 +101,6 @@ controller.post('/upload', (req, res) => {
   // store all uploads in the /uploads directory
   form.uploadDir = path.join(__dirname, '../../public/upload');
 
-  // every time a file has been uploaded successfully,
-  // rename it to it's orignal name
   form.on('file', (field, newFile) => {
     file = newFile;
   });

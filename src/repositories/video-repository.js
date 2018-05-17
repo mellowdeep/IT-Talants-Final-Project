@@ -30,14 +30,13 @@ const query = {
   },
   saveVideo(videoObj) {
     return db.insertObj(
-      'INSERT INTO videos(name, about, video, image, visibility, ' +
+      'INSERT INTO videos(name, about, image, visibility, ' +
                           'post_date, tag, uuid, user_id, ' +
                           'low_quality, high_quality, status, duration) ' +
-        'VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        'VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
       [
         videoObj.name,
         videoObj.about,
-        videoObj.video,
         videoObj.image,
         videoObj.visibility,
         videoObj.postDate,

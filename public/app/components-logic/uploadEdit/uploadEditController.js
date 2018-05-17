@@ -13,9 +13,9 @@
   function controller(Upload, $window) {
     this.videoAbout = 'about';
     // ('Lorem, ipsum dolor sit amet consectetur adipisicing elit');
-    this.videoTitle = 'Title asdfasdf';
+    this.videoTitle = 'Title';
     // form
-    this.fileSize = '130 MB';
+    this.fileSize = '';
     this.percentComplete = 0;
     this.isPrivate = 0;
     this.tags = ['music', 'nature', 'news'];
@@ -32,7 +32,7 @@
         name: this.videoTitle,
         about: this.videoAbout,
         tag: this.tag,
-        status: this.isPrivate,
+        visibility: this.isPrivate,
       };
 
       return Upload.upload({
@@ -41,9 +41,9 @@
         data,
       }).then(
         res => {
-          console.log('1', res.data);
+          console.log('1', res.data, res);
           // eslint-disable-next-line
-          if (res.status === 200) $window.location.href = '#/';
+          // if (res.status === 200) $window.location.href = '#/';
         },
         null,
         evt => {

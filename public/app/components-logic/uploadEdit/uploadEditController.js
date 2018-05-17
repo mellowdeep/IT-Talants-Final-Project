@@ -14,6 +14,7 @@
     this.videoAbout = 'about';
     // ('Lorem, ipsum dolor sit amet consectetur adipisicing elit');
     this.videoTitle = 'Title';
+    this.buttonEnable = false;
     // form
     this.fileSize = '';
     this.percentComplete = 0;
@@ -34,7 +35,7 @@
         tag: this.tag,
         visibility: this.isPrivate,
       };
-
+      this.buttonEnable = true;
       return Upload.upload({
         url: '/upload',
         method: 'POST',

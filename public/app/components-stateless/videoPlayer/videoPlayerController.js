@@ -38,17 +38,10 @@
       // console.log('after promise');
 
       // console.log(source.attributes);
-      this.video.attributes.poster.value = `/upload/thumbnails/${
-        this.watchVideo.image
-      }`;
-      if (this.currentStateResolution === 'HD')
-        this.source.attributes.src.value = `/upload/high/${
-          this.watchVideo.video
-        }`;
-      else
-        this.source.attributes.src.value = `/upload/low/${
-          this.watchVideo.video
-        }`;
+      this.video.attributes.poster.value = this.watchVideo.image;
+      if (this.currentStateResolution === 'HD' && this.watchVideo.high_quality)
+        this.source.attributes.src.value = this.watchVideo.high_quality;
+      else this.source.attributes.src.value = this.watchVideo.low_quality;
     };
 
     this.$postLink = () => {

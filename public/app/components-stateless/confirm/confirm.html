@@ -7,11 +7,12 @@
           ng-click="$ctrl.accept(false)">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel">Are you sure?</h4>
+        <h4 class="modal-title" id="myModalLabel">{{ $ctrl.modalParams.text || 'Are you sure?' }}</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" id="modal-btn-si" ng-click="$ctrl.accept(true)">Yes</button>
-        <button type="button" class="btn btn-primary" id="modal-btn-no" ng-click="$ctrl.accept(false)">No</button>
+        <button type="button" class="btn btn-default" ng-click="$ctrl.accept(true)">Yes</button>
+        <button ng-if="!$ctrl.modalParams.hideNo" type="button" class="btn btn-primary"
+          ng-click="$ctrl.accept(false)">No</button>
       </div>
     </div>
   </div>

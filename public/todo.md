@@ -26,3 +26,8 @@ fetch('/login')
   .then(res => res.text())
   .then(res => console.log(res));
 ```
+
+```html
+ <img ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
+                alt="avatar" style="width:50px" />
+```

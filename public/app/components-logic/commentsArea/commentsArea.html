@@ -1,0 +1,51 @@
+<confirm modal-params="$ctrl.modalParams"></confirm>
+<div class="reply-comment">
+  <div class="rc-header">
+    <i class="cv cvicon-cv-comment"></i>
+    <span class="semibold">236</span> Comments</div>
+  <div class="rc-ava">
+    <a href="#">
+      <img src="images/ava5.png" alt="">
+    </a>
+  </div>
+  <div class="rc-comment">
+    <form ng-submit="$ctrl.userSubmitComment()">
+      <textarea rows="3" ng-model="$ctrl.inputByUser"></textarea>
+      <button type="submit">
+        <i class="cv cvicon-cv-add-comment"></i>
+      </button>
+    </form>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="comments-list">
+  <div class="cl-header">
+    <div class="c-nav">
+      <ul class="list-inline">
+        <li>
+          <a href="#" class="active">Popular Comments</a>
+        </li>
+        <li>
+          <a href="#">Newest Comments</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- comment -->
+
+  <comment class="cl-comment" ng-repeat="comment in $ctrl.commentsToVideo"
+    comment-params="comment"></comment>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="loadmore-comments">
+        <form action="#" method="post">
+          <button class="btn btn-default h-btn">Load more Comments</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

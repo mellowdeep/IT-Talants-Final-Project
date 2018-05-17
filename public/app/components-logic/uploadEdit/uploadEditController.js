@@ -41,9 +41,11 @@
         data,
       }).then(
         res => {
-          console.log('1', res.data, res);
-          // eslint-disable-next-line
-          // if (res.status === 200) $window.location.href = '#/';
+          console.log('#/video?uuid=${res.data.uuid}', res);
+          if (res.status === 200 && res.data.uuid)
+            // eslint-disable-next-line
+            $window.location.href = `#/video?uuid=${res.data.uuid}`;
+          // #/video?uuid=DtxGPq0e
         },
         null,
         evt => {

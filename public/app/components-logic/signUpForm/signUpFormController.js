@@ -8,8 +8,8 @@
   // START MODULE
   // --------------------------------------------------
 
-  const injection = ['authService'];
-  function controller(authService) {
+  const injection = ['authService', '$window'];
+  function controller(authService, $window) {
     console.log(`${moduleName} started`);
 
     this.name = '';
@@ -28,7 +28,9 @@
           password1,
           password2,
         })
-        .then(res => console.log(res))
+        .then(res => {
+          $window.location.href = '#/login';
+        })
         .catch(e => {
           console.log(e.data);
           this.error = e.data.map(({ msg }) => msg);

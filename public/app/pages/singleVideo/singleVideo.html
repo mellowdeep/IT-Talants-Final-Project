@@ -1,0 +1,214 @@
+<div class="single-video dark">
+  <logo-menu user="$ctrl.user"></logo-menu>
+
+  <go-to></go-to>
+  <content-wrapper>
+
+
+    <div class="col-lg-8 col-xs-12 col-sm-12">
+
+      <div class="sv-video">
+        <video poster="images/single-video.png" style="width:100%;height:100%;"
+          controls="controls" width="100%" height="100%">
+          <source src="videos/video-1.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></source>
+        </video>
+      </div>
+      <h1>
+        <a href="#">Analyzing the Mass Effect: Andromeda E3 2016 Trailer</a>
+      </h1>
+      <div class="author">
+        <a href="#">
+          <img src="images/channel-user.png" alt="" class="sv-avatar">
+        </a>
+        <div class="sv-name">
+          <div>
+            <a href="#">NaughtyDog</a> . 52 Videos</div>
+          <div class="c-sub">
+            <div class="c-f">
+              Subscribe
+            </div>
+            <div class="c-s">
+              22,548,145
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="sv-views">
+          <div class="sv-views-count">
+            2,729,347 views
+          </div>
+          <div class="sv-views-progress">
+            <div class="sv-views-progress-bar"></div>
+          </div>
+          <div class="sv-views-stats">
+            <span class="percent">95%</span>
+            <span class="green">
+              <span class="circle"></span> 39,852</span>
+            <span class="grey">
+              <span class="circle"></span> 852</span>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="info">
+        <h4>Cast:</h4>
+        <p>Nathan Drake , Victor Sullivan , Sam Drake , Elena Fisher</p>
+
+        <h4>About :</h4>
+        <p>Three years after the events of Uncharted 3: Drake's Deception,
+          Nathan Drake, now retired as a fortune hunter, has settled into
+          a normal life with his wife Elena Fisher. His world is then turned
+          upside down when his older brother Sam, long believed to be dead,
+          suddenly reappears seeking Drake's help.</p>
+
+        <h4>Tag :</h4>
+        <p class="sv-tags">
+          <span>
+            <a href="#">game</a>
+          </span>
+        </p>
+
+        <div class="row date-lic">
+          <div class="col-lg-6">
+            <h4>Release Date:</h4>
+            <p>2 Days ago</p>
+          </div>
+          <div class="col-lg-6 ta-r">
+            <h4>Rights:</h4>
+            <p>Public</p>
+          </div>
+        </div>
+
+        <!-- <div class="showless">
+          <a href="#">Show Less</a>
+        </div> -->
+
+        <div class="adblock2">
+          <div class="img">
+            Google AdSense
+            <br> 728 x 90
+          </div>
+        </div>
+
+
+
+        <!-- comments -->
+        <div class="comments">
+          <div class="reply-comment">
+            <div class="rc-header">
+              <i class="cv cvicon-cv-comment"></i>
+              <span class="semibold">236</span> Comments</div>
+            <div class="rc-ava">
+              <a href="#">
+                <img src="images/ava5.png" alt="">
+              </a>
+            </div>
+            <div class="rc-comment">
+              <form ng-submit="$ctrl.userSubmitComment()">
+                <textarea rows="3" ng-model="$ctrl.inputByUser"></textarea>
+                <button type="submit">
+                  <i class="cv cvicon-cv-add-comment"></i>
+                </button>
+              </form>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="comments-list">
+
+            <div class="cl-header">
+              <div class="c-nav">
+                <ul class="list-inline">
+                  <li>
+                    <a href="#" class="active">Popular Comments</a>
+                  </li>
+                  <li>
+                    <a href="#">Newest Comments</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- comment -->
+
+            <comment class="cl-comment" ng-repeat="comment in $ctrl.commentsToVideo"
+              comment-params="comment"></comment>
+
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="loadmore-comments">
+                  <form action="#" method="post">
+                    <button class="btn btn-default h-btn">Load more Comments</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- END comments -->
+      </div>
+    </div>
+
+    <!-- right column -->
+    <div class="col-lg-4 col-xs-12 col-sm-12">
+
+      <!-- up next -->
+      <div class="caption">
+        <div class="left">
+          <a href="#">Up Next</a>
+        </div>
+        <!-- <div class="right">
+          <a href="#">Autoplay
+            <i class="cv cvicon-cv-btn-off"></i>
+          </a>
+        </div> -->
+        <div class="clearfix"></div>
+      </div>
+
+
+      <div class="list">
+        <recommended-videos class="h-video row" ng-repeat="video in $ctrl.channelVideos"
+          video-params="video">
+        </recommended-videos>
+      </div>
+      <!-- END up next -->
+
+      <!-- google ads -->
+      <div class="adblock">
+        <div class="img">
+          Google AdSense
+          <br> 336 x 280
+        </div>
+      </div>
+      <!-- google ads -->
+
+
+      <!-- Recomended Videos -->
+      <div class="caption">
+        <div class="left">
+          <a href="#">Recomended Videos</a>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+
+      <div class="list">
+        <recommended-videos ng-repeat="video in $ctrl.recommendedVideos" video-params="video"
+          class="h-video row">
+        </recommended-videos>
+      </div>
+      <!-- END Recomended Videos -->
+
+      <!-- load more -->
+      <div class="loadmore">
+        <a href="#">Show more videos</a>
+      </div>
+    </div>
+
+
+
+  </content-wrapper>
+  <row-footer></row-footer>
+</div>

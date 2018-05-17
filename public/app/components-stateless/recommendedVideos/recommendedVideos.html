@@ -1,0 +1,19 @@
+<div class="col-lg-6 col-sm-6">
+  <div class="v-img">
+    <a href="{{ $ctrl.videoParams.href }}">
+      <img data-ng-src="{{$ctrl.videoParams.image}}" alt="">
+    </a>
+    <div class="time">{{ $ctrl.videoParams.duration }}</div>
+  </div>
+</div>
+<div class="col-lg-6 col-sm-6">
+  <div class="v-desc">
+    <a href="{{ $ctrl.videoParams.href }}">{{ $ctrl.videoParams.title }}</a>
+  </div>
+  <div class="v-views">
+    {{ $ctrl.videoParams.viewCount }} views
+  </div>
+  <div class="v-percent">
+    <span class="v-circle"></span>{{ $ctrl.videoParams.percent }} </div>
+</div>
+<div class="clearfix"></div>

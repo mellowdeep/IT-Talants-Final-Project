@@ -162,9 +162,9 @@ controller.post('/upload', (req, res) => {
   const converFile = (uuid, file) => {
     const ref = file.type.split('/').shift();
     const type = file.type.split('/').pop();
-          newName = `${uuid}.${type}`;
-    const lowQualityPath = path.join(form.uploadDir, 'low/', newName);
-    const highQualityPath = path.join(form.uploadDir, 'high/', newName);
+          newName = `${uuid}`;
+    const lowQualityPath = path.join(form.uploadDir, 'low/', `${newName}.${type}`);
+    const highQualityPath = path.join(form.uploadDir, 'high/', `${newName}.${type}`);
     const imagePath = path.join(form.uploadDir, 'thumbnails/');
 
     if (ref.toLowerCase() !== VIDEO) {
@@ -227,7 +227,7 @@ controller.post('/upload', (req, res) => {
         checkVideos();
       });
 
-    videoObj[ref] = newName;
+    videoObj[ref] = `${newName}.${type}`;
     videoObj.image = `${newName}.png`;
   };
 
@@ -242,7 +242,7 @@ controller.post('/upload', (req, res) => {
 
     videoService
       .addVideo(videoObj)
-      .then(id => res.status(status.OK).send({'id': id, 'uuid': uuid}))
+      .then(id => res.status(status.OK).send({'id': id, 'uuid': newName}))
       .catch(err => res.status(status.NOT_FOUND).send(err.message));
   };
 });

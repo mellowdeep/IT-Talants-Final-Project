@@ -1,12 +1,14 @@
 <logo-menu user="$ctrl.user"></logo-menu>
 <go-to></go-to>
 <content-wrapper>
-  <channel-update></channel-update>
-  <row-videos user="$ctrl.user" head-title="News"></row-videos>
-  <row-videos user="$ctrl.user" head-title="Animations"></row-videos>
-  <row-videos user="$ctrl.user" head-title="Topics"></row-videos>
-  <row-playlists user="$ctrl.user"></row-playlists>
-  <row-channels user="$ctrl.user"></row-channels>
-  <!-- <pagination></pagination> -->
+  <div class="col-lg-12">
+    <channel-update></channel-update>
+    <row-videos user="$ctrl.user" head-title="News"></row-videos>
+    <row-videos user="$ctrl.user" head-title="Animations"></row-videos>
+    <row-videos user="$ctrl.user" head-title="Topics"></row-videos>
+    <row-playlists user="$ctrl.user"></row-playlists>
+    <row-channels user="$ctrl.user"></row-channels>
+    <!-- <pagination></pagination> -->
+  </div>
 </content-wrapper>
 <row-footer></row-footer>

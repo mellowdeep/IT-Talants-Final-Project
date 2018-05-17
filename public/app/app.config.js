@@ -13,6 +13,9 @@ angular.module('app').config([
         template: '<login></login>',
         controller: 'preSignUp as vm',
       })
+      .when('/video', {
+        template: '<single-video></single-video>',
+      })
       .when('/signup', {
         template: '<sign-up></sign-up>',
         controller: 'preSignUp as vm',

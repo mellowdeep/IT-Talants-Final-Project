@@ -1,0 +1,60 @@
+<!-- 
+  $ctrl.commentParams.userName
+  $ctrl.commentParams.userImage
+  $ctrl.commentParams.userRef
+  $ctrl.commentParams.text
+  $ctrl.commentParams.dateAgo
+  $ctrl.commentParams.countLikes
+  $ctrl.commentParams.countDislikes
+
+ -->
+
+<div class="cl-comment">
+  <div class="cl-avatar">
+    <a href="#">
+      <img src="images/ava8.png" alt="">
+    </a>
+  </div>
+  <div class="cl-comment-text">
+    <div class="cl-name-date">
+      <a href="{{ $ctrl.commentParams.userRef }}"> {{$ctrl.commentParams.userName}}</a> . 1 week ago</div>
+    <div class="cl-text">{{ $ctrl.commentParams.text }}</div>
+    <div class="cl-meta">
+      <span class="green">
+        <span class="circle"></span> {{$ctrl.commentParams.countLikes}}</span>
+      <span class="grey">
+        <span class="circle"></span> {{$ctrl.commentParams.countDislikes}}</span>
+      <!-- <a href="#">Like</a>
+      <a href="#">Dislike</a> -->
+
+
+    </div>
+    <!-- <div class="cl-replies">
+      <a href="#">View all 5 replies
+        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+      </a>
+    </div> -->
+    <div class="cl-flag">
+      <a href="#">
+        <i class="fa fa-thumbs-o-up"></i>
+      </a>
+      <a href="#">
+        <i class="fa fa-thumbs-o-down"></i>
+      </a>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+
+<!-- reply comment -->
+<!-- <div class="cl-comment-reply">
+                                <div class="cl-avatar"><a href="#"><img src="images/ava7.png" alt=""></a></div>
+                                <div class="cl-comment-text">
+                                    <div class="cl-name-date"><a href="#">kingPIN</a> . 6 days ago</div>
+                                    <div class="cl-text"> I was stuck too. then I started to shoot everything in Doom.</div>
+                                    <div class="cl-meta"><span class="green"><span class="circle"></span> 70</span> <span class="grey"><span class="circle"></span> 9</span> . <a href="#">Reply</a></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div> -->
+<!-- END reply comment -->

@@ -16,11 +16,12 @@
     this.videoTitle = 'Title asdfasdf';
     // form
     this.fileSize = '130 MB';
-    this.percentComplete = 10;
+    this.percentComplete = 0;
     this.isPrivate = 0;
     this.tags = ['music', 'nature', 'news'];
     // from
     this.cancelButton = () => {
+      // eslint-disable-next-line
       $window.location.href = '#/';
       // console.log('cancel button');
     };
@@ -39,8 +40,10 @@
         method: 'POST',
         data,
       }).then(
-        resp => {
-          // $window.location.href = '#/';
+        res => {
+          console.log('1', res.data);
+          // eslint-disable-next-line
+          if (res.status === 200) $window.location.href = '#/';
         },
         null,
         evt => {
@@ -58,5 +61,4 @@
     bindings,
   });
   // END module
-  // eslint-disable-next-line
 })();

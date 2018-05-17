@@ -14,8 +14,6 @@ const NO_USER = 0;
 const LIKE = 1;
 const DISLIKE = 0;
 const VIDEO = 'video';
-const TRUE = 1;
-const FALSE = 0;
 
 const controller = express.Router();
 
@@ -163,9 +161,13 @@ controller.post('/upload', (req, res) => {
     const ref = file.type.split('/').shift();
     const type = file.type.split('/').pop();
           newName = `${uuid}`;
-    const lowQualityPath = path.join(form.uploadDir, 'low/', `${newName}.${type}`);
-    const highQualityPath = path.join(form.uploadDir, 'high/', `${newName}.${type}`);
+    const nameAndType = `${newName}.${type}`;
+    const lowQualitySavePath = path.join(form.uploadDir, 'low/', nameAndType);
+    const lowQualityShowPath = `/upload/low/${nameAndType}`;
+    const highQualitySavePath = path.join(form.uploadDir, 'high/', nameAndType);
+    const highQualityShowPath = `/upload/high/${nameAndType}`;
     const imagePath = path.join(form.uploadDir, 'thumbnails/');
+    const imageShowPath =  `/upload/thumbnails/${newName}.png`;
 
     if (ref.toLowerCase() !== VIDEO) {
       res.status(status.BAD_REQUEST).send('Unsupported video format');
@@ -200,35 +202,32 @@ controller.post('/upload', (req, res) => {
     command
       .clone()
       .size('512x288')
-      .save(lowQualityPath)
+      .save(lowQualitySavePath)
       .on('error', (err) => {
-        removeFile(lowQualityPath);
-        videoObj.low = FALSE;
+        removeFile(lowQualitySavePath);
         checkVideos();
         console.log(`An error occurred: ${  err.message}`);
       })
       .on('end', () => {
-        videoObj.low = TRUE;
+        videoObj.low = lowQualityShowPath;
         checkVideos();
       });
 
     command
       .clone()
       .size('896x504')
-      .save(highQualityPath)
+      .save(highQualitySavePath)
       .on('error', (err) => {
-        videoObj.high = FALSE;
-        removeFile(highQualityPath);
+        removeFile(highQualitySavePath);
         checkVideos();
         console.log(`An error occurred: ${  err.message}`);
       })
       .on('end', () => {
-        videoObj.high = TRUE;
+        videoObj.high = highQualityShowPath;
         checkVideos();
       });
 
-    videoObj[ref] = `${newName}.${type}`;
-    videoObj.image = `${newName}.png`;
+    videoObj.image = imageShowPath;
   };
 
   const sendVideoToDB = () => {

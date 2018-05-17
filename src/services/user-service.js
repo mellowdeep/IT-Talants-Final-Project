@@ -40,6 +40,13 @@ const userFunction = {
         if (user) if (user) return mappUser(user);
         return user;
       }),
+  getUserInfo: (userId) =>
+    repository.findById(userId)
+      .then(user => {
+        if(user) return user.id;
+        throw new Error('User not found');
+      })
+      .then(id => repository.findAvailableInfo(id)),
 };
 
 module.exports = userFunction;

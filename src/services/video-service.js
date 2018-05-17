@@ -91,7 +91,7 @@ const videoFunction = {
         if(user) return user.id;
         throw new Error('User not found');
       })
-      .then(repository.findAllByUserId(userId,status))
+      .then(id => repository.findAllByUserId(id,status))
       .then(videos => videos)
 };
 

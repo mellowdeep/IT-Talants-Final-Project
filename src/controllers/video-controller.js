@@ -17,11 +17,6 @@ const VIDEO = 'video';
 
 const controller = express.Router();
 
-controller.get('/:userId/videos', (req,res) => {
-  videoService.getVideosByUserId(req.params.userId, "private")
-    .then(videos => res.status(status.OK).send(videos))
-    .catch(err => res.status(status.NOT_FOUND).send(err.message))
-});
 
 controller.get('/videos', (req,res) => {
   const userId = req.user ? req.user.id : 0;
@@ -30,7 +25,7 @@ controller.get('/videos', (req,res) => {
     .catch(err => res.status(status.NOT_FOUND).send(err.message))
 });
 
-controller.get('/:uuid', (req, res) => {
+controller.get('/video/:uuid', (req, res) => {
   /* user_id
     name:
     play_count

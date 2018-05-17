@@ -14,7 +14,9 @@ angular.module('app').config([
         controller: 'preSignUp as vm',
       })
       .when('/video', {
-        template: '<single-video></single-video>',
+        template:
+          '<single-video user="vm.user" watch-video="vm.video"></single-video>',
+        controller: 'preVideo as vm',
       })
       .when('/signup', {
         template: '<sign-up></sign-up>',
@@ -30,6 +32,9 @@ angular.module('app').config([
       .when('/test', {
         template: '<h1>h to test</h1>',
       })
-      .otherwise('/');
+      .when('/404', {
+        template: '<page404>h to test</page404>',
+      })
+      .otherwise('/404');
   },
 ]);

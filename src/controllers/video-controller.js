@@ -190,7 +190,7 @@ controller.post('/upload', (req, res) => {
     );
 
     const command = ffmpeg(path.join(file.path))
-      .audioCodec('ac3')
+      .audioCodec('aac')
       .videoCodec('libx264')
       .format('mp4');
 

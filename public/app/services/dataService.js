@@ -4,6 +4,6 @@ angular.module('app').factory('dataService', function($http) {
   };
 
   function getVideo(uuid) {
-    return $http.get(`/${uuid}`).then(res => res.data);
+    return $http.get(`/video/${uuid}`).then(res => res.data);
   }
 });

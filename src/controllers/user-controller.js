@@ -8,7 +8,7 @@ const controller = express.Router();
 
 
 controller.get('/user/:userId', (req, res) => {
-  userService.getUserInfo(req.param.userId)
+  userService.getUserInfo(req.params.userId)
     .then(userInfo => res.status(status.OK).send(userInfo))
     .catch(err => res.status(status.NOT_FOUND).send(err.message))
 });

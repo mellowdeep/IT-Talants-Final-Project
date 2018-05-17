@@ -22,7 +22,7 @@
     };
 
     this.playPause = () => {
-      console.log(this);
+      console.log(this.video.muted);
       if (this.video) {
         if (this.video.paused) {
           this.video.play();

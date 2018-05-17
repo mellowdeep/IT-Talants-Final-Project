@@ -20,7 +20,17 @@
         $window.location.href = '#/';
         return;
       }
-      const watchVideo = await dataService.getVideo(search.uuid);
+      let watchVideo;
+      try {
+        watchVideo = await dataService.getVideo(search.uuid);
+      } catch (e) {
+        if (e.status === 404) {
+          console.log('not found video');
+          $window.location.href = '#/404';
+          return;
+        }
+        throw e;
+      }
       Object.assign(vm.watchVideo, watchVideo);
       if (!vm.watchVideo) {
         // eslint-disable-next-line

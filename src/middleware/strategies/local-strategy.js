@@ -27,6 +27,6 @@ module.exports = () => {
           delete user.password;
           return done(null, user);
         })
-        .catch(err => done(err))
+        .catch(err => console.log(err))
   ));
 };

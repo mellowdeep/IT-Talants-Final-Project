@@ -1,10 +1,11 @@
 const db = require('../config/db');
 
 const query = {
-  findByTag (tag) {
+  findByTag(tag) {
     return db.getMultipleResult(
-      "SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ? LIMIT 10", [tag, 'public']
-    )
+      'SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ? LIMIT 10',
+      [tag, 'public'],
+    );
   },
   updateVideo(name, about, tag, visibility, status, likes, videoId) {
     return db.updateObj(
@@ -13,24 +14,26 @@ const query = {
     );
   },
   getVideoById(id) {
-    return db.getSingleResult(
-      "SELECT * FROM videos AS v WHERE v.id = ?", id
-    );
+    return db.getSingleResult('SELECT * FROM videos AS v WHERE v.id = ?', id);
   },
   increaseCounter(videoId, playCount) {
-    return db.updateObj(
-      "UPDATE videos SET play_count = ? WHERE id = ?", [playCount, videoId]
-    )
+    return db.updateObj('UPDATE videos SET play_count = ? WHERE id = ?', [
+      playCount,
+      videoId,
+    ]);
   },
   findByUUID(uuid) {
     return db.getSingleResult(
-      "SELECT * FROM videos AS v WHERE v.uuid = ?", uuid
-    )
+      'SELECT * FROM videos AS v WHERE v.uuid = ?',
+      uuid,
+    );
   },
   saveVideo(videoObj) {
     return db.insertObj(
-      'INSERT INTO videos(name, about, video, image, visibility, post_date, tag, uuid, user_id) ' +
-        'VALUES(?,?,?,?,?,?,?,?,?)',
+      'INSERT INTO videos(name, about, video, image, visibility, ' +
+                          'post_date, tag, uuid, user_id, ' +
+                          'low_quality, high_quality, status, duration) ' +
+        'VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
       [
         videoObj.name,
         videoObj.about,
@@ -41,32 +44,40 @@ const query = {
         videoObj.tag,
         videoObj.uuid,
         videoObj.userId,
+        videoObj.low,
+        videoObj.high,
+        videoObj.status,
+        videoObj.duration
       ],
     );
   },
   deleteVideo(uuid, userId) {
     return db.deleteObj(
       'DELETE FROM videos AS v WHERE v.uuid = ? AND ' +
-      '(v.user_id = ? OR ' +
-      '(SELECT u.role FROM users as u WHERE u.id = ?) = admin)',
+        '(v.user_id = ? OR ' +
+        '(SELECT u.role FROM users as u WHERE u.id = ?) = admin)',
       [uuid, userId, userId],
     );
   },
   findByStatus(status) {
     return db.getMultipleResult(
-      "SELECT * FROM videos AS v WHERE v.status = ?", status
-    )
+      'SELECT * FROM videos AS v WHERE v.status = ?',
+      status,
+    );
   },
   findAllByUserId(userId, status) {
     return db.getMultipleResult(
-      "SELECT * FROM videos AS v WHERE v.user_id = ? AND v.status IS NOT ?", userId, status
-    )
+      'SELECT * FROM videos AS v WHERE v.user_id = ? AND v.status IS NOT ?',
+      userId,
+      status,
+    );
   },
   fallByMatchName(keyword) {
     return db.getMultipleResult(
-      "SELECT * FROM videos AS v WHERE v.name like %?%", keyword
-    )
-  }
+      'SELECT * FROM videos AS v WHERE v.name like %?%',
+      keyword,
+    );
+  },
 };
 
 module.exports = query;

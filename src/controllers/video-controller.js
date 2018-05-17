@@ -62,7 +62,7 @@ controller.get('/:uuid', (req, res) => {
       return video;
     })
     .then(video => videoService.increaseCounter(video))
-    .catch(err => res.status(status.NOT_FOUND).send(err));
+    .catch(err => console.log(err.message));
 });
 
 controller.delete('/delete/:uuid', (req, res) => {
@@ -176,7 +176,7 @@ controller.post('/upload', (req, res) => {
       const duration = metadata.streams[0].duration.toString().split('.');
       const min = (Number(duration.shift()) || 0) / 60;
       const sec = (Number(duration.pop()) || 0) / 60;
-      videoObj.duration = `${min.toFixed()}:${sec.toFixed()}`;
+      videoObj.duration = `${min.toFixed().slice(0,2)}:${sec.toFixed().slice(0,2)}`;
     });
 
     ffmpeg(path.join(file.path)).takeScreenshots(
@@ -223,12 +223,12 @@ controller.post('/upload', (req, res) => {
         console.log(`An error occurred: ${  err.message}`);
       })
       .on('end', () => {
-        checkVideos();
         videoObj.high = TRUE;
+        checkVideos();
       });
 
     videoObj[ref] = newName;
-    videoObj.image = `${ref}.png`;
+    videoObj.image = `${newName}.png`;
   };
 
   const sendVideoToDB = () => {
@@ -242,7 +242,7 @@ controller.post('/upload', (req, res) => {
 
     videoService
       .addVideo(videoObj)
-      .then(id => res.sendStatus(status.OK).send({'id': id, 'uuid': uuid}))
+      .then(id => res.status(status.OK).send({'id': id, 'uuid': uuid}))
       .catch(err => res.status(status.NOT_FOUND).send(err.message));
   };
 });

@@ -9,6 +9,10 @@ const videoService = require('../services/video-service');
 const recently = require('../services/recently-seen-service');
 const status = require('../config/status-code');
 
+const lowQualityShowPath = '/upload/low/';
+const highQualityShowPath = '/upload/high/';
+const imageShowPath = '/upload/thumbnails/';
+const tempShowPath = '/upload/';
 const PENDING = 'pending';
 const NO_USER = 0;
 const LIKE = 1;
@@ -17,31 +21,28 @@ const VIDEO = 'video';
 
 const controller = express.Router();
 
-
-controller.get('/videos', (req,res) => {
+controller.get('/videos', (req, res) => {
   const userId = req.user ? req.user.id : 0;
-  videoService.getVideosByUserId(userId, null)
+  videoService
+    .getVideosByUserId(userId, null)
     .then(videos => res.status(status.OK).send(videos))
-    .catch(err => res.status(status.NOT_FOUND).send(err.message))
+    .catch(err => res.status(status.NOT_FOUND).send(err.message));
+});
+
+controller.get('/videos/recentlyseen', (req, res) => {
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
+  recently
+    .getRecentlyVideos(loggedUser.id)
+    .then(videos => res.status(status.OK).send(videos))
+    .catch(err => res.status(status.BAD_REQUEST).send(err.message));
 });
 
 controller.get('/video/:uuid', (req, res) => {
-  /* user_id
-    name:
-    play_count
-    about
-    id
-    video
-    image
-    status
-    likes_count
-    post_date
-    low_quality
-    high_quality
-    tag
-    uuid
-    visibility - public/private */
-
   videoService
     .getOneByUUID(req.params.uuid)
     .then(video => {
@@ -76,8 +77,45 @@ controller.put('/:uuid/like/:isLike', (req, res) => {
 });
 
 controller.post('/upload', (req, res) => {
-  if(!req.user) {
-    res.status(status.UNAUTHORIZED).send("User not found");
+  if (!req.user) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
+  let file;
+  const form = new formidable.IncomingForm();
+  form.multiples = true;
+  form.uploadDir = path.join(__dirname, '../../public/upload');
+  form.on('file', (field, newFile) => {
+    file = newFile;
+  });
+
+  form.on('error', err => {
+    console.log(`An error has occured: \n${err}`);
+  });
+
+  form.on('end', () => {
+    if (!file) {
+      res.status(status.BAD_REQUEST).sendDate('File not found');
+      return;
+    }
+
+    if (file.type.split('/').toLowerCase() !== VIDEO) {
+      res.status(status.BAD_REQUEST).send('Unsupported video format');
+      return;
+    }
+
+    const fileName = file.path.split('\\').pop();
+    req.session.videoFile = file;
+    res.status(status.OK).send(tempShowPath + fileName);
+  });
+
+  form.parse(req);
+});
+
+controller.post('/upload/continue', (req, res) => {
+  if (!req.user) {
+    res.status(status.UNAUTHORIZED).send('User not found');
     return;
   }
 
@@ -87,34 +125,24 @@ controller.post('/upload', (req, res) => {
   let newName;
   let videoCounter = 0;
   const form = new formidable.IncomingForm();
-
-  // specify that we want to allow the user to upload multiple files in a single request
   form.multiples = true;
-
-  // store all uploads in the /uploads directory
   form.uploadDir = path.join(__dirname, '../../public/upload');
 
-  form.on('file', (field, newFile) => {
-    file = newFile;
-  });
-
-  // name - requeired; about - required ; visibility [public, private] required, tag - required
   form.on('field', (name, value) => {
     fields.push({ name, value });
   });
 
-  // log any errors that occur
   form.on('error', err => {
     console.log(`An error has occured: \n${err}`);
   });
 
-  // once all the files have been uploaded, send a response to the client
   form.on('end', () => {
-    if(!file) {
-      res.status(status.BAD_REQUEST).sendDate("File not found");
+    if (!req.session.videoFile) {
+      res.status(status.BAD_REQUEST).send('File not found');
       return;
     }
 
+    file = req.session.videoFile;
     getUniqueUUID(converFile);
   });
 
@@ -133,58 +161,50 @@ controller.post('/upload', (req, res) => {
           videoObj.uuid = uniqueId;
           callback(uniqueId, file);
         }
-      })
+      });
   };
 
-  const removeFile = (filePath) => {
+  const removeFile = filePath => {
     fs.unlink(filePath, err => {
-      if (err) console.log(err.message)
+      if (err) console.log(err.message);
     });
   };
-
 
   const checkVideos = () => {
     videoCounter++;
     if (videoCounter >= 2) {
-       removeFile(file.path);
-       sendVideoToDB();
+      removeFile(file.path);
+      sendVideoToDB();
     }
   };
 
-  // rename uploaded file with new name
   const converFile = (uuid, file) => {
-    const ref = file.type.split('/').shift();
+    const takeScreenshotTime = videoObj.durationScreenshot || 0;
     const type = file.type.split('/').pop();
-          newName = `${uuid}`;
+    newName = `${uuid}`;
     const nameAndType = `${newName}.${type}`;
     const lowQualitySavePath = path.join(form.uploadDir, 'low/', nameAndType);
-    const lowQualityShowPath = `/upload/low/${nameAndType}`;
     const highQualitySavePath = path.join(form.uploadDir, 'high/', nameAndType);
-    const highQualityShowPath = `/upload/high/${nameAndType}`;
-    const imagePath = path.join(form.uploadDir, 'thumbnails/');
-    const imageShowPath =  `/upload/thumbnails/${newName}.png`;
+    const imageSavePath = path.join(form.uploadDir, 'thumbnails/');
 
-    if (ref.toLowerCase() !== VIDEO) {
-      res.status(status.BAD_REQUEST).send('Unsupported video format');
-      return;
-    }
 
     ffmpeg.ffprobe(path.join(file.path), (err, metadata) => {
       const duration = metadata.streams[0].duration.toString().split('.');
       const min = (Number(duration.shift()) || 0) / 60;
       const sec = (Number(duration.pop()) || 0) / 60;
-      videoObj.duration = `${min.toFixed().slice(0,2)}:${sec.toFixed().slice(0,2)}`;
+      videoObj.duration = `${min.toFixed().slice(0, 2)}:${sec
+        .toFixed()
+        .slice(0, 2)}`;
     });
 
-    ffmpeg(path.join(file.path)).takeScreenshots(
-      {
+    ffmpeg(path.join(file.path)).takeScreenshots({
         count: 1,
         size: '200x200',
-        timemarks: ['5'],
+        timemarks: [takeScreenshotTime],
         filename: `${uuid}.png`,
       },
-      imagePath,
-      (err) => {
+      imageSavePath,
+      err => {
         if (err) console.log(err.message);
       },
     );
@@ -198,10 +218,10 @@ controller.post('/upload', (req, res) => {
       .clone()
       .size('512x288')
       .save(lowQualitySavePath)
-      .on('error', (err) => {
+      .on('error', err => {
         removeFile(lowQualitySavePath);
         checkVideos();
-        console.log(`An error occurred: ${  err.message}`);
+        console.log(`An error occurred: ${err.message}`);
       })
       .on('end', () => {
         videoObj.low = lowQualityShowPath;
@@ -212,10 +232,10 @@ controller.post('/upload', (req, res) => {
       .clone()
       .size('896x504')
       .save(highQualitySavePath)
-      .on('error', (err) => {
+      .on('error', err => {
         removeFile(highQualitySavePath);
         checkVideos();
-        console.log(`An error occurred: ${  err.message}`);
+        console.log(`An error occurred: ${err.message}`);
       })
       .on('end', () => {
         videoObj.high = highQualityShowPath;
@@ -236,7 +256,7 @@ controller.post('/upload', (req, res) => {
 
     videoService
       .addVideo(videoObj)
-      .then(id => res.status(status.OK).send({'id': id, 'uuid': newName}))
+      .then(id => res.status(status.OK).send({ id: id, uuid: newName }))
       .catch(err => res.status(status.NOT_FOUND).send(err.message));
   };
 });

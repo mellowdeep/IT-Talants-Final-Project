@@ -6,6 +6,7 @@ const path = require('path');
 const ffmpeg = require('../middleware/ffmpeg');
 const uuid = require('../middleware/uuid');
 const videoService = require('../services/video-service');
+const userVideoLikeService = require('../services/user-video-likes-service');
 const recently = require('../services/recently-seen-service');
 const status = require('../config/status-code');
 
@@ -17,6 +18,7 @@ const PENDING = 'pending';
 const ADD = 1;
 const REMOVE = 0;
 const VIDEO = 'video';
+const INIT_VALUE = 1;
 
 const controller = express.Router();
 
@@ -47,20 +49,30 @@ controller.get('/videos/recentlyseen', (req, res) => {
 });
 
 controller.get('/video/:uuid', (req, res) => {
+  const loggedUser = req.user;
   videoService
     .getOneByUUID(req.params.uuid)
     .then(video => {
-      if (req.user) {
-        const loggedUserId = req.user.id;
+      if (loggedUser) {
         const seenDate = new Date().toLocaleDateString();
-        recently.addVideo(video.id, loggedUserId, seenDate);
+        videoService.getVideoByIdAndUserRate(video.id, loggedUser.id)
+          .then(newVideoData => {
+            if(newVideoData) {
+              return newVideoData;
+            }
+
+            return video;
+          });
+        recently.addVideo(video.id, loggedUser.id, seenDate);
+      }else {
+        return video;
       }
 
-      res.send(video);
       return video;
     })
-    .then(video => videoService.increaseCounter(video))
-    .catch(err => res.status(status.NOT_FOUND).send(err.message));
+    .then(video => res.status(status.OK).send(video))
+    .then(video =>  videoService.increaseCounter(video))
+    .catch(err => console.log(err.message));
 });
 
 controller.delete('/delete/:uuid', (req, res) => {
@@ -84,16 +96,36 @@ controller.put('/:uuid/like/:isLike', (req, res) => {
   }
 
   let {isLike} = req.params;
-  if(isLike != true || isLike != false){
+  if(isLike !== true.toString() && isLike !== false.toString()){
     res.status(status.BAD_REQUEST).send("Invalid command");
     return;
   }
 
-  isLike = isLike == true ? ADD : REMOVE;
+  isLike = isLike === true.toString() ? ADD : REMOVE;
+  let videoId;
   videoService
-    .addRemoveLike(req.params.uuid, loggedUser.id, isLike)
-    .then(res.sendStatus(status.OK))
-    .catch(err => res.status(status.BAD_REQUEST).send(err.message));
+    .getOneByUUID(req.params.uuid)
+    .then(video => {
+      if (!video) {
+        throw new Error("Video not found");
+      }
+
+      videoId = video.id;
+      return videoService.addRemoveLike(video, loggedUser.id, isLike);
+    })
+    .then(() => userVideoLikeService.getLikeByVideoAndUser(loggedUser.id, videoId))
+    .then(like => {
+      if (like) {
+        isLike = isLike ? ADD : REMOVE;
+        return userVideoLikeService.updateRate(loggedUser.id, videoId, isLike, like.dislike_sign);
+      }
+      return userVideoLikeService.addRate(loggedUser.id, videoId, INIT_VALUE, 0);
+    })
+    .then(() => res.sendStatus(status.OK))
+    .catch(err => {
+      console.log(err.message);
+      res.sendStatus(status.NOT_FOUND)
+    });
 });
 
 controller.put('/:uuid/dislike/:isDislike', (req, res) => {
@@ -104,16 +136,38 @@ controller.put('/:uuid/dislike/:isDislike', (req, res) => {
   }
 
   let {isDislike} = req.params;
-  if(isDislike != true || isDislike != false){
+  if(isDislike !== true.toString() && isDislike !== false.toString()){
     res.status(status.BAD_REQUEST).send("Invalid command");
     return;
   }
 
-  isDislike = isDislike == true ? ADD : REMOVE;
+  isDislike = isDislike === true.toString() ? ADD : REMOVE;
+  let videoId;
   videoService
-    .addRemoveDislike(req.params.uuid, loggedUser.id, isDislike)
-    .then(res.sendStatus(status.OK))
-    .catch(err => res.status(status.BAD_REQUEST).send(err.message));
+    .getOneByUUID(req.params.uuid)
+    .then(video => {
+      if (!video) {
+        throw new Error("Video not found");
+      }
+
+      videoId = video.id;
+      return videoService.addRemoveDislike(video, loggedUser.id, isDislike);
+    })
+    .then(() => userVideoLikeService.getLikeByVideoAndUser(loggedUser.id, videoId))
+    .then(
+      like => {
+        if (like) {
+          isDislike = isDislike ? ADD : REMOVE;
+          return userVideoLikeService.updateRate(loggedUser.id, videoId, like.like_sign, isDislike);
+        }
+
+        return userVideoLikeService.addRate(loggedUser.id, videoId, 0, INIT_VALUE);
+      })
+    .then(() => res.sendStatus(status.OK))
+    .catch(err => {
+      console.log(err.message);
+      res.sendStatus(status.NOT_FOUND)
+    });
 });
 
 controller.post('/upload', (req, res) => {

@@ -16,6 +16,9 @@ const userVideoFunction = {
   getLikeByVideoAndUser: (userId, videoId) =>
     repository.findLike(userId, videoId)
       .then(like => like),
+  findVideoWithUserRate: (userId, videoId) =>
+    repository.findVideoWithUserRate(userId, videoId)
+      .then(like => like)
 };
 
 module.exports = userVideoFunction;

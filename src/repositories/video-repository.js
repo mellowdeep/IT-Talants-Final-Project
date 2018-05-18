@@ -11,7 +11,7 @@ const query = {
     return db.updateObj(
       'UPDATE videos SET ' +
       'name = ?, about = ?, tag = ?, ' +
-      'visibility = ?, status = ?, likes_count = ? ' +
+      'visibility = ?, status = ?, likes_count = ?, ' +
       'dislikes_count = ? ' +
       'WHERE id = ? ',
       [name, about, tag, visibility, status, likes, dislikesCount, videoId],

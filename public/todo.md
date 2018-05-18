@@ -31,3 +31,15 @@ fetch('/login')
  <img ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
                 alt="avatar" style="width:50px" />
 ```
+
+/user/:userid
+добави:
+image
+subscribe_count
+ако user кой пита за данни е логнат, има ли subscribe
+
+трябва api за subscribe и unsubscribe
+
+трябва api за notification from subscribe
+
+трябва api за recently watched

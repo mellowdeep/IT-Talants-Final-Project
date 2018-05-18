@@ -7,11 +7,18 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = { watchVideo: '=', type: '=' };
+  const bindings = { watchVideo: '=', type: '=', user: '=' };
   const injection = ['$element'];
   function controller($element) {
     console.log(`${moduleName} started`);
-
+    this.like = false;
+    this.dislike = false;
+    this.setLike = () => {
+      console.log('like');
+    };
+    this.setDislike = () => {
+      console.log('dislike');
+    };
     this.currentStateResolution = 'SD';
     this.changeResolution = resolution => {
       this.currentStateResolution = resolution;

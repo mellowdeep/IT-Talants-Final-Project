@@ -1,33 +1,33 @@
 <div class="author">
   <a href="#">
-    <img src="images/channel-user.png" alt="" class="sv-avatar">
+    <img data-ng-src="{{$ctrl.aboutAuthor.image || 'images/user-admin-ava.png'}}" alt="" class="sv-avatar">
   </a>
   <div class="sv-name">
     <div>
-      <a href="#">NaughtyDog</a> . 52 Videos</div>
+      <a href="#">{{ $ctrl.aboutAuthor.name }}</a> . {{ $ctrl.aboutAuthor.videos }} Videos</div>
     <div class="c-sub">
-      <div class="c-f">
+      <div class="c-f" style="cursor: pointer;" ng-click="$ctrl.subscribe()">
         Subscribe
       </div>
       <div class="c-s">
-        22,548,145
+        {{ $ctrl.aboutAuthor.subscribe_count || 0 }}
       </div>
       <div class="clearfix"></div>
     </div>
   </div>
   <div class="sv-views">
     <div class="sv-views-count">
-      2,729,347 views
+      {{ $ctrl.aboutAuthor.views }} views
     </div>
     <div class="sv-views-progress">
-      <div class="sv-views-progress-bar"></div>
+      <div class="sv-views-progress-bar" ng-style="{ 'width': $ctrl.aboutAuthor.percent+'%' }"></div>
     </div>
     <div class="sv-views-stats">
-      <span class="percent">95%</span>
+      <span class="percent"> {{ $ctrl.aboutAuthor.percent }} %</span>
       <span class="green">
-        <span class="circle"></span> 39,852</span>
+        <span class="circle"></span> {{ $ctrl.aboutAuthor.likes }}</span>
       <span class="grey">
-        <span class="circle"></span> 852</span>
+        <span class="circle"></span>{{ $ctrl.aboutAuthor.dislikes }} </span>
     </div>
   </div>
   <div class="clearfix"></div>

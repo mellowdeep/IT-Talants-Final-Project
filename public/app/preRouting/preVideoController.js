@@ -23,6 +23,7 @@
       let watchVideo;
       try {
         watchVideo = await dataService.getVideo(search.uuid);
+        // watchVideo.aboutAuthor = await
       } catch (e) {
         if (e.status === 404) {
           console.log('not found video');

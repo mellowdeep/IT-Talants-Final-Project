@@ -7,9 +7,40 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = {};
-  const injection = [];
-  function controller() {}
+  const bindings = { watchVideo: '=' };
+  const injection = ['dataService'];
+  function controller(dataService) {
+    this.aboutAuthor = {};
+
+    const updateData = async () => {
+      await this.watchVideo.promiseDataReady;
+      this.aboutAuthor = await dataService.aboutAuthor(this.watchVideo.user_id);
+      const sum = this.aboutAuthor.likes + this.aboutAuthor.dislikes;
+      if (sum)
+        this.aboutAuthor.percent = Math.floor(
+          this.aboutAuthor.likes * 100 / sum,
+        );
+      else this.aboutAuthor.percent = 0;
+      console.log(this.aboutAuthor);
+      // dislikes;
+      // id;
+      // likes;
+      // name;
+      // videos;
+      // views;
+      // ? image
+      // ? subscribes
+    };
+
+    this.subscribe = () => {
+      console.log('subscribe / unsubscribe');
+      updateData();
+    };
+
+    this.$onInit = async () => {
+      updateData();
+    };
+  }
 
   // --------------------------------------------------
   // LOAD component

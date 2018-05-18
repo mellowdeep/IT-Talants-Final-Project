@@ -2,7 +2,7 @@ const repository = require('../repositories/video-repository');
 const userVideoLikesService = require('../services/user-video-likes-service');
 const userService = require('../services/user-service');
 
-const LIKE = 1;
+const INIT_VALUE = 1;
 
 const videoFunction = {
   getOneByUUID: uuid =>
@@ -37,7 +37,6 @@ const videoFunction = {
         return repository.updateVideo(name, about, tag, visibility, status, likes, video.id)
       })
       .then(row => row),
-
   addRemoveLike: (uuid, userId, isLike) => {
     let videoId;
     return videoFunction
@@ -51,19 +50,50 @@ const videoFunction = {
           video.visibility,
           video.status,
           isLike ? ++video.likes_count : --video.likes_count,
+          video.dislikes_count,
           videoId,
         );
       })
       .then(rows => {
         if (rows) return rows;
-        throw new Error('Unable to like/unlike video');
+        throw new Error('Unable to rate video');
       })
       .then(() => userVideoLikesService.getLikeByVideoAndUser(userId, videoId))
       .then(
         like =>
           like
-            ? userVideoLikesService.updateLike(userId, videoId, isLike)
-            : userVideoLikesService.addLike(userId, videoId, LIKE),
+            ? userVideoLikesService.updateRate(userId, videoId, isLike, like.dislike_sign)
+            : userVideoLikesService.addRate(userId, videoId, INIT_VALUE, 0),
+      )
+      .then(id => id);
+  },
+  addRemoveDislike: (uuid, userId, isDislike) => {
+    let videoId;
+    return videoFunction
+      .getOneByUUID(uuid)
+      .then(video => {
+        videoId = video.id;
+        return repository.updateVideo(
+          video.name,
+          video.about,
+          video.tag,
+          video.visibility,
+          video.status,
+          video.likes_count,
+          isDislike ?  ++video.dislikes_count : --video.dislikes_count,
+          videoId,
+        );
+      })
+      .then(rows => {
+        if (rows) return rows;
+        throw new Error('Unable to rate video');
+      })
+      .then(() => userVideoLikesService.getLikeByVideoAndUser(userId, videoId))
+      .then(
+        like =>
+          like
+            ? userVideoLikesService.updateRate(userId, videoId, like.like_sign,  isDislike)
+            : userVideoLikesService.addRate(userId, videoId, 0, INIT_VALUE)
       )
       .then(id => id);
   },

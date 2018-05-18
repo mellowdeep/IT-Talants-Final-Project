@@ -1,16 +1,16 @@
 const db = require('../config/db');
 
 const query = {
-  addLike(userId, videoId, likeSign) {
+  addRate(userId, videoId, likeSign, dislikesSign) {
     return db.insertObj(
-      'INSERT INTO users_videos_likes(user_id, videos_id, like_sign) VALUES(?,?,?)',
-      [userId, videoId, likeSign],
+      'INSERT INTO users_videos_likes(user_id, videos_id, like_sign, dislikes_sign) VALUES(?,?,?,?)',
+      [userId, videoId, likeSign, dislikesSign],
     );
   },
-  updateLike(userId, videoId, likeSign) {
+  updateLike(userId, videoId, likeSign, dislikeSign) {
     return db.updateObj(
-      'UPDATE users_videos_likes set like_sign = ? WHERE user_id = ? AND videos_id = ?',
-      [likeSign, userId, videoId],
+      'UPDATE users_videos_likes set like_sign = ?, dislike_sign = ? WHERE user_id = ? AND videos_id = ?',
+      [likeSign, dislikeSign, userId, videoId],
     );
   },
   findLike(userId, videoId) {

@@ -8,7 +8,7 @@ const userCommentFunction = {
        throw new Error("Comment not found")
      }),
   updateLike: (userId, commentId, likeSign) =>
-    repository.updateLike(userId, commentId, likeSign)
+    repository.updateRate(userId, commentId, likeSign)
       .then(id => {
         if (id) return id;
         throw new Error("Comment not found")

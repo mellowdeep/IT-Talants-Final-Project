@@ -9,13 +9,15 @@
   // --------------------------------------------------
 
   const bindings = { user: '<' };
-  const injection = ['authService', '$window', 'Upload', '$http'];
-  function controller(authService, $window, Upload, $http) {
+  const injection = ['authService', '$window'];
+  function controller(authService, $window) {
     console.log(`${moduleName} started`);
     const vm = this;
     vm.SELECT_FILE = 'SELECT_FILE';
     vm.EDIT_FILE = 'EDIT_FILE';
     vm.pageStatus = vm.SELECT_FILE;
+
+    let ok;
     vm.uploadFile = {
       get file() {
         return this._file;
@@ -24,8 +26,10 @@
         console.log('watcher event', v);
         this._file = v;
         vm.pageStatus = vm.EDIT_FILE;
+        ok();
       },
       _file: null,
+      promise: new Promise(res => (ok = res)),
     };
 
     const loginWatcher = user => {

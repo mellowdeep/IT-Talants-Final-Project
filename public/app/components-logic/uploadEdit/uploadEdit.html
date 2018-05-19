@@ -1,4 +1,5 @@
 <div class="content-wrapper upload-page edit-page">
+
   <div class="container-fluid u-details-wrap">
     <div class="row">
       <div class="container">
@@ -6,96 +7,126 @@
           <div class="col-lg-12">
             <div class="u-details">
               <div class="row">
-                <div class="col-lg-12 ud-caption">Upload Details</div>
-                <div class="col-lg-2">
-                  <div class="imgplace"></div>
-                </div>
-                <div class="col-lg-10">
-                  <div class="u-title">{{ $ctrl.videoTitle }}</div>
-                  <div class="u-size">{{ $ctrl.fileSize }}</div>
-                  <div class="u-progress">
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-valuenow="35" aria-valuemin="0"
-                        aria-valuemax="100" ng-style="{ 'width': $ctrl.percentComplete+'%' }">
-                        <!-- style="width: 35%;" -->
-                        <span class="sr-only">{{ $ctrl.percentComplete }}% Complete</span>
+
+
+
+                <div class="col-lg-6">
+
+                  <div class="col-lg-12 ud-caption">Select screenshot</div>
+                  <div class="col-lg-12">
+                    <!-- <div class="imgplace"></div> -->
+                    <video>
+                      <source src="/upload/low/9FEio14R.mp4" type="video/mp4">
+                    </video>
+                  </div>
+
+                  <div class="col-lg-12 ud-caption">{{ $ctrl.videoTitle }}</div>
+                  <div ng-show="!$ctrl.uploadEnd" class="col-lg-12">
+                    <!-- <div class="u-title"></div> -->
+                    <div class="u-size">{{ $ctrl.fileSize }}</div>
+
+                    <div class="u-progress">
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width': $ctrl.percentComplete+'%' }">
+                          <span class="sr-only">{{ $ctrl.percentComplete }}% Complete</span>
+                        </div>
+                      </div>
+                      <div class="u-close">
+                        <a href="#">
+                          <i class="cvicon-cv-cancel" ng-click="$ctrl.cancelButton()"></i>
+                        </a>
                       </div>
                     </div>
-                    <div class="u-close">
-                      <a href="#">
-                        <i class="cvicon-cv-cancel" ng-click="$ctrl.cancelButton()"></i>
-                      </a>
+                    <div class="u-desc">Your Video is still uploading, please keep this page open until it's done.</div>
+
+                  </div>
+
+                  <div ng-show="$ctrl.uploadEnd" class="col-lg-12">
+                    <!-- <div class="u-title"></div> -->
+
+                    <div class="u-progress">
+                      <div id="trackvideo" class="progress" style="cursor:pointer" ng-click="$ctrl.selectScreenShot($event)">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" ng-style="{ 'width': $ctrl.percentOfTrack+'%' }">
+                          <span class="sr-only">{{ $ctrl.percentOfTrack }}% Complete</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="u-desc">Your Video is still uploading, please keep this page open until it's done.</div>
+
+                  </div>
+
+
+
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="col-lg-12 ud-caption"></div>
+                  <div class="u-form">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <label for="e1">Video Title</label>
+                          <input type="text" ng-model="$ctrl.videoTitle" class="form-control" id="e1" style="color:white;" placeholder="Rocket League Pro Championship Gameplay (36 characters remaining)">
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <label for="e2">About</label>
+                          <textarea style="color:white;" ng-model="$ctrl.videoAbout" class="form-control" name="e2" id="e2" rows="3">Description</textarea>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+
+                      <div class="col-lg-3">
+                        <div class="form-group">
+                          <label for="e4">Privacy Settings</label>
+                          <select class="form-control" id="e4" ng-model="$ctrl.isPrivate">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-3">
+                        <div class="form-group">
+                          <label for="e4">Category</label>
+                          <select class="form-control" id="e4" ng-model="$ctrl.tag">
+                            <option value="{{ tag }}" ng-repeat="tag in $ctrl.tags">{{ tag }} </option>
+                          </select>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
-                  <div class="u-desc">Your Video is still uploading, please keep this page
-                    open until it's done.</div>
+
+
+
                 </div>
+
+
+                <div class="col-lg-12">
+
+                  <div class="u-area" ng-show="$ctrl.uploadEnd">
+                    <form>
+                      <button class="btn btn-primary u-btn" ng-click="$ctrl.saveChanges()" ng-disabled="$ctrl.buttonEnable">Start upload!</button>
+                    </form>
+                  </div>
+                  <div class="u-terms">
+                    <p>By submitting your videos to circle, you acknowledge that you agree to circle's
+                      <a href="#">Terms of Service</a> and
+                      <a href="#">Community Guidelines</a>.</p>
+                    <p>Please be sure not to violate others' copyright or privacy rights. Learn more</p>
+                  </div>
+
+
+                </div>
+
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 ">
-
-
-        <div class="u-form">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="form-group">
-                <label for="e1">Video Title</label>
-                <input type="text" ng-model="$ctrl.videoTitle" class="form-control" id="e1"
-                  style="color:white;" placeholder="Rocket League Pro Championship Gameplay (36 characters remaining)">
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <div class="form-group">
-                <label for="e2">About</label>
-                <textarea style="color:white;" ng-model="$ctrl.videoAbout" class="form-control"
-                  name="e2" id="e2" rows="3">Description</textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-
-            <div class="col-lg-3">
-              <div class="form-group">
-                <label for="e4">Privacy Settings</label>
-                <select class="form-control" id="e4" ng-model="$ctrl.isPrivate">
-                  <option value="public">Public</option>
-                  <option value="private">Private</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-lg-3">
-              <div class="form-group">
-                <label for="e4">Category</label>
-                <select class="form-control" id="e4" ng-model="$ctrl.tag">
-                  <option value="{{ tag }}" ng-repeat="tag in $ctrl.tags">{{ tag }} </option>
-                </select>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="u-area">
-          <form>
-            <button class="btn btn-primary u-btn" ng-click="$ctrl.upload()" ng-disabled="$ctrl.buttonEnable">Start upload!</button>
-          </form>
-        </div>
-        <div class="u-terms">
-          <p>By submitting your videos to circle, you acknowledge that you
-            agree to circle's
-            <a href="#">Terms of Service</a> and
-            <a href="#">Community Guidelines</a>.</p>
-          <p>Please be sure not to violate others' copyright or privacy rights.
-            Learn more</p>
         </div>
       </div>
     </div>

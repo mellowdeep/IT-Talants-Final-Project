@@ -75,7 +75,7 @@ const query = {
       status,
     );
   },
-  fallByMatchName(keyword) {
+  findByMatchName(keyword) {
     return db.getMultipleResult(
       'SELECT * FROM videos AS v WHERE v.name like %?%',
       keyword,

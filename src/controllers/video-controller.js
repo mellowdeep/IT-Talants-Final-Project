@@ -6,6 +6,7 @@ const path = require('path');
 const ffmpeg = require('../middleware/ffmpeg');
 const uuid = require('../middleware/uuid');
 const videoService = require('../services/video-service');
+const userVideoLikeService = require('../services/user-video-likes-service');
 const recently = require('../services/recently-seen-service');
 const status = require('../config/status-code');
 
@@ -14,17 +15,22 @@ const highQualityShowPath = '/upload/high/';
 const imageShowPath = '/upload/thumbnails/';
 const tempShowPath = '/upload/';
 const PENDING = 'pending';
-const NO_USER = 0;
-const LIKE = 1;
-const DISLIKE = 0;
+const ADD = 1;
+const REMOVE = 0;
 const VIDEO = 'video';
+const INIT_VALUE = 1;
 
 const controller = express.Router();
 
 controller.get('/videos', (req, res) => {
-  const userId = req.user ? req.user.id : 0;
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
   videoService
-    .getVideosByUserId(userId, null)
+    .getVideosByUserId(loggedUser.id, null)
     .then(videos => res.status(status.OK).send(videos))
     .catch(err => res.status(status.NOT_FOUND).send(err.message));
 });
@@ -43,37 +49,125 @@ controller.get('/videos/recentlyseen', (req, res) => {
 });
 
 controller.get('/video/:uuid', (req, res) => {
+  const loggedUser = req.user;
   videoService
     .getOneByUUID(req.params.uuid)
     .then(video => {
-      if (req.user) {
-        const userId = req.user.id;
+      if (loggedUser) {
         const seenDate = new Date().toLocaleDateString();
-        recently.addVideo(video.id, userId, seenDate);
+        videoService.getVideoByIdAndUserRate(video.id, loggedUser.id)
+          .then(newVideoData => {
+            if(newVideoData) {
+              return newVideoData;
+            }
+
+            return video;
+          });
+        recently.addVideo(video.id, loggedUser.id, seenDate);
+      }else {
+        return video;
       }
 
-      res.send(video);
       return video;
     })
-    .then(video => videoService.increaseCounter(video))
-    .catch(err => res.status(status.NOT_FOUND).send(err.message));
+    .then(video => res.status(status.OK).send(video))
+    .then(video =>  videoService.increaseCounter(video))
+    .catch(err => console.log(err.message));
 });
 
 controller.delete('/delete/:uuid', (req, res) => {
-  const userId = req.user ? req.user.id : NO_USER;
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
   videoService
-    .deleteVideo(req.params.uuid, userId)
+    .deleteVideo(req.params.uuid, loggedUser.id)
     .then(video => res.json(video))
-    .catch(err => res.status(status.UNAUTHORIZED).send(err));
+    .catch(err => res.status(status.BAD_REQUEST).send(err.message));
 });
 
 controller.put('/:uuid/like/:isLike', (req, res) => {
-  const isLike = req.params.isLike === 'true' ? LIKE : DISLIKE;
-  const userId = req.user ? req.user.id : NO_USER;
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
+  let {isLike} = req.params;
+  if(isLike !== true.toString() && isLike !== false.toString()){
+    res.status(status.BAD_REQUEST).send("Invalid command");
+    return;
+  }
+
+  isLike = isLike === true.toString() ? ADD : REMOVE;
+  let videoId;
   videoService
-    .addRemoveLike(req.params.uuid, userId, isLike)
-    .then(res.sendStatus(status.OK))
-    .catch(err => res.status(status.BAD_REQUEST).send(err));
+    .getOneByUUID(req.params.uuid)
+    .then(video => {
+      if (!video) {
+        throw new Error("Video not found");
+      }
+
+      videoId = video.id;
+      return videoService.addRemoveLike(video, loggedUser.id, isLike);
+    })
+    .then(() => userVideoLikeService.getLikeByVideoAndUser(loggedUser.id, videoId))
+    .then(like => {
+      if (like) {
+        isLike = isLike ? ADD : REMOVE;
+        return userVideoLikeService.updateRate(loggedUser.id, videoId, isLike, like.dislike_sign);
+      }
+      return userVideoLikeService.addRate(loggedUser.id, videoId, INIT_VALUE, 0);
+    })
+    .then(() => res.sendStatus(status.OK))
+    .catch(err => {
+      console.log(err.message);
+      res.sendStatus(status.NOT_FOUND)
+    });
+});
+
+controller.put('/:uuid/dislike/:isDislike', (req, res) => {
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
+  let {isDislike} = req.params;
+  if(isDislike !== true.toString() && isDislike !== false.toString()){
+    res.status(status.BAD_REQUEST).send("Invalid command");
+    return;
+  }
+
+  isDislike = isDislike === true.toString() ? ADD : REMOVE;
+  let videoId;
+  videoService
+    .getOneByUUID(req.params.uuid)
+    .then(video => {
+      if (!video) {
+        throw new Error("Video not found");
+      }
+
+      videoId = video.id;
+      return videoService.addRemoveDislike(video, loggedUser.id, isDislike);
+    })
+    .then(() => userVideoLikeService.getLikeByVideoAndUser(loggedUser.id, videoId))
+    .then(
+      like => {
+        if (like) {
+          isDislike = isDislike ? ADD : REMOVE;
+          return userVideoLikeService.updateRate(loggedUser.id, videoId, like.like_sign, isDislike);
+        }
+
+        return userVideoLikeService.addRate(loggedUser.id, videoId, 0, INIT_VALUE);
+      })
+    .then(() => res.sendStatus(status.OK))
+    .catch(err => {
+      console.log(err.message);
+      res.sendStatus(status.NOT_FOUND)
+    });
 });
 
 controller.post('/upload', (req, res) => {

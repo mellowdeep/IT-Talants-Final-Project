@@ -58,7 +58,7 @@ const commentFunction = {
         throw new Error("Unable to like/unlike comment")
       })
       .then(() => userCommentLikesService.getLikeByCommentAndUser(userId, commentId))
-      .then(like  => like ? userCommentLikesService.updateLike(userId, commentId, isLike):
+      .then(like  => like ? userCommentLikesService.updateRate(userId, commentId, isLike):
           userCommentLikesService.addLike(userId, commentId, 1))
       .then(id => id),
 };

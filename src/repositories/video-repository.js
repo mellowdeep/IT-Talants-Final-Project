@@ -7,10 +7,14 @@ const query = {
       [tag, 'public'],
     );
   },
-  updateVideo(name, about, tag, visibility, status, likes, videoId) {
+  updateVideo(name, about, tag, visibility, status, likes, dislikesCount, videoId) {
     return db.updateObj(
-      'UPDATE videos SET name = ?, about = ?, tag = ?, visibility = ?, status = ?, likes_count = ? WHERE id = ? ',
-      [name, about, tag, visibility, status, likes, videoId],
+      'UPDATE videos SET ' +
+      'name = ?, about = ?, tag = ?, ' +
+      'visibility = ?, status = ?, likes_count = ?, ' +
+      'dislikes_count = ? ' +
+      'WHERE id = ? ',
+      [name, about, tag, visibility, status, likes, dislikesCount, videoId],
     );
   },
   getVideoById(id) {

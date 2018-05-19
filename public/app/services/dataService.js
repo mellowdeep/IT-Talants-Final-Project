@@ -7,6 +7,7 @@ angular.module('app').factory('dataService', [
       getVideo,
       aboutAuthor,
       uploadVideo,
+      uploadContinueVideo,
     };
     // -------------------
     function aboutAuthor(userId) {
@@ -24,6 +25,15 @@ angular.module('app').factory('dataService', [
         data,
       });
     }
+
+    function uploadContinueVideo(data) {
+      return Upload.upload({
+        url: '/upload/continue',
+        method: 'POST',
+        data,
+      });
+    }
+
     // -------------------
   },
 ]);

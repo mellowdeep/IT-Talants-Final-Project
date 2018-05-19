@@ -98,8 +98,14 @@ const videoFunction = {
         throw new Error('Unable to rate video');
       }),
   getAllByMatchName:(keyword) =>
-    repository.fallByMatchName(keyword)
-      .then(videos => videos),
+    repository.findByMatchName(keyword)
+      .then(videos => {
+        if(Array.isArray(videos)){
+          return videos.map(v => mapVideo(v));
+        }
+
+        return videos;
+      }),
   increaseCounter: (video) =>
     repository.increaseCounter(video.id, ++video.playCount)
       .then(row => {

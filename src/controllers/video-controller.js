@@ -20,6 +20,8 @@ const REMOVE = 0;
 const VIDEO = 'video';
 const INIT_VALUE = 1;
 
+const addFilesToStorage = require('../middleware/serverStorage');
+
 const controller = express.Router();
 
 controller.get('/videos', (req, res) => {
@@ -71,6 +73,7 @@ controller.get('/video/:uuid', (req, res) => {
       return video;
     })
     .then(video => res.status(status.OK).send(video))
+    .catch(err => res.status(status.NOT_FOUND).send(err.message))
     .then(video =>  videoService.increaseCounter(video))
     .catch(err => console.log(err.message));
 });
@@ -190,12 +193,16 @@ controller.post('/upload', (req, res) => {
 
   form.on('end', () => {
     if (!file) {
-      res.status(status.BAD_REQUEST).sendDate('File not found');
+      res.status(status.BAD_REQUEST)
+        .sendDate('File not found');
       return;
     }
 
-    if (file.type.split('/').toLowerCase() !== VIDEO) {
-      res.status(status.BAD_REQUEST).send('Unsupported video format');
+    if (file.type.split('/')
+        .shift()
+        .toLowerCase() !== VIDEO) {
+      res.status(status.BAD_REQUEST)
+        .send('Unsupported video format');
       return;
     }
 
@@ -205,6 +212,7 @@ controller.post('/upload', (req, res) => {
   });
 
   form.parse(req);
+
 });
 
 controller.post('/upload/continue', (req, res) => {
@@ -217,7 +225,6 @@ controller.post('/upload/continue', (req, res) => {
   const fields = [];
   let file;
   let newName;
-  let videoCounter = 0;
   const form = new formidable.IncomingForm();
   form.multiples = true;
   form.uploadDir = path.join(__dirname, '../../public/upload');
@@ -237,10 +244,9 @@ controller.post('/upload/continue', (req, res) => {
     }
 
     file = req.session.videoFile;
-    getUniqueUUID(converFile);
+    getUniqueUUID(convertFile);
   });
 
-  // parse the incoming request containing the form data
   form.parse(req);
 
   const getUniqueUUID = callback => {
@@ -253,106 +259,31 @@ controller.post('/upload/continue', (req, res) => {
           getUniqueUUID(callback);
         } else {
           videoObj.uuid = uniqueId;
-          callback(uniqueId, file);
+          callback(uniqueId, file)
         }
       });
   };
 
-  const removeFile = filePath => {
-    fs.unlink(filePath, err => {
-      if (err) console.log(err.message);
-    });
-  };
-
-  const checkVideos = () => {
-    videoCounter++;
-    if (videoCounter >= 2) {
-      removeFile(file.path);
-      sendVideoToDB();
-    }
-  };
-
-  const converFile = (uuid, file) => {
-    const takeScreenshotTime = videoObj.durationScreenshot || 0;
-    const type = file.type.split('/').pop();
-    newName = `${uuid}`;
-    const nameAndType = `${newName}.${type}`;
-    const lowQualitySavePath = path.join(form.uploadDir, 'low/', nameAndType);
-    const highQualitySavePath = path.join(form.uploadDir, 'high/', nameAndType);
-    const imageSavePath = path.join(form.uploadDir, 'thumbnails/');
+  const convertFile = (uuid, file) =>
+    addFilesToStorage(videoObj, file, uuid, form)
+      .then(currVideoObj => sendVideoToDB(currVideoObj))
+      .catch(err => console.log(err.message));
 
 
-    ffmpeg.ffprobe(path.join(file.path), (err, metadata) => {
-      const duration = metadata.streams[0].duration.toString().split('.');
-      const min = (Number(duration.shift()) || 0) / 60;
-      const sec = (Number(duration.pop()) || 0) / 60;
-      videoObj.duration = `${min.toFixed().slice(0, 2)}:${sec
-        .toFixed()
-        .slice(0, 2)}`;
-    });
-
-    ffmpeg(path.join(file.path)).takeScreenshots({
-        count: 1,
-        size: '200x200',
-        timemarks: [takeScreenshotTime],
-        filename: `${uuid}.png`,
-      },
-      imageSavePath,
-      err => {
-        if (err) console.log(err.message);
-      },
-    );
-
-    const command = ffmpeg(path.join(file.path))
-      .audioCodec('aac')
-      .videoCodec('libx264')
-      .format('mp4');
-
-    command
-      .clone()
-      .size('512x288')
-      .save(lowQualitySavePath)
-      .on('error', err => {
-        removeFile(lowQualitySavePath);
-        checkVideos();
-        console.log(`An error occurred: ${err.message}`);
-      })
-      .on('end', () => {
-        videoObj.low = lowQualityShowPath;
-        checkVideos();
-      });
-
-    command
-      .clone()
-      .size('896x504')
-      .save(highQualitySavePath)
-      .on('error', err => {
-        removeFile(highQualitySavePath);
-        checkVideos();
-        console.log(`An error occurred: ${err.message}`);
-      })
-      .on('end', () => {
-        videoObj.high = highQualityShowPath;
-        checkVideos();
-      });
-
-    videoObj.image = imageShowPath;
-  };
-
-  const sendVideoToDB = () => {
-    videoObj.userId = req.user.id;
-    videoObj.postDate = new Date().toLocaleDateString();
-    videoObj.status = PENDING;
+  const sendVideoToDB = (currVideoObj) => {
+    currVideoObj.userId = req.user.id;
+    currVideoObj.postDate = new Date().toLocaleDateString();
+    currVideoObj.status = PENDING;
 
     for (const field of fields) {
-      videoObj[field.name] = field.value;
+      currVideoObj[field.name] = field.value;
     }
 
     videoService
-      .addVideo(videoObj)
-      .then(id => res.status(status.OK).send({ id: id, uuid: newName }))
-      .catch(err => res.status(status.NOT_FOUND).send(err.message));
+      .addVideo(currVideoObj)
+      .then(id => res.status(status.OK).send({ 'id': id, 'uuid': newName }))
   };
+
 });
 
 module.exports = controller;

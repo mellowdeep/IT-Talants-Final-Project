@@ -35,6 +35,7 @@
         durationScreenShot: this.durationScreenShot,
       };
 
+      console.log('submit', data);
       dataService.uploadContinueVideo(data).then(res => {
         console.log('confirm data:', res);
         $window.location.href = `#/`;
@@ -47,10 +48,10 @@
       // console.log(e.offsetX, this.div.offsetWidth);
       // console.log(this.video.duration);
       this.percentOfTrack = Math.round(100 * e.offsetX / this.div.offsetWidth);
-      this.video.currentTime = Math.round(
-        this.video.duration * e.offsetX / this.div.offsetWidth,
-      );
+      this.video.currentTime =
+        this.video.duration * e.offsetX / this.div.offsetWidth;
       this.durationScreenShot = this.video.currentTime;
+      console.log(this.durationScreenShot);
     };
 
     this.upload = async () => {

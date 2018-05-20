@@ -6,15 +6,9 @@
   // START MODULE
   // --------------------------------------------------
 
-  const injection = [
-    'dataService',
-    '$window',
-    '$element',
-    '$scope',
-    '$timeout',
-  ];
+  const injection = ['dataService', '$window', '$element', '$scope'];
   const bindings = { uploadFile: '=' };
-  function controller(dataService, $window, $element, $scope, $timeout) {
+  function controller(dataService, $window, $element, $scope) {
     this.videoAbout = 'about';
     this.videoTitle = 'Title';
     this.buttonEnable = true;
@@ -26,31 +20,12 @@
     this.durationScreenShot = 0;
     this.tags = ['music', 'nature', 'news'];
 
-    this.modal = {
-      get accept() {
-        return this._value;
-      },
-      set accept(v) {
-        console.log('modal ok');
-        this.showModal = false;
-        $window.location.href = `#/`;
-        // if (v === true) {
-        //   authService.logout().then(() => {});
-        // }
-      },
-      _value: false,
-      hideNo: true,
-      showModal: false,
-      text: 'We will inform you when video is ready',
-    };
-
     this.cancelButton = () => {
       // eslint-disable-next-line
       $window.location.href = '#/';
     };
 
-    this.saveChanges = async () => {
-      this.buttonEnable = true;
+    this.saveChanges = () => {
       const data = {
         // 'uploads[]': this.uploadFile.file,
         name: this.videoTitle,
@@ -61,20 +36,11 @@
       };
 
       console.log('submit', data);
-      const res = await dataService.uploadContinueVideo(data);
-      // .then(res => {
-      console.log('confirm data:', res);
-      // this.modal.showModal = true;
-      // $window.location.href = `#/video?uuid=${res.data.uuid}`;
-      // });
-
-      $timeout(() => {
-        if (res.status === 200) this.modal.showModal = true;
+      dataService.uploadContinueVideo(data).then(res => {
+        console.log('confirm data:', res);
+        $window.location.href = `#/`;
+        // $window.location.href = `#/video?uuid=${res.data.uuid}`;
       });
-      // $scope.$apply(() => {
-      //   if (res.status === 200) this.modal.showModal = true;
-      // });
-
       console.log('save changes');
     };
 
@@ -104,7 +70,7 @@
         console.log('uploaded', this.videoSource);
         this.videoSource.attributes.src.value = uploadResult.data;
         this.video.load();
-        $timeout(() => {
+        $scope.$apply(() => {
           this.uploadEnd = true;
           this.buttonEnable = false;
         });

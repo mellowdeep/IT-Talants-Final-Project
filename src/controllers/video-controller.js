@@ -3,24 +3,19 @@ const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 
-const ffmpeg = require('../middleware/ffmpeg');
 const uuid = require('../middleware/uuid');
 const videoService = require('../services/video-service');
+const addFilesToStorage = require('../middleware/server-storage');
 const userVideoLikeService = require('../services/user-video-likes-service');
 const recently = require('../services/recently-seen-service');
 const status = require('../config/status-code');
 
-const lowQualityShowPath = '/upload/low/';
-const highQualityShowPath = '/upload/high/';
-const imageShowPath = '/upload/thumbnails/';
 const tempShowPath = '/upload/';
 const PENDING = 'pending';
 const ADD = 1;
 const REMOVE = 0;
 const VIDEO = 'video';
 const INIT_VALUE = 1;
-
-const addFilesToStorage = require('../middleware/serverStorage');
 
 const controller = express.Router();
 
@@ -99,12 +94,12 @@ controller.put('/:uuid/like/:isLike', (req, res) => {
   }
 
   let {isLike} = req.params;
-  if(isLike !== true.toString() && isLike !== false.toString()){
+  if(isLike.toLowerCase() !== true.toString() && isLike.toLowerCase() !== false.toString()){
     res.status(status.BAD_REQUEST).send("Invalid command");
     return;
   }
 
-  isLike = isLike === true.toString() ? ADD : REMOVE;
+  isLike = isLike.toLowerCase() === true.toString() ? ADD : REMOVE;
   let videoId;
   videoService
     .getOneByUUID(req.params.uuid)
@@ -139,12 +134,12 @@ controller.put('/:uuid/dislike/:isDislike', (req, res) => {
   }
 
   let {isDislike} = req.params;
-  if(isDislike !== true.toString() && isDislike !== false.toString()){
+  if(isDislike.toLowerCase() !== true.toString() && isDislike.toLowerCase() !== false.toString()){
     res.status(status.BAD_REQUEST).send("Invalid command");
     return;
   }
 
-  isDislike = isDislike === true.toString() ? ADD : REMOVE;
+  isDislike = isDislike.toLowerCase() === true.toString() ? ADD : REMOVE;
   let videoId;
   videoService
     .getOneByUUID(req.params.uuid)
@@ -224,7 +219,6 @@ controller.post('/upload/continue', (req, res) => {
   const videoObj = {};
   const fields = [];
   let file;
-  let newName;
   const form = new formidable.IncomingForm();
   form.multiples = true;
   form.uploadDir = path.join(__dirname, '../../public/upload');
@@ -241,6 +235,11 @@ controller.post('/upload/continue', (req, res) => {
     if (!req.session.videoFile) {
       res.status(status.BAD_REQUEST).send('File not found');
       return;
+    }
+
+    res.sendStatus(status.OK);
+    for (const field of fields) {
+      videoObj[field.name] = field.value;
     }
 
     file = req.session.videoFile;
@@ -264,6 +263,12 @@ controller.post('/upload/continue', (req, res) => {
       });
   };
 
+  const removeFile = filePath => {
+    fs.unlink(filePath, err => {
+      if (err) console.log(err.message);
+    });
+  };
+
   const convertFile = (uuid, file) =>
     addFilesToStorage(videoObj, file, uuid, form)
       .then(currVideoObj => sendVideoToDB(currVideoObj))
@@ -275,13 +280,10 @@ controller.post('/upload/continue', (req, res) => {
     currVideoObj.postDate = new Date().toLocaleDateString();
     currVideoObj.status = PENDING;
 
-    for (const field of fields) {
-      currVideoObj[field.name] = field.value;
-    }
-
     videoService
       .addVideo(currVideoObj)
-      .then(id => res.status(status.OK).send({ 'id': id, 'uuid': newName }))
+      .then(removeFile(file.path))
+      .catch(err => console.log(err));
   };
 
 });

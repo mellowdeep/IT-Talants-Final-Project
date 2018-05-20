@@ -1,7 +1,18 @@
 const repository = require('../repositories/comment-repository');
 const videoService = require('../services/video-service');
 const userCommentLikesService = require('../services/user-comment-likes-service');
-const status = require('../config/status-code');
+
+const mapComment = comment => ({
+  id: comment.id,
+  text: comment.text,
+  videoId: comment.video_id,
+  userId: comment.user_id,
+  likesCount: comment.likes_count,
+  dislikesCount: comment.dislikes_count,
+  postDate: comment.post_date,
+  likeSign: comment.like_sign,
+  dislikeSign: comment.dislike_sign
+});
 
 const commentFunction = {
   addComment: (comment, uuid) =>
@@ -17,7 +28,7 @@ const commentFunction = {
       .getOneByUUID(uuid)
       .then(video => repository.getCommentByIdAndUserId(video.id, userId))
       .then(comments => {
-        if (comments) return comments;
+        if (comments) return comments.map(c => mapComment(c));
         throw new Error("Comment not found")
       }),
   deleteComment: (uuid, commentId, userId) =>
@@ -28,12 +39,17 @@ const commentFunction = {
         if (rows) return rows;
         throw new Error("Cannot delete comment")
       }),
-  updateComment: (uuid, commentId, text, userId) =>
+  updateComment: (uuid, commentId, text, likesCount, dislikesCount,  userId) =>
     videoService
       .getOneByUUID(uuid)
       .then(video =>
-        repository.updateComment(video.id, text, commentId, userId),
+        repository.getCommentByIdAndUserIdAndVideoId(video.id, commentId, userId)
       )
+      .then(comment => {
+        if (!comment) throw new Error("Comment not found");
+        const currComment = mapComment(comment);
+        return repository.updateComment(currComment.videoId, text, likesCount, dislikesCount, commentId, userId);
+      })
       .then(rows => {
         if (rows) return rows;
         throw new Error("Unable to delete comment")
@@ -41,16 +57,16 @@ const commentFunction = {
   addRemoveLike: (videoUUID, commentId, userId, isLike) =>
     videoService
       .getOneByUUID(videoUUID)
-      .then(video => repository.findByVideoAndCommentID(video.id, commentId))
+      .then(video => repository.getCommentByIdAndUserIdAndVideoId(video.id, commentId, userId))
       .then(comment => {
-        if (comment) return comment;
-        throw new Error("Comment not found")
+        if (comment) return mapComment(comment);
+        throw new Error("Comment not found");
       })
       .then(comment =>
         repository.updateComment(
-          comment.video_id,
           comment.text,
-          (isLike ? ++comment.likes_count: --comment.likes_count),
+          (isLike ? ++comment.likesCount: --comment.likesCount),
+          comment.dislikesCount,
           comment.id,
         ))
       .then(rows => {
@@ -58,9 +74,32 @@ const commentFunction = {
         throw new Error("Unable to like/unlike comment")
       })
       .then(() => userCommentLikesService.getLikeByCommentAndUser(userId, commentId))
-      .then(like  => like ? userCommentLikesService.updateRate(userId, commentId, isLike):
-          userCommentLikesService.addLike(userId, commentId, 1))
-      .then(id => id),
+      .then(like  =>
+        like ?
+          userCommentLikesService.updateRate(userId, commentId, isLike, like.dislike_sign) :
+          userCommentLikesService.addRate(userId, commentId, 1, like.dislike_sign)),
+  addRemoveDislike: (videoUUID, commentId, userId, isDislike) =>
+    videoService
+      .getOneByUUID(videoUUID)
+      .then(video => repository.getCommentByIdAndUserIdAndVideoId(video.id, commentId, userId))
+      .then(comment => {
+        if (comment) return mapComment(comment);
+        throw new Error("Comment not found")
+      })
+      .then(comment =>
+        repository.updateComment(
+          comment.text,
+          comment.likesCount,
+          isDislike ? ++comment.dislikesCount : --comment.dislikesCount,
+          comment.id,
+        ))
+      .then(rows => {
+        if (rows) return rows;
+        throw new Error("Unable to like/unlike comment")
+      })
+      .then(() => userCommentLikesService.getLikeByCommentAndUser(userId, commentId))
+      .then(like  => like ? userCommentLikesService.updateRate(userId, commentId, like.like_sign, isDislike) :
+        userCommentLikesService.addRate(userId, commentId, like.like_sign, 1)),
 };
 
 module.exports = commentFunction;

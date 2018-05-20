@@ -1,14 +1,14 @@
 const repository = require('../repositories/user-comment-like-repository');
 
 const userCommentFunction = {
- addLike: (userId, commentId, likeSign) =>
-   repository.addLike(userId, commentId, likeSign)
+  addRate: (userId, commentId, likeSign) =>
+   repository.addRate(userId, commentId, likeSign)
      .then(id => {
        if(id) return id;
        throw new Error("Comment not found")
      }),
-  updateLike: (userId, commentId, likeSign) =>
-    repository.updateRate(userId, commentId, likeSign)
+  updateRate: (userId, commentId, likeSign, dislikeSign) =>
+    repository.updateRate(userId, commentId, likeSign, dislikeSign)
       .then(id => {
         if (id) return id;
         throw new Error("Comment not found")

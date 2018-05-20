@@ -20,7 +20,7 @@ controller.put('/admin/approve/:id', (req, res) => {
         video.status = APPROVED;
        return videoService.updateVideo(video, video.id)
       })
-      .then(res.sendStatus(status.OK))
+      .then(() => res.sendStatus(status.OK))
       .catch(err => res.status(status.NOT_FOUND).send(err.message));
 });
 

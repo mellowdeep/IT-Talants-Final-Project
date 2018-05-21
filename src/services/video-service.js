@@ -4,6 +4,8 @@ const userService = require('../services/user-service');
 
 const mapVideo = video => ({
     id: video.id,
+    userId: video.user_id,
+    uuid: video.uuid,
     name: video.name,
     about: video.about,
     tag: video.tag,

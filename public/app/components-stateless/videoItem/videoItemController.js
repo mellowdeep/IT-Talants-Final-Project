@@ -29,6 +29,11 @@
     const handlerFunctions = [];
 
     this.$postLink = () => {
+      this.percent =
+        100 *
+        (this.videoParams.likesCount || 0) /
+        (this.videoParams.likesCount + this.videoParams.dislikesCount || 1);
+
       const elPlus = Array.from($element.find('div')).find(e =>
         e.matches('.plus'),
       );

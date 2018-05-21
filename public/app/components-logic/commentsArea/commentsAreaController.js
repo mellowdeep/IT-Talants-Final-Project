@@ -4,10 +4,10 @@
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
-  const injection = [];
   const bindings = { watchVideo: '=', user: '=' };
+  const injection = ['dataService'];
 
-  function controller() {
+  function controller(dataService) {
     console.log(`${moduleName} started`);
 
     this.inputByUser = '';
@@ -29,6 +29,13 @@
         this.modalParams.showModal = true;
         return;
       }
+
+      dataService
+        .addComment({
+          uuid: this.watchVideo.uuid,
+          text: this.inputByUser,
+        })
+        .then(res => console.log(res));
       console.log('userSubmitComment');
     };
 

@@ -72,8 +72,7 @@
     <div class="v-views">
       {{ $ctrl.videoParams.playCount }} views
       <span class="v-percent">
-        <span class="v-circle"></span> {{ Math.round(100 * $ctrl.videoParams.likesCount / (($ctrl.videoParams.likesCount
-        + $ctrl.videoParams.dislikesCount )|| 1)) }}%</span>
+        <span class="v-circle"></span> {{ $ctrl.percent }}%</span>
 
     </div>
   </div>

@@ -9,19 +9,81 @@ angular.module('app').factory('dataService', [
       uploadVideo,
       uploadContinueVideo,
       getInitData,
+      addComment,
     };
     // -------------------
+
+    function checkFields(url, resData, fields) {
+      fields.forEach(field => {
+        if (!Reflect.has(resData, field))
+          throw new Error(`No field "${field}" in response "${url}"`);
+      });
+    }
+
     function aboutAuthor(userId) {
-      return $http.get(`/user/${userId}`).then(res => res.data);
+      const url = `/user/${userId}`;
+      return $http.get(url).then(res => {
+        checkFields(url, res.data, [
+          'id',
+          'name',
+          'views',
+          'videos',
+          'likes',
+          'dislikes',
+        ]);
+
+        return res.data;
+      });
     }
 
     function getVideo(uuid) {
-      return $http.get(`/video/${uuid}`).then(res => res.data);
+      const url = `/video/${uuid}`;
+      return $http.get(url).then(res => {
+        checkFields(url, res.data, [
+          'id',
+          'user_id',
+          'name',
+          'about',
+          'tag',
+          'playCount',
+          'likeSign',
+          'dislikeSign',
+          'likesCount',
+          'dislikesCount',
+          'highQuality',
+          'lowQuality',
+          'image',
+          'duration',
+          'uuid',
+        ]);
+
+        return res.data;
+      });
     }
 
     function getInitData() {
-      window.$http = $http;
-      return $http.get(`/main`);
+      // window.$http = $http;
+      const url = `/main`;
+      return $http.get(url).then(res => {
+        // checkFields(url, res.data, [
+        //   'user_id',
+        //   'name',
+        //   'about',
+        //   'tag',
+        //   'playCount',
+        //   'likeSign',
+        //   'dislikeSign',
+        //   'likesCount',
+        //   'dislikesCount',
+        //   'highQuality',
+        //   'lowQuality',
+        //   'image',
+        //   'duration',
+        //   'uuid',
+        // ]);
+
+        return res;
+      });
     }
 
     function uploadVideo(data) {
@@ -38,6 +100,11 @@ angular.module('app').factory('dataService', [
         method: 'POST',
         data,
       });
+    }
+
+    function addComment({ uuid, text }) {
+      // console.log
+      return $http.put(`/${uuid}/add-comment`, { text });
     }
 
     // -------------------

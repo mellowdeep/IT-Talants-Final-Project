@@ -16,16 +16,6 @@ const query = {
       "UPDATE recently_seen SET seen_date = ? WHERE user_id = ? AND video_id = ?", [seenDate, userId, videoId]
     )
   },
-  getLastWatchedVideos(userId) {
-    return db.getMultipleResult(
-      "SELECT * FROM videos AS v " +
-      "join recently_seen as rc " +
-      "on rc.video_id = v.id " +
-      "WHERE rc.user_id = ?" +
-      "ORDER BY rc.seen_date DESC " +
-      "LIMIT 10", userId
-    )
-  }
 };
 
 module.exports = query;

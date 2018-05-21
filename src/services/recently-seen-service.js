@@ -7,11 +7,6 @@ const recentlyFunction = {
         repository.updateRecenltySeen(videoId, userId, seenDate) :
         repository.addRecentlySeen(videoId, userId, seenDate))
       .then(id => id),
-  getRecentlyVideos: (userId) => {
-    repository.getLastWatchedVideos(userId)
-      .then()
-
-  }
 };
 
 module.exports = recentlyFunction;

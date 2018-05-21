@@ -15,7 +15,8 @@ const mapVideo = video => ({
     highQuality: video.high_quality,
     lowQuality: video.low_quality,
     image: video.image,
-    duration: video.duration
+    duration: video.duration,
+    seen: video.seen_date
   });
 
 const videoFunction = {
@@ -52,7 +53,7 @@ const videoFunction = {
   getVideosByTag: tag =>
     repository.findByTag(tag)
       .then(videos => {
-        if (videos) return videos;
+        if (videos) return videos.map(v => mapVideo(v));
         throw new Error('Video not found');
       }),
   updateVideo: (obj, id) =>
@@ -128,7 +129,20 @@ const videoFunction = {
         throw new Error('User not found');
       })
       .then(id => repository.findAllByUserId(id,status))
-      .then(videos => videos)
+      .then(videos => videos),
+  getRecentlyVideos: (userId) =>
+    repository.getLastWatchedVideos(userId)
+      .then(videos => {
+        if(videos) return videos.map(v => mapVideo(v));
+        throw new Error('No recently videos found');
+      }),
+  getAllByTagAndSeen: (tag, userId) =>
+       repository.findAllByTagWithSeenStatus(tag, userId)
+      .then(videos => {
+        if(videos) return videos.map(v => mapVideo(v));
+        throw new Error('No videos found');
+      })
+
 };
 
 module.exports = videoFunction;

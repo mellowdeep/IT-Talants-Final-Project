@@ -1,6 +1,5 @@
 const express = require('express');
 const videoService = require('../services/video-service');
-const recentlySeen = require('../services/recently-seen-service');
 
 const controller = express.Router();
 
@@ -21,10 +20,11 @@ controller.get('/main', (req, res) => {
   let index = 0;
   const user = req.user;
   if(user){
-    recentlySeen.getRecentlyVideos(user.id)
+    videoService.getRecentlyVideos(user.id)
       .then(videos => {
         videoObj.recently = videos;
       })
+      .catch(err => console.log(err.message));
   }
 
   const getVideos = (callback) => {

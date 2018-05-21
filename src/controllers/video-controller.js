@@ -39,38 +39,38 @@ controller.get('/videos/recentlyseen', (req, res) => {
     return;
   }
 
-  recently
+  videoService
     .getRecentlyVideos(loggedUser.id)
     .then(videos => res.status(status.OK).send(videos))
     .catch(err => res.status(status.BAD_REQUEST).send(err.message));
 });
 
 controller.get('/video/:uuid', (req, res) => {
+  let currVideo;
   const loggedUser = req.user;
   videoService
     .getOneByUUID(req.params.uuid)
     .then(video => {
+      currVideo = video;
       if (loggedUser) {
         const seenDate = new Date().toLocaleDateString();
         videoService.getVideoByIdAndUserRate(video.id, loggedUser.id)
           .then(newVideoData => {
             if(newVideoData) {
+              currVideo = newVideoData;
               return newVideoData;
             }
 
             return video;
           });
         recently.addVideo(video.id, loggedUser.id, seenDate);
-      }else {
-        return video;
       }
 
       return video;
     })
     .then(video => res.status(status.OK).send(video))
+    .then(() => videoService.increaseCounter(currVideo))
     .catch(err => res.status(status.NOT_FOUND).send(err.message))
-    .then(video =>  videoService.increaseCounter(video))
-    .catch(err => console.log(err.message));
 });
 
 controller.delete('/delete/:uuid', (req, res) => {

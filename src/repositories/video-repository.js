@@ -81,6 +81,27 @@ const query = {
       keyword,
     );
   },
+  getLastWatchedVideos(userId) {
+    return db.getMultipleResult(
+      "SELECT * FROM videos AS v " +
+      "JOIN recently_seen as rc " +
+      "ON rc.video_id = v.id " +
+      "WHERE rc.user_id = ?" +
+      "ORDER BY rc.seen_date DESC " +
+      "LIMIT 10", userId
+    )
+  },
+  findAllByTagWithSeenStatus(tag, userId) {
+    return db.getMultipleResult(
+      "SELECT * FROM videos AS v " +
+      "JOIN recently_seen as rc " +
+      "ON rc.video_id = v.id " +
+      "WHERE rc.user_id = ? " +
+      "AND v.tag = ?" +
+      "ORDER BY v.post_date DESC ",
+      [userId, tag]
+    )
+  }
 };
 
 module.exports = query;

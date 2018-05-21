@@ -8,6 +8,7 @@ angular.module('app').factory('dataService', [
       aboutAuthor,
       uploadVideo,
       uploadContinueVideo,
+      getInitData,
     };
     // -------------------
     function aboutAuthor(userId) {
@@ -16,6 +17,11 @@ angular.module('app').factory('dataService', [
 
     function getVideo(uuid) {
       return $http.get(`/video/${uuid}`).then(res => res.data);
+    }
+
+    function getInitData() {
+      window.$http = $http;
+      return $http.get(`/main`);
     }
 
     function uploadVideo(data) {

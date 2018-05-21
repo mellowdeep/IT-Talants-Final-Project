@@ -3,20 +3,25 @@
   const controllerName = 'preInitPage';
   // --------------------------------------------------
 
-  const injection = ['authService', '$scope'];
-  function controller(authService, $scope) {
-    const vm = this;
+  const injection = ['authService', 'dataService'];
+  function controller(authService, dataService) {
     console.log(`${controllerName} started`);
 
-    vm.user = { auth: false };
-    const check = async () => {
-      const user = await authService.isLogin();
+    const vm = this;
 
-      $scope.$apply(() => {
-        vm.user = user;
+    vm.user = { auth: false };
+    vm.initData = {};
+
+    authService
+      .isLogin()
+      .then(res => {
+        vm.user = res;
+      })
+      .then(() => dataService.getInitData())
+      .then(res => {
+        vm.initData = res.data;
+        console.log(vm.initData);
       });
-    };
-    check();
   }
 
   // --------------------------------------------------

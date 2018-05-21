@@ -4,7 +4,8 @@
 
   <content-wrapper>
     <div class="col-lg-8 col-xs-12 col-sm-12">
-      <video-player user="$ctrl.user" class="sv-video" watch-video="$ctrl.watchVideo" type="high"></video-player>
+      <video-player user="$ctrl.user" class="sv-video" watch-video="$ctrl.watchVideo"
+        type="high"></video-player>
       <h1>
         <a href="#">{{ $ctrl.watchVideo.name }}</a>
       </h1>
@@ -34,7 +35,8 @@
 
 
       <div class="list">
-        <recommended-videos class="h-video row" ng-repeat="video in $ctrl.channelVideos" video-params="video">
+        <recommended-videos class="h-video row" ng-repeat="video in $ctrl.channelVideos"
+          video-params="video">
         </recommended-videos>
       </div>
       <!-- END up next -->
@@ -52,7 +54,8 @@
 
 
       <div class="list">
-        <recommended-videos ng-repeat="video in $ctrl.recommendedVideos" video-params="video" class="h-video row">
+        <recommended-videos ng-repeat="video in $ctrl.recommendedVideos" video-params="video"
+          class="h-video row">
         </recommended-videos>
       </div>
       <!-- END Recomended Videos -->

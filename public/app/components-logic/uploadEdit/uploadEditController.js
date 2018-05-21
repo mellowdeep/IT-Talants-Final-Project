@@ -24,7 +24,7 @@
     this.percentOfTrack = 0;
     this.isPrivate = 0;
     this.durationScreenShot = 0;
-    this.tags = ['music', 'nature', 'news'];
+    this.tags = ['music', 'news', 'trailers', 'animation'];
 
     this.modal = {
       get accept() {
@@ -61,21 +61,22 @@
       };
 
       console.log('submit', data);
-      const res = await dataService.uploadContinueVideo(data);
-      // .then(res => {
-      console.log('confirm data:', res);
-      // this.modal.showModal = true;
-      // $window.location.href = `#/video?uuid=${res.data.uuid}`;
-      // });
+      dataService.uploadContinueVideo(data).then(res => {
+        // .then(res => {
+        console.log('confirm data:', res);
+        // this.modal.showModal = true;
+        // $window.location.href = `#/video?uuid=${res.data.uuid}`;
+        // });
 
-      $timeout(() => {
+        // $timeout(() => {
         if (res.status === 200) this.modal.showModal = true;
-      });
-      // $scope.$apply(() => {
-      //   if (res.status === 200) this.modal.showModal = true;
-      // });
+        // });
+        // $scope.$apply(() => {
+        //   if (res.status === 200) this.modal.showModal = true;
+        // });
 
-      console.log('save changes');
+        console.log('save changes');
+      });
     };
 
     this.selectScreenShot = e => {
@@ -88,28 +89,30 @@
       console.log(this.durationScreenShot);
     };
 
-    this.upload = async () => {
-      await this.uploadFile.promise;
-      const data = {
-        'uploads[]': this.uploadFile.file,
-      };
-
-      const uploadResult = await dataService
-        .uploadVideo(data)
+    this.upload = () => {
+      this.uploadFile.promise
+        .then(() => {
+          const data = {
+            'uploads[]': this.uploadFile.file,
+          };
+          return dataService.uploadVideo(data);
+        })
         .then(res => res, null, evt => {
           this.percentComplete = parseInt(100.0 * evt.loaded / evt.total, 10);
+        })
+        .then(uploadResult => {
+          if (uploadResult.status === 200 && uploadResult.data) {
+            console.log('uploaded', this.videoSource);
+            this.videoSource.attributes.src.value = uploadResult.data;
+            this.video.load();
+            // $timeout(() => {
+            this.uploadEnd = true;
+            this.buttonEnable = false;
+            // });
+          }
         });
-
-      if (uploadResult.status === 200 && uploadResult.data) {
-        console.log('uploaded', this.videoSource);
-        this.videoSource.attributes.src.value = uploadResult.data;
-        this.video.load();
-        $timeout(() => {
-          this.uploadEnd = true;
-          this.buttonEnable = false;
-        });
-      }
     };
+
     this.$postLink = () => {
       this.upload();
       // eslint-disable-next-line

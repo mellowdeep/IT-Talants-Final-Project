@@ -13,13 +13,27 @@
     console.log(`${moduleName} started`);
     this.like = false;
     this.dislike = false;
+
     this.setLike = () => {
       console.log('like');
     };
+
     this.setDislike = () => {
       console.log('dislike');
     };
+
     this.currentStateResolution = 'SD';
+
+    const updatePage = async () => {
+      console.log('update');
+      await this.watchVideo.promiseDataReady;
+
+      this.video.attributes.poster.value = this.watchVideo.image;
+      if (this.currentStateResolution === 'HD' && this.watchVideo.high_quality)
+        this.source.attributes.src.value = this.watchVideo.highQuality;
+      else this.source.attributes.src.value = this.watchVideo.lowQuality;
+    };
+
     this.changeResolution = resolution => {
       this.currentStateResolution = resolution;
       this.video.pause();
@@ -37,18 +51,6 @@
           this.video.pause();
         }
       }
-    };
-
-    const updatePage = async () => {
-      console.log('update');
-      await this.watchVideo.promiseDataReady;
-      // console.log('after promise');
-
-      // console.log(source.attributes);
-      this.video.attributes.poster.value = this.watchVideo.image;
-      if (this.currentStateResolution === 'HD' && this.watchVideo.high_quality)
-        this.source.attributes.src.value = this.watchVideo.high_quality;
-      else this.source.attributes.src.value = this.watchVideo.low_quality;
     };
 
     this.$postLink = () => {

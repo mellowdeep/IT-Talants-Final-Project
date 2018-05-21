@@ -6,9 +6,12 @@
 
   // START MODULE
   // --------------------------------------------------
-  const bindings = { user: '<' };
+  const bindings = { user: '<', initData: '<' };
   function controller() {
     console.log(`${moduleName} started`);
+    // setTimeout(() => console.log(this.initData), 3000);
+
+    // Object.keys(this.initData).forEach()
   }
 
   // --------------------------------------------------

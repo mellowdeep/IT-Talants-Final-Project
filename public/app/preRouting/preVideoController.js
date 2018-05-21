@@ -17,6 +17,7 @@
       // http://localhost:3000/#/video?uuid=DtxGPq0e
 
       if (!search.uuid) {
+        // eslint-disable-next-line
         $window.location.href = '#/';
         return;
       }

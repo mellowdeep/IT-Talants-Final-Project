@@ -24,7 +24,7 @@
     this.percentOfTrack = 0;
     this.isPrivate = 0;
     this.durationScreenShot = 0;
-    this.tags = ['music', 'nature', 'news'];
+    this.tags = ['music', 'news', 'trailers', 'animation'];
 
     this.modal = {
       get accept() {

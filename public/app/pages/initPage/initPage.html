@@ -3,9 +3,14 @@
 <content-wrapper>
   <div class="col-lg-12">
     <channel-update ng-if="$ctrl.user.auth"></channel-update>
-    <row-videos user="$ctrl.user" head-title="News"></row-videos>
-    <row-videos user="$ctrl.user" head-title="Animations"></row-videos>
-    <row-videos user="$ctrl.user" head-title="Topics"></row-videos>
+
+
+    <row-videos ng-repeat="(title,initData) in $ctrl.initData" user="$ctrl.user"
+      init-data="initData" head-title="{{ title }}"></row-videos>
+
+    <!-- <row-videos user="$ctrl.user" head-title="News"></row-videos> -->
+    <!-- <row-videos user="$ctrl.user" head-title="Animations"></row-videos> -->
+    <!-- <row-videos user="$ctrl.user" head-title="Topics"></row-videos> -->
     <row-playlists user="$ctrl.user"></row-playlists>
     <row-channels user="$ctrl.user"></row-channels>
     <!-- <pagination></pagination> -->

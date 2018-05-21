@@ -4,6 +4,7 @@ angular.module('app').factory('authService', function($http) {
       return this._user;
     },
     set user(v) {
+      console.log('login data', v);
       this._user.firstTime = false;
       this._user.auth = v.auth;
       this._user.id = v.id;

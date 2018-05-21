@@ -9,8 +9,8 @@
   // --------------------------------------------------
 
   const bindings = { user: '<' };
-  const injection = ['authService', '$window'];
-  function controller(authService, $window) {
+  const injection = ['authService', '$window', '$q'];
+  function controller(authService, $window, $q) {
     console.log(`${moduleName} started`);
     const vm = this;
     vm.SELECT_FILE = 'SELECT_FILE';
@@ -29,7 +29,8 @@
         ok();
       },
       _file: null,
-      promise: new Promise(res => (ok = res)),
+      // eslint-disable-next-line
+      promise: new $q(res => (ok = res)),
     };
 
     const loginWatcher = user => {

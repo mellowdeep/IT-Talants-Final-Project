@@ -44,7 +44,7 @@ controller.get('/main', (req, res) => {
   };
 
   const sendData = () => {
-    res.json(videoObj);
+    res.send(videoObj);
   };
 
   getVideos(sendData);

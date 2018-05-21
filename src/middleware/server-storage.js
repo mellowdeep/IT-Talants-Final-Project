@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const s3fs = require('../middleware/amazon-cloud-service');
 
-const getMetaData = require('./fileOperations/getMetadata');
-const saveLowFormatFile = require('./fileOperations/convertToLowFormat');
-const saveHighFormatFile = require('./fileOperations/converToHighFormat');
-const saveThumbnail = require('./fileOperations/takeScreenShtot');
+const getMetaData = require('./fileOperations/get-metadata');
+const saveLowFormatFile = require('./fileOperations/convert-low-format');
+const saveHighFormatFile = require('./fileOperations/conver-high-format');
+const saveThumbnail = require('./fileOperations/take-screenshtot');
+const uploadToAmazon = require('./amazonBucket/upload-Low-format');
 const ffmpeg = require('../middleware/ffmpeg');
-const util = require('util');
 
 const lowQualityShowPath = '/upload/low/';
 const highQualityShowPath = '/upload/high/';
@@ -30,7 +31,7 @@ const usePromise = (callback, params) =>
 
 const saveFiles = (videoObj, file, uuid, form) => {
   const video = videoObj;
-  const takeScreenshotTime = videoObj.durationScreenshot || 0;
+  const takeScreenshotTime = videoObj.durationScreenShot || 0;
   const type = file.type.split('/')
     .pop();
   const newName = `${uuid}`;
@@ -38,6 +39,7 @@ const saveFiles = (videoObj, file, uuid, form) => {
   const lowQualitySavePath = path.join(form.uploadDir, 'low/', nameAndType);
   const highQualitySavePath = path.join(form.uploadDir, 'high/', nameAndType);
   const imageSavePath = path.join(form.uploadDir, 'thumbnails/');
+  const amazonPath = `https://s3.eu-west-2.amazonaws.com/${s3fs.bucket}/${nameAndType}`;
 
   const command = ffmpeg(path.join(file.path))
     .audioCodec('aac')
@@ -45,16 +47,14 @@ const saveFiles = (videoObj, file, uuid, form) => {
     .format('mp4');
 
 
-  // Remove temp file after 10 min.
-  setTimeout((filePath, callback) => {
-    callback(filePath)
-  }, 600000)(file.path, removeFile);
-
   video.image = `${imageShowPath}${uuid}.png`;
-   return usePromise(getMetaData,[ffmpeg, path, file, video])
-       .then(() => usePromise(saveLowFormatFile,[command, lowQualitySavePath, removeFile, lowQualityShowPath, video, uuid]))
-       .then(() => usePromise(saveHighFormatFile,[command, highQualitySavePath, removeFile, highQualityShowPath, video, uuid]))
-       .then(() => usePromise(saveThumbnail, [ffmpeg, file, path, takeScreenshotTime, uuid, imageSavePath, video]))
+  return usePromise(getMetaData,[ffmpeg, path, file, video])
+    .then(() => usePromise(saveThumbnail, [ffmpeg, file, path, takeScreenshotTime, uuid, imageSavePath, video]))
+    .then(() => usePromise(saveLowFormatFile,[command, lowQualitySavePath, removeFile, lowQualityShowPath, video, uuid]))
+    .then(() => usePromise(saveHighFormatFile,[command, highQualitySavePath, removeFile, highQualityShowPath, video, uuid]))
+    .then(() => uploadToAmazon(s3fs, path, fs, removeFile, lowQualitySavePath, video, nameAndType, amazonPath))
+    .catch((err) =>  console.error(err))
+    .then(() => video);
 
 };
 

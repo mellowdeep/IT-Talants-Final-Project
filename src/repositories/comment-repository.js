@@ -9,33 +9,43 @@ const query = {
   },
   getCommentByIdAndUserId(id, userId) {
     return db.getMultipleResult(
-      'select c.id, c.text, c.post_date, u.name, j.like_sign from comments AS c ' +
-      'left join users as u ' +
-      'on u.id = c.user_id ' +
-      'left join (select cul.comment_id, cul.like_sign from comments_users_likes as cul  ' +
-      'join users as u ' +
-      'on u.id = cul.user_id ' +
-      'where u.id = ?) as j ' +
-      'on j.comment_id = c.id ' +
-      'where c.video_id = ?  ' +
+      'SELECT c.id, c.text, c.post_date, c.likes_count, c.dislikes_count, u.name, j.like_sign FROM comments AS c ' +
+      'LEFT JOIN users AS u ' +
+      'ON u.id = c.user_id ' +
+      'LEFT JOIN (SELECT cul.comment_id, cul.like_sign FROM comments_users_likes AS cul  ' +
+      'JOIN users AS u ' +
+      'ON u.id = cul.user_id ' +
+      'WHERE u.id = ?) AS j ' +
+      'ON j.comment_id = c.id ' +
+      'WHERE c.video_id = ?  ' +
       'ORDER BY c.post_date DESC',
        [userId,id]
     );
   },
   deleteComment(videoId, commentId, userId) {
     return db.deleteObj(
-      'DELETE FROM comments  WHERE id = ? AND video_id = ? AND (user_id = ? OR (select u.role from users as u where u.id = ?) = admin)',
+      'DELETE FROM comments  ' +
+      'WHERE id = ? AND video_id = ? ' +
+      'AND ' +
+      '(user_id = ? OR (select u.role from users as u where u.id = ?) = admin)',
       [commentId, videoId, userId, userId],
     );
   },
-  updateComment(videoId, text, likes, commentId) {
+  updateComment(text, likesCount, dislikesCount, commentId) {
     return db.updateObj(
-      'UPDATE comments SET  text = ?, video_id = ?, likes_count = ? WHERE id = ? ',[text, videoId, likes, commentId],
+      'UPDATE comments SET  text = ?, likes_count = ?, dislikes_count = ? WHERE id = ? ',
+      [text, likesCount, dislikesCount, commentId],
     );
   },
   findByVideoAndCommentID(videoId, commentId) {
     return db.getSingleResult(
       "SELECT * FROM comments AS c WHERE c.id = ? and c.video_id = ?", [commentId, videoId]
+    )
+  },
+  getCommentByIdAndUserIdAndVideoId(videoId, commentId, userId) {
+    return db.getSingleResult(
+      "SELECT * FROM comments AS c WHERE c.id = ? AND c.user_id = ? AND c.video_id = ?",
+      [commentId, userId, videoId]
     )
   }
 };

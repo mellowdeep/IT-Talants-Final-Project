@@ -1,5 +1,4 @@
 
-
 module.exports = (command, highQualitySavePath, removeFile, highQualityShowPath, video, uuid, callback) =>
   command
       .clone()

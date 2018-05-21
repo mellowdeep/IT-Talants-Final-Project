@@ -45,7 +45,7 @@ controller.put('/playlist/:playlistId/:uuid', (req, res) => {
 controller.delete('/delete/playlist/:playlistId/:uuid', (req, res) => {
   playlistVideosService
     .deleteVideoFromPlaylist(req.params.playlistId, req.params.uuid)
-    .then(res.sendStatus(status.OK))
+    .then(() => res.sendStatus(status.OK))
     .catch(err => res.send(err.message));
 });
 
@@ -53,7 +53,7 @@ controller.delete('/delete/playlist/:playlistId', (req, res) => {
   const userId = req.user ? req.user.id : 0;
   playlistService
     .deletePlaylist(req.params.playlistId, userId)
-    .then(res.sendStatus(status.OK))
+    .then(() => res.sendStatus(status.OK))
     .catch(err => res.status(status.UNAUTHORIZED).send(err.message));
 });
 

@@ -3,7 +3,7 @@ const videoService = require('../services/video-service');
 
 const controller = express.Router();
 
-const tags = ['muisc', 'news', 'trailers', 'animation'];
+const tags = ['music', 'news', 'trailers', 'animation'];
 // Should be added to private views
 
 // controller.use("/", (req, res, next) => {

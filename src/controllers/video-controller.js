@@ -70,7 +70,7 @@ controller.get('/video/:uuid', (req, res) => {
     })
     .then(video => res.status(status.OK).send(video))
     .then(() => videoService.increaseCounter(currVideo))
-    .catch(err => res.status(status.NOT_FOUND).send(err.message))
+    .catch(err => res.status(status.NOT_FOUND). send(err.message))
 });
 
 controller.delete('/delete/:uuid', (req, res) => {

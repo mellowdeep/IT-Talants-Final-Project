@@ -14,7 +14,7 @@
 
     const updateData = async () => {
       await this.watchVideo.promiseDataReady;
-      this.aboutAuthor = await dataService.aboutAuthor(this.watchVideo.user_id);
+      this.aboutAuthor = await dataService.aboutAuthor(this.watchVideo.userId);
       const sum = this.aboutAuthor.likes + this.aboutAuthor.dislikes;
       if (sum)
         this.aboutAuthor.percent = Math.floor(

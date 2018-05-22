@@ -54,17 +54,17 @@
     };
 
     this.$postLink = () => {
-      // const fn = e => {
-      //   if (e.path.every(p => p.id !== 'logo-menu-drop-down-logout')) {
-      //     $scope.$apply(() => {
-      //       this.dropDownUser = false;
-      //     });
-      //     // $scope.$digest();
-      //   }
-      // };
-      // const event = 'click';
-      // handlerFunctions.push({ event, fn });
-      // $document.on(event, fn);
+      const fn = e => {
+        if (e.path.every(p => p.id !== 'logo-menu-drop-down-logout')) {
+          $scope.$apply(() => {
+            this.dropDownUser = false;
+          });
+          // $scope.$digest();
+        }
+      };
+      const event = 'click';
+      handlerFunctions.push({ event, fn });
+      $document.on(event, fn);
     };
 
     this.$onDestroy = () => {

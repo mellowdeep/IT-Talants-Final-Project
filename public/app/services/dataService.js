@@ -10,6 +10,8 @@ angular.module('app').factory('dataService', [
       uploadContinueVideo,
       getInitData,
       addComment,
+      getCommentsToVideo,
+      setCommentLike,
     };
     // -------------------
 
@@ -41,7 +43,7 @@ angular.module('app').factory('dataService', [
       return $http.get(url).then(res => {
         checkFields(url, res.data, [
           'id',
-          'user_id',
+          'userId',
           'name',
           'about',
           'tag',
@@ -107,6 +109,35 @@ angular.module('app').factory('dataService', [
       return $http.put(`/${uuid}/add-comment`, { text });
     }
 
+    function getCommentsToVideo(uuid) {
+      // array of
+      // "id": 4,
+      // "text": "asdfasdf",
+      // "likesCount": 0,
+      // "dislikesCount": 0,
+      // "postDate": "2018-5-22",
+      // "likeSign": null
+      return $http.get(`/${uuid}/comments`);
+    }
+
+    function setCommentLike({ commentId, uuid, type }) {
+      if (type === 0) {
+        return $http
+          .put(`/${uuid}/${commentId}/like/false`)
+          .then(() => $http.put(`/${uuid}/${commentId}/dislike/false`));
+      }
+      if (type === -1) {
+        return $http
+          .put(`/${uuid}/${commentId}/like/false`)
+          .then(() => $http.put(`/${uuid}/${commentId}/dislike/true`));
+      }
+      if (type === 1) {
+        return $http
+          .put(`/${uuid}/${commentId}/dislike/false`)
+          .then(() => $http.put(`/${uuid}/${commentId}/like/true`));
+      }
+      return new Error('bad notation');
+    }
     // -------------------
   },
 ]);

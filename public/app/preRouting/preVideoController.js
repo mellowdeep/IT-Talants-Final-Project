@@ -3,13 +3,20 @@
   const controllerName = 'preVideo';
   // --------------------------------------------------
 
-  const injection = ['authService', 'dataService', '$window', '$location'];
-  function controller(authService, dataService, $window, $location) {
+  const injection = [
+    'authService',
+    'dataService',
+    '$window',
+    '$location',
+    '$q',
+  ];
+  function controller(authService, dataService, $window, $location, $q) {
     console.log(`${controllerName} started`);
     const vm = this;
     let ok;
     vm.watchVideo = {};
-    vm.watchVideo.promiseDataReady = new Promise(res => (ok = res));
+
+    vm.watchVideo.promiseDataReady = new $q(res => (ok = res));
     console.log(vm.watchVideo);
 
     const check = async () => {

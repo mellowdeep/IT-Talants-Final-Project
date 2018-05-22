@@ -2,6 +2,9 @@ const repository = require('../repositories/comment-repository');
 const videoService = require('../services/video-service');
 const userCommentLikesService = require('../services/user-comment-likes-service');
 
+const INIT_VALUE = 1;
+const ZERO = 0;
+
 const mapComment = comment => ({
   id: comment.id,
   text: comment.text,
@@ -11,7 +14,10 @@ const mapComment = comment => ({
   dislikesCount: comment.dislikes_count,
   postDate: comment.post_date,
   likeSign: comment.like_sign,
-  dislikeSign: comment.dislike_sign
+  dislikeSign: comment.dislike_sign,
+  userImage: comment.image,
+  name: comment.name,
+  uuid: comment.uuid,
 });
 
 const commentFunction = {
@@ -57,7 +63,7 @@ const commentFunction = {
   addRemoveLike: (videoUUID, commentId, userId, isLike) =>
     videoService
       .getOneByUUID(videoUUID)
-      .then(video => repository.getCommentByIdAndUserIdAndVideoId(video.id, commentId, userId))
+      .then(video => repository.getCommentByIdAndVideoId(video.id, commentId))
       .then(comment => {
         if (comment) return mapComment(comment);
         throw new Error("Comment not found");
@@ -77,7 +83,7 @@ const commentFunction = {
       .then(like  =>
         like ?
           userCommentLikesService.updateRate(userId, commentId, isLike, like.dislike_sign) :
-          userCommentLikesService.addRate(userId, commentId, 1, like.dislike_sign)),
+          userCommentLikesService.addRate(userId, commentId, INIT_VALUE, ZERO)),
   addRemoveDislike: (videoUUID, commentId, userId, isDislike) =>
     videoService
       .getOneByUUID(videoUUID)
@@ -99,7 +105,7 @@ const commentFunction = {
       })
       .then(() => userCommentLikesService.getLikeByCommentAndUser(userId, commentId))
       .then(like  => like ? userCommentLikesService.updateRate(userId, commentId, like.like_sign, isDislike) :
-        userCommentLikesService.addRate(userId, commentId, like.like_sign, 1)),
+        userCommentLikesService.addRate(userId, commentId, ZERO, INIT_VALUE)),
 };
 
 module.exports = commentFunction;

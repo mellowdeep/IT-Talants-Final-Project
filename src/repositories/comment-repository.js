@@ -10,22 +10,21 @@ const query = {
   getCommentByIdAndUserId(videoId, userId) {
     return db.getMultipleResult(
       'SELECT c.id, c.text, c.post_date, ' +
-             'c.likes_count, c.dislikes_count, j.name, ' +
+             'c.likes_count, c.dislikes_count, u.name, ' +
              'j.like_sign, j.dislike_sign, c.video_id, ' +
-             'c.user_id, j.image, v.uuid ' +
+             'c.user_id, u.image, v.uuid ' +
       'FROM comments AS c ' +
       'LEFT JOIN users AS u ' +
       'ON u.id = c.user_id ' +
-      'LEFT JOIN (SELECT * FROM comments_users_likes AS cul  ' +
-      'JOIN users AS u ' +
-      'ON u.id = cul.user_id ' +
-      'WHERE u.id = ?) AS j ' +
-      'ON j.comment_id = c.id ' +
-      'JOIN videos AS v ' +
-      'ON v.id = c.video_id ' +
-      'WHERE c.video_id = ?  ' +
-      'ORDER BY c.post_date DESC',
-       [userId, videoId]
+      'LEFT JOIN (SELECT cul.comment_id, cul.like_sign, cul.dislike_sign ' +
+                        'FROM comments_users_likes AS cul ' +
+                        'WHERE cul.user_id = ?) AS j ' +
+        'ON j.comment_id = c.id ' +
+        'JOIN videos AS v ' +
+        'ON v.id = c.video_id ' +
+        'WHERE c.video_id = ?  ' +
+        'ORDER BY c.post_date DESC',
+         [userId, videoId]
     );
   },
   deleteComment(videoId, commentId, userId) {

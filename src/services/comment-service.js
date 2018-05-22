@@ -87,7 +87,7 @@ const commentFunction = {
   addRemoveDislike: (videoUUID, commentId, userId, isDislike) =>
     videoService
       .getOneByUUID(videoUUID)
-      .then(video => repository.getCommentByIdAndUserIdAndVideoId(video.id, commentId, userId))
+      .then(video => repository.getCommentByIdAndVideoId(video.id, commentId))
       .then(comment => {
         if (comment) return mapComment(comment);
         throw new Error("Comment not found")

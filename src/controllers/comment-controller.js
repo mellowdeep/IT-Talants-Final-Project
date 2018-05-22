@@ -19,7 +19,7 @@ controller.get("/:uuid/comments", (req, res) => {
   const userId = req.user ? req.user.id : NO_USER;
   commentService.getCommentsForVideo(req.params.uuid, userId)
     .then(comments => res.send(comments))
-    .catch((err) =>  res.status(status.NOT_FOUND).send(err));
+    .catch((err) =>  res.status(status.NOT_FOUND).send(err.message));
 });
 
 controller.put("/:uuid/:commentId/like/:isLike", (req, res) => {
@@ -39,7 +39,7 @@ controller.put("/:uuid/:commentId/like/:isLike", (req, res) => {
   const userId = loggedUser.id;
   commentService.addRemoveLike(req.params.uuid, req.params.commentId, userId , isLike)
     .then(() => res.sendStatus(status.OK))
-    .catch((err) =>  res.status(status.BAD_REQUEST).send(err));
+    .catch((err) =>  res.status(status.BAD_REQUEST).send(err.message));
 });
 
 controller.put("/:uuid/:commentId/dislike/:isDislike", (req, res) => {

@@ -49,7 +49,7 @@ const commentFunction = {
     videoService
       .getOneByUUID(uuid)
       .then(video =>
-        repository.getCommentByIdAndUserIdAndVideoId(video.id, commentId, userId)
+        repository.getCommentByIdAndVideoId(video.id, commentId)
       )
       .then(comment => {
         if (!comment) throw new Error("Comment not found");

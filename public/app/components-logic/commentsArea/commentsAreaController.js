@@ -5,13 +5,28 @@
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
   const bindings = { watchVideo: '=', user: '=' };
-  const injection = ['dataService', '$window', '$document', '$element'];
+  const injection = [
+    'dataService',
+    '$window',
+    '$document',
+    '$element',
+    '$q',
+    '$timeout',
+  ];
 
-  function controller(dataService, $window, $document, $element) {
+  function controller(dataService, $window, $document, $element, $q, $timeout) {
     console.log(`${moduleName} started`);
 
     this.commentsToVideo = [];
     this.commentsToVideoMain = [];
+    this.sortingComments = 'id'; // 'like
+
+    this.popularNewestComments = type => {
+      this.sortingComments = type;
+      this.watchVideo.promiseDataReady
+        .then(() => this.loadComments())
+        .then(() => this.showComments(4));
+    };
 
     this.inputByUser = '';
     this.modalParams = {
@@ -43,14 +58,17 @@
     };
 
     this.loadComments = () =>
-      dataService.getCommentsToVideo(this.watchVideo.uuid).then(res => {
-        this.commentsToVideoMain = res.data;
-        if (this.scroll.index === 0) this.scroll.index = 10;
-        return this.commentsToVideoMain;
-      });
+      dataService
+        .getCommentsToVideo(this.watchVideo.uuid, this.sortingComments)
+        .then(res => {
+          this.commentsToVideoMain = res.data;
+          if (this.scroll.index === 0) this.scroll.index = 4;
+          return this.commentsToVideoMain;
+        });
 
-    this.showComments = () => {
-      this.scroll.index += 7;
+    let showCommentFlag = true;
+    this.showComments = val => {
+      this.scroll.index += val || 0;
       this.commentsToVideo = this.commentsToVideoMain.slice(
         0,
         this.scroll.index,
@@ -60,24 +78,30 @@
     this.$onInit = () => {
       this.watchVideo.promiseDataReady
         .then(() => this.loadComments())
-        .then(() => this.showComments());
+        .then(() => {
+          this.showComments(4);
+          this.haveComments = Boolean(this.commentsToVideo.length);
+        });
     };
 
     this.$postLink = () => {
-      this.commentListDiv = Array.from(
-        $element.find('div').find(x => x.matches('.comments-list')),
+      this.commentListDiv = Array.from($element.find('div')).find(x =>
+        x.matches('.comments-list'),
       );
 
+      // console.log([this.commentListDiv]);
+
+      const bottom =
+        this.commentListDiv.offsetTop + this.commentListDiv.clientHeight;
+
       angular.element($window).bind('scroll', () => {
-        // const bottom = this.top + this.element.clientHeight;
-        // const scrollY = $window.pageYOffset + this.windowHeight;
-        const bottom = commentListDiv.top + commentListDiv.clientHeight;
-        const scrollY = $window.pageYOffset + this.windowHeight;
-        // return bottom - scrollY;
-        console.log(bottom - scrollY);
-        // if ($window.pageYOffset >= 0.9 * $window.innerHeight) {
-        //   console.log($window.pageYOffset, $window.innerHeight);
-        // }
+        if ($window.pageYOffset >= bottom && showCommentFlag) {
+          showCommentFlag = false;
+          $timeout(() => {
+            this.showComments(4);
+            showCommentFlag = true;
+          }, 700);
+        }
       });
     };
 
@@ -86,39 +110,42 @@
         this.modalParams.showModal = true;
         return;
       }
-
+      let newId;
       dataService
         .addComment({
           uuid: this.watchVideo.uuid,
           text: this.inputByUser,
         })
-        .then(res => console.log(res));
-      console.log('userSubmitComment');
+        .then(res => {
+          if (res.status === 200) {
+            newId = +res.data;
+            return dataService.getCommentsToVideo(this.watchVideo.uuid);
+          }
+          throw new Error('bad result');
+          // console.log('userSubmitComment');
+        })
+        .then(comments => {
+          const elem = comments.data.find(x => x.id === +newId);
+          console.log(elem);
+          console.log(comments);
+          if (elem) {
+            this.commentsToVideoMain.unshift(elem);
+            this.showComments(1);
+            this.haveComments = Boolean(this.commentsToVideo.length);
+          }
+          // this.showComments(0);
+          this.inputByUser = '';
+        })
+        .catch(e => {
+          console.log(e);
+        });
     };
 
-    // const createComment = () => ({
-
-    // "id"
-    // "text"
-    // "likesCount"
-    // "dislikesCount"
-    // "postDate"
-    // "likeSign"
-    // ---
-    // userId // who commented
-    // userImage // who commented
-
-    //   userName: 'Test user',
-    //   userImage: 'images/ava8.png',
-    //   userRef: '#/',
-    //   text: 'asdfasdfd afd sdf sadf asd',
-    //   dateAgo: 'Moth ago',
-    //   countLikes: 54,
-    //   countDislikes: 23,
-    // });
-    // this.commentsToVideo = [];
-    // i = 15;
-    // while (i--) this.commentsToVideo.push(createComment());
+    this.listenToAddSubmit = $event => {
+      if ($event.ctrlKey && $event.code === 'Enter') {
+        this.userSubmitComment();
+      }
+    };
   }
 
   // --------------------------------------------------

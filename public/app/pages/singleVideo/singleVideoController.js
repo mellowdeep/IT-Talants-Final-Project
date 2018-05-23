@@ -8,34 +8,58 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', user: '=' };
-  function controller() {
+  const injection = ['dataService', '$window', 'linkService'];
+  function controller(dataService, $window, linkService) {
     console.log(`${moduleName} started`);
     this.inputByUser = '';
     this.currentVideo = {};
+    this.autoplay = true;
+    const vm = this;
 
-    const createVideo = () => ({
-      href: 'single-video-tabs.html',
-      image: 'images/sv-4.png',
-      duration: '15:19',
-      title: 'Cornfield Chase Outlast II Official Gameplay',
-      viewCount: '2,729,347',
-      percent: 55,
-    });
+    this.autoplayChange = () => {
+      this.watchVideo.autoplay = !this.watchVideo.autoplay;
+    };
 
-    this.recommendedVideos = [];
-    let i = 10;
-    while (i--) this.recommendedVideos.push(createVideo());
+    this.$onInit = () => {
+      this.watchVideo.promiseDataReady
+        .then(() => dataService.searchVideoByTag(this.watchVideo.tag))
+        .then(res => {
+          if (res.status === 200)
+            this.recommendedVideos = res.data
+              .filter(x => x.id !== this.watchVideo.id)
+              .map(x => {
+                const percent =
+                  (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1);
 
-    this.channelVideos = [];
-    i = 3;
-    while (i--) this.channelVideos.push(createVideo());
+                return { ...x, percent };
+              });
+
+          this.watchVideo.autoplay = true;
+
+          Object.defineProperty(this.watchVideo, 'endplay', {
+            get() {
+              return false;
+            },
+            set(v) {
+              if (v && vm.recommendedVideos.length && vm.watchVideo.autoplay) {
+                const url = linkService.makeVideoLink(
+                  vm.recommendedVideos[0].uuid,
+                );
+                linkService.redirect(url);
+              }
+            },
+          });
+        });
+    };
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular
-    .module('app')
-    .component(moduleName, { templateUrl, controller, bindings });
+  angular.module('app').component(moduleName, {
+    templateUrl,
+    controller: [...injection, controller],
+    bindings,
+  });
   // END module
   // eslint-disable-next-line
 })();

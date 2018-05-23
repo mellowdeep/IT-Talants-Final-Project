@@ -12,8 +12,14 @@ angular.module('app').factory('dataService', [
       addComment,
       getCommentsToVideo,
       setCommentLike,
+      searchVideoByTag,
     };
     // -------------------
+
+    function searchVideoByTag(tag) {
+      const url = `/api/search`;
+      return $http.post(url, { type: 'tag', query: tag });
+    }
 
     function checkFields(url, resData, fields) {
       fields.forEach(field => {
@@ -109,7 +115,7 @@ angular.module('app').factory('dataService', [
       return $http.put(`/${uuid}/add-comment`, { text });
     }
 
-    function getCommentsToVideo(uuid) {
+    function getCommentsToVideo(uuid, sortType) {
       // array of
       // "id": 4,
       // "text": "asdfasdf",
@@ -117,26 +123,62 @@ angular.module('app').factory('dataService', [
       // "dislikesCount": 0,
       // "postDate": "2018-5-22",
       // "likeSign": null
+      if (sortType === 'id')
+        return $http.get(`/${uuid}/comments`).then(({ status, data }) => {
+          if (Array.isArray(data)) data.sort((a, b) => b.id - a.id);
+          return { status, data };
+        });
+
+      if (sortType === 'likes')
+        return $http.get(`/${uuid}/comments`).then(({ status, data }) => {
+          if (Array.isArray(data))
+            data.sort(
+              (a, b) =>
+                b.likesCount -
+                b.dislikesCount -
+                (a.likesCount - a.dislikesCount),
+            );
+          return { status, data };
+        });
+
       return $http.get(`/${uuid}/comments`);
     }
 
-    function setCommentLike({ commentId, uuid, type }) {
-      if (type === 0) {
-        return $http
-          .put(`/${uuid}/${commentId}/like/false`)
-          .then(() => $http.put(`/${uuid}/${commentId}/dislike/false`));
+    function setCommentLike({ commentId, uuid, type, likeSign, dislikeSign }) {
+      if (type === -1 && likeSign === 0 && dislikeSign === 0) {
+        return $http.put(`/${uuid}/${commentId}/dislike/true`);
       }
-      if (type === -1) {
+      if (type === -1 && likeSign === 0 && dislikeSign === 1) {
+        return $http.put(`/${uuid}/${commentId}/dislike/false`);
+      }
+      if (type === -1 && likeSign === 1 && dislikeSign === 0) {
         return $http
           .put(`/${uuid}/${commentId}/like/false`)
           .then(() => $http.put(`/${uuid}/${commentId}/dislike/true`));
       }
-      if (type === 1) {
+      if (type === -1 && likeSign === 1 && dislikeSign === 1) {
+        return $http
+          .put(`/${uuid}/${commentId}/like/false`)
+          .then(() => $http.put(`/${uuid}/${commentId}/dislike/false`));
+      }
+      if (type === 1 && likeSign === 0 && dislikeSign === 0) {
+        return $http.put(`/${uuid}/${commentId}/like/true`);
+      }
+      if (type === 1 && likeSign === 0 && dislikeSign === 1) {
         return $http
           .put(`/${uuid}/${commentId}/dislike/false`)
           .then(() => $http.put(`/${uuid}/${commentId}/like/true`));
       }
-      return new Error('bad notation');
+      if (type === 1 && likeSign === 1 && dislikeSign === 0) {
+        return $http.put(`/${uuid}/${commentId}/like/false`);
+      }
+      if (type === 1 && likeSign === 1 && dislikeSign === 1) {
+        return $http
+          .put(`/${uuid}/${commentId}/like/false`)
+          .then(() => $http.put(`/${uuid}/${commentId}/dislike/false`));
+      }
+
+      throw new Error('bad notation');
     }
     // -------------------
   },

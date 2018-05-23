@@ -2,15 +2,17 @@
 <div class="reply-comment">
   <div class="rc-header">
     <i class="cv cvicon-cv-comment"></i>
-    <span class="semibold">236</span> Comments</div>
+    <span class="semibold"> {{ $ctrl.commentsToVideoMain.length }}</span> Comments</div>
   <div class="rc-ava">
     <a href="#">
-      <img src="images/ava5.png" alt="">
+      <!-- <img src="images/ava5.png" alt=""> -->
+      <img ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
+        alt="avatar" style="width:50px" />
     </a>
   </div>
   <div class="rc-comment">
     <form ng-submit="$ctrl.userSubmitComment()">
-      <textarea rows="3" ng-model="$ctrl.inputByUser"></textarea>
+      <textarea rows="3" ng-model="$ctrl.inputByUser" ng-keypress="$ctrl.listenToAddSubmit($event)"></textarea>
       <button type="submit">
         <i class="cv cvicon-cv-add-comment"></i>
       </button>
@@ -18,15 +20,15 @@
   </div>
   <div class="clearfix"></div>
 </div>
-<div class="comments-list">
+<div class="comments-list" ng-show="$ctrl.haveComments">
   <div class="cl-header">
     <div class="c-nav">
       <ul class="list-inline">
         <li>
-          <a href="#" class="active">Popular Comments</a>
+          <a href="" ng-class="{ 'active': $ctrl.sortingComments==='likes' }" ng-click="$ctrl.popularNewestComments('likes')">Popular Comments</a>
         </li>
         <li>
-          <a href="#">Newest Comments</a>
+          <a href="" ng-class="{ 'active': $ctrl.sortingComments==='id' }" ng-click="$ctrl.popularNewestComments('id')">Newest Comments</a>
         </li>
       </ul>
     </div>
@@ -41,9 +43,9 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="loadmore-comments">
-        <form action="#" method="post">
+        <!-- <form>
           <button class="btn btn-default h-btn">Load more Comments</button>
-        </form>
+        </form> -->
       </div>
     </div>
   </div>

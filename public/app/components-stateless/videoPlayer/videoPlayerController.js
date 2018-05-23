@@ -8,8 +8,8 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', type: '=', user: '=' };
-  const injection = ['$element'];
-  function controller($element) {
+  const injection = ['$element', '$window'];
+  function controller($element, $window) {
     console.log(`${moduleName} started`);
     this.like = false;
     this.dislike = false;
@@ -32,6 +32,8 @@
       if (this.currentStateResolution === 'HD' && this.watchVideo.high_quality)
         this.source.attributes.src.value = this.watchVideo.highQuality;
       else this.source.attributes.src.value = this.watchVideo.lowQuality;
+
+      this.video.load();
     };
 
     this.changeResolution = resolution => {
@@ -58,6 +60,13 @@
       this.source = $element.find('source')[0];
       // eslint-disable-next-line
       this.video = $element.find('video')[0];
+
+      this.video.addEventListener('ended', () => {
+        this.watchVideo.endplay = true;
+        // if (this.watchVideo.autoplay) {
+        //   $window.location.href = `#/video?uuid=${this.uuidnext}`;
+        // }
+      });
 
       // const watchVideo = obj.currentValue;
       // console.log('data', watchVideo);

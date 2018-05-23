@@ -21,7 +21,8 @@
 <div class="cl-comment">
   <div class="cl-avatar">
     <a ng-href="{{ $ctrl.commentParams.userId }}">
-      <img src="images/ava8.png" alt="">
+      <img ng-src="{{ $ctrl.commentParams.userImage ? $ctrl.commentParams.userImage: 'images/user-admin-ava.png' }}"
+        alt="avatar" style="width:70px" />
     </a>
   </div>
   <div class="cl-comment-text">
@@ -45,7 +46,7 @@
     </div> -->
     <div class="cl-flag" ng-if="$ctrl.user.auth">
       <a ng-href="" ng-click="$ctrl.likeComment(-1)" ng-style="{'pointer-events': $ctrl.canLike ? 'auto' : 'none' }">
-        <i class="fa fa-thumbs-o-down" ng-style="{ color:  $ctrl.commentParams.likeSign === -1 ? 'green' : '', 'text-decoration': $ctrl.canLike ? 'auto' : 'none'}"></i>
+        <i class="fa fa-thumbs-o-down" ng-style="{ color:  $ctrl.commentParams.dislikeSign === 1 ? 'green' : '', 'text-decoration': $ctrl.canLike ? 'auto' : 'none'}"></i>
       </a>
       <a ng-href="" ng-click="$ctrl.likeComment(1)" ng-style="{'pointer-events': $ctrl.canLike ? 'auto' : 'none',  'text-decoration': $ctrl.canLike ? 'auto' : 'none'}">
         <i class="fa fa-thumbs-o-up" ng-style="{ color:  $ctrl.commentParams.likeSign === 1 ? 'green' : ''}"></i>

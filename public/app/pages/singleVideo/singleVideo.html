@@ -26,31 +26,28 @@
           <a href="#">Up Next</a>
         </div>
         <div class="right">
-          <a href="#">Autoplay
-            <i class="cv cvicon-cv-btn-off"></i>
+          <a href="" ng-click="$ctrl.autoplayChange()">Autoplay
+            <i class="cv" ng-class="{'cvicon-cv-btn-on': $ctrl.watchVideo.autoplay, 'cvicon-cv-btn-off': !$ctrl.watchVideo.autoplay }"></i>
           </a>
         </div>
         <div class="clearfix"></div>
       </div>
 
 
-      <div class="list">
+      <!-- <div class="list">
         <recommended-videos class="h-video row" ng-repeat="video in $ctrl.channelVideos"
           video-params="video">
         </recommended-videos>
-      </div>
-      <!-- END up next -->
+      </div> -->
 
-      <!-- google ads -->
-      <ad-google class="adblock" text="336 x 280"></ad-google>
+      <!-- <ad-google class="adblock" text="336 x 280"></ad-google> -->
 
-      <!-- Recomended Videos -->
-      <div class="caption">
+      <!-- <div class="caption">
         <div class="left">
           <a href="#">Recomended Videos</a>
         </div>
         <div class="clearfix"></div>
-      </div>
+      </div> -->
 
 
       <div class="list">

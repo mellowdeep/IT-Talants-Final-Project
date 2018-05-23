@@ -10,36 +10,43 @@
   function controller(dataService) {
     console.log(`${moduleName} started`);
     this.canLike = true;
-    this.likeComment = val => {
+
+    this.likeComment = type => {
       console.log('click like');
       this.canLike = false;
-      if (this.commentParams.likeSign === val) {
-        dataService
-          .setCommentLike({
-            uuid: this.watchVideo.uuid,
-            commentId: this.commentParams.id,
-            type: 0,
-          })
-          .then(res => {
-            if (res.status === 200) {
-              this.commentParams.likeSign = 0;
-            }
-            this.canLike = true;
-          });
-      } else {
-        dataService
-          .setCommentLike({
-            uuid: this.watchVideo.uuid,
-            commentId: this.commentParams.id,
-            type: val,
-          })
-          .then(res => {
-            if (res.status === 200) {
-              this.commentParams.likeSign = val;
-            }
-            this.canLike = true;
-          });
-      }
+
+      console.log(this.commentParams);
+      dataService
+        .setCommentLike({
+          uuid: this.watchVideo.uuid,
+          commentId: this.commentParams.id,
+          type,
+          likeSign: this.commentParams.likeSign || 0,
+          dislikeSign: this.commentParams.dislikeSign || 0,
+        })
+        .then(res => {
+          if (res.status === 200) {
+            return dataService.getCommentsToVideo(this.watchVideo.uuid);
+          }
+          this.canLike = true;
+          throw new Error('cannot set like');
+        })
+        .then(({ data }) => {
+          const {
+            likeSign,
+            dislikeSign,
+            likesCount,
+            dislikesCount,
+          } = data.find(x => x.id === this.commentParams.id);
+          this.commentParams.likeSign = likeSign;
+          this.commentParams.dislikeSign = dislikeSign;
+          this.commentParams.likesCount = likesCount;
+          this.commentParams.dislikesCount = dislikesCount;
+          this.canLike = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     };
   }
 

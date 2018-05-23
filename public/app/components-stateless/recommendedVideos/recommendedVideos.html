@@ -1,6 +1,6 @@
 <div class="col-lg-6 col-sm-6">
   <div class="v-img">
-    <a href="{{ $ctrl.videoParams.href }}">
+    <a ng-href="#/video?uuid={{$ctrl.videoParams.uuid }}">
       <img data-ng-src="{{$ctrl.videoParams.image}}" alt="">
     </a>
     <div class="time">{{ $ctrl.videoParams.duration }}</div>
@@ -8,12 +8,28 @@
 </div>
 <div class="col-lg-6 col-sm-6">
   <div class="v-desc">
-    <a href="{{ $ctrl.videoParams.href }}">{{ $ctrl.videoParams.title }}</a>
+    <a ng-href="#/video?uuid={{$ctrl.videoParams.uuid }}">{{ $ctrl.videoParams.name }}</a>
   </div>
   <div class="v-views">
-    {{ $ctrl.videoParams.viewCount }} views
+    {{ $ctrl.videoParams.playCount }} views
   </div>
   <div class="v-percent">
-    <span class="v-circle"></span>{{ $ctrl.videoParams.percent }} </div>
+    <span class="v-circle"></span> {{ $ctrl.percent }} % </div>
 </div>
 <div class="clearfix"></div>
+
+<!-- // "id": 16,
+      //   "userId": 3,
+      //   "uuid": "0k050dN3",
+      //   "name": "rrrTEstrrr",
+      //   "about": "about",
+      //   "tag": "music",
+      //   "playCount": 0,
+      //   "likeSign": 0,
+      //   "dislikeSign": 0,
+      //   "likesCount": 0,
+      //   "dislikesCount": 0,
+      //   "highQuality": "/upload/high/0k050dN3.mp4",
+      //   "lowQuality": "/upload/low/0k050dN3.mp4",
+      //   "image": "/upload/thumbnails/0k050dN3.png",
+      //   "duration": "0:11" -->

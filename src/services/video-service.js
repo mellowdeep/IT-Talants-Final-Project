@@ -100,11 +100,17 @@ const videoFunction = {
         if (rows) return rows;
         throw new Error('Unable to rate video');
       }),
-  getAllByMatchName:(keyword) =>
-    repository.findByMatchName(keyword)
+  getAllByTypeAndMatchName:(type, searchQuery) =>
+    (type === 'tag' ?
+          repository.findByTagForSearch(searchQuery) :
+          repository.findByTagAndMatchName(searchQuery))
       .then(videos => {
         if(Array.isArray(videos)){
           return videos.map(v => mapVideo(v));
+        }
+
+        if(videos){
+          return mapVideo(videos);
         }
 
         return videos;

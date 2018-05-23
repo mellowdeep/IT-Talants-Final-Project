@@ -75,10 +75,24 @@ const query = {
       status,
     );
   },
-  findByMatchName(keyword) {
+  findByTagAndMatchName(type, searchQuery) {
     return db.getMultipleResult(
-      'SELECT * FROM videos AS v WHERE v.name like %?%',
-      keyword,
+      `SELECT 
+        videos.uuid 
+      FROM 
+        videos
+      WHERE videos.visibility = 'public'
+        and upper(videos.name) like upper(?)`, `%${searchQuery}%`
+    );
+  },
+  findByTagForSearch(searchQuery) {
+    return db.getMultipleResult(
+      `SELECT 
+        videos.uuid 
+      FROM 
+        videos
+      WHERE videos.visibility = 'public'
+        and tag = ?`, searchQuery
     );
   },
   getLastWatchedVideos(userId) {

@@ -1,21 +1,22 @@
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
+const keys = require('../../../keys');
 const userService = require('../../services/user-service');
 
 module.exports = () => {
   passport.use(
     new TwitterStrategy(
       {
-        consumerKey: "HduEgbiJLwrNloX1ZxputuWrN",
-        consumerSecret: "TjPYLnQsoFjdAXoowLlZKX4H1nPYQ8XEE73EeT1tHbfCUC4NTt",
+        consumerKey: keys.twitterKey,
+        consumerSecret: keys.twitterSecret,
         callbackURL: "https://127.0.0.1:443/twitter/callback",
         includeEmail: true,
         passReqToCallback: true
       },
       (req, accessToken, tokenSecret, profile, done) => {
         const user = {
-          id: profile.id,
+          id: profile.id.toString().slice(0,18),
           username: profile._json.email,
           image: profile._json.profile_image_url,
           name: profile.displayName,

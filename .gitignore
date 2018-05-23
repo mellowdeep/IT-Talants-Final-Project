@@ -6,4 +6,5 @@ start_server.cmd
 public/videos/video-1.mp4
 public/upload/
 .prettierignore
+keys.js
 

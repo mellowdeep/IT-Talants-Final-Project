@@ -1,22 +1,25 @@
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
+
 const userService = require("../../services/user-service");
+const keys = require('../../../keys');
 
 module.exports = () => {
   passport.use(new FacebookStrategy({
-      clientID: '968381570005893',
-      clientSecret: 'fc887b693c986d2355514313d7d534fa',
+      clientID: keys.facebookKey,
+      clientSecret: keys.facebookSecret,
       callbackURL: "https://127.0.0.1:443/auth/facebook/callback",
-      profileFields: ['id', 'displayName', 'photos', 'email']
+      profileFields: ['id', 'displayName', 'photos', 'email'],
     },
     (accessToken, refreshToken, profile, done)  => {
       const user = {
-        id: profile.id,
+        id: profile.id.toString().slice(0,18),
         username: profile.emails[0].value,
         image: profile.photos ? profile.photos[0].value : "",
         name: profile.displayName,
         provider: "facebook",
         facebook: {
+          id: profile.id,
           token: accessToken
         }
       };

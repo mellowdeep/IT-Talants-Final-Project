@@ -7,9 +7,20 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
-controller.get('/search/:keyword', (req, res) => {
+controller.get('/api/search', (req, res) => {
+  const { query, type } = req.body;
+  if(!query || !type) {
+    res.status(status.BAD_REQUEST).send('Type or query is null');
+    return;
+  }
+
+  if(type !== 'tag' || type !== 'query') {
+    res.status(status.BAD_REQUEST).send('Invalid search request');
+    return;
+  }
+
   videoService
-    .getAllByMatchName(req.params.keyword)
+    .getAllByTypeAndMatchName(type , query)
     .then(videos => res.status(status.OK).send(videos))
     .catch(err => res.status(status.NOT_FOUND).send(err.message));
 });

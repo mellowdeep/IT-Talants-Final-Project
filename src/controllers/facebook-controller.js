@@ -12,13 +12,12 @@ controller.get('/auth/facebook',
 
 
 controller.get('/auth/facebook/callback',
-  passport.authenticate('facebook', (req, res) => {
+  passport.authenticate('facebook'), (req, res) => {
     if (req.user) {
-      res.send(req.user);
-    } else {
-      res.sendStatus(status.UNAUTHORIZED);
+      return res.redirect('/login');
     }
-  }),
+      res.sendStatus(status.UNAUTHORIZED);
+  },
 );
 
 

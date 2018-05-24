@@ -20,13 +20,13 @@ controller.get(
 
 controller.get(
   '/auth/google/callback',
-  passport.authenticate('google', (req, res) => {
+  passport.authenticate('google'), (req, res) => {
     if (req.user) {
-      res.send(req.user);
-    } else {
-      res.sendStatus(status.UNAUTHORIZED);
+      return res.redirect('/');
     }
-  }),
+    res.sendStatus(status.UNAUTHORIZED);
+  }
 );
+
 
 module.exports = controller;

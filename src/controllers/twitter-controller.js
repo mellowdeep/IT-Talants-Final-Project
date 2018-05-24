@@ -12,13 +12,13 @@ controller.get('/auth/twitter', passport.authenticate('twitter'));
 
 controller.get(
   '/twitter/callback',
-  passport.authenticate('twitter', (req, res) => {
+  passport.authenticate('twitter'), (req, res) => {
     if (req.user) {
-      res.send(req.user);
-    } else {
-      res.sendStatus(status.BAD_REQUEST);
+      return res.redirect('/');
     }
-  })
+    res.sendStatus(status.UNAUTHORIZED);
+  },
 );
+
 
 module.exports = controller;

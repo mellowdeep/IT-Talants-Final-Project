@@ -1,20 +1,20 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+const keys = require('../../../keys');
 const userService = require('../../services/user-service');
 
 module.exports = () => {
   passport.use(
     new GoogleStrategy(
       {
-        clientID:
-          "490653670799-bjlvpp84e9f51hcubat696a84api7f04.apps.googleusercontent.com",
-        clientSecret: "kJzzrpe67eSIXCoSXvvP-AmF",
+        clientID: keys.goolgeKey,
+        clientSecret: keys.googleSecret,
         callbackURL: "https://127.0.0.1:443/auth/google/callback"
       },
       (req, accessToken, refreshToken, profile, done) => {
         const user = {
-          id: profile.id,
+          id: profile.id.toString().slice(0,18),
           username: profile.emails[0].value,
           image: profile._json.image.url,
           name: profile.displayName,

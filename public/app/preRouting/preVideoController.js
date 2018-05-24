@@ -31,9 +31,6 @@
       let watchVideo;
       try {
         watchVideo = await dataService.getVideo(search.uuid);
-        watchVideo.percent =
-          (watchVideo.likesCount || 0) /
-          (watchVideo.likesCount + watchVideo.dislikesCount || 1);
       } catch (e) {
         if (e.status === 404) {
           console.log('not found video');

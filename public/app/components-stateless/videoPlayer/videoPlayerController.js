@@ -8,18 +8,39 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', type: '=', user: '=' };
-  const injection = ['$element', '$window'];
-  function controller($element, $window) {
+  const injection = ['$element', '$window', 'dataService'];
+  function controller($element, $window, dataService) {
     console.log(`${moduleName} started`);
     this.like = false;
     this.dislike = false;
+    this.canLike = true;
 
-    this.setLike = () => {
-      console.log('like');
-    };
-
-    this.setDislike = () => {
-      console.log('dislike');
+    this.setLike = type => {
+      window.testVideo = this.watchVideo;
+      dataService
+        .setVideoLike({
+          uuid: this.watchVideo.uuid,
+          type,
+          likeSign: this.watchVideo.likeSign || 0,
+          dislikeSign: this.watchVideo.dislikeSign || 0,
+        })
+        .then(res => {
+          if (res.status === 200) {
+            return dataService.getVideo(this.watchVideo.uuid);
+          }
+          this.canLike = true;
+          throw new Error('cannot set like');
+        })
+        .then(({ likeSign, dislikeSign, likesCount, dislikesCount }) => {
+          this.watchVideo.likeSign = likeSign;
+          this.watchVideo.dislikeSign = dislikeSign;
+          this.watchVideo.likesCount = likesCount;
+          this.watchVideo.dislikesCount = dislikesCount;
+          this.canLike = true;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     };
 
     this.currentStateResolution = 'SD';

@@ -24,15 +24,10 @@
       this.watchVideo.promiseDataReady
         .then(() => dataService.searchVideoByTag(this.watchVideo.tag))
         .then(res => {
-          if (res.status === 200)
-            this.recommendedVideos = res.data
-              .filter(x => x.id !== this.watchVideo.id)
-              .map(x => {
-                const percent =
-                  (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1);
-
-                return { ...x, percent };
-              });
+          if (res.status === 200) console.log(res.data);
+          this.recommendedVideos = res.data.filter(
+            x => x.id !== this.watchVideo.id,
+          );
 
           this.watchVideo.autoplay = true;
 

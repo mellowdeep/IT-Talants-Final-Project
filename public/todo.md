@@ -47,3 +47,10 @@ subscribe_count
 трябва api за notification from subscribe
 
 трябва api за recently watched
+
+трябва get за subscribe
+
+/user/:userId;
+трябва поле
+image
+isSubscribed

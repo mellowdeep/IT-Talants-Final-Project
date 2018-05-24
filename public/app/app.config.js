@@ -30,6 +30,10 @@ angular.module('app').config([
         template: `<admin user="vm.user"></admin>`,
         controller: 'preAdmin as vm',
       })
+      .when('/channel', {
+        template: `<channel user="vm.user" about-author="vm.aboutAuthor"></channel>`,
+        controller: 'preChannel as vm',
+      })
       .when('/search', {
         template: '<search></search>',
       })

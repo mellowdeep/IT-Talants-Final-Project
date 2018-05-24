@@ -5,10 +5,15 @@ angular.module('app').factory('linkService', [
     return {
       makeVideoLink,
       redirect,
+      makeChannelLink,
     };
 
     function makeVideoLink(uuid) {
       return `#/video?uuid=${uuid}`;
+    }
+
+    function makeChannelLink(userId) {
+      return `#/channel?userId=${userId}`;
     }
 
     function redirect(link) {

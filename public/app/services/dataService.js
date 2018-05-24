@@ -19,7 +19,17 @@ angular.module('app').factory('dataService', [
 
     function searchVideoByTag(tag) {
       const url = `/api/search`;
-      return $http.post(url, { type: 'tag', query: tag });
+      return $http.post(url, { type: 'tag', query: tag }).then(res => {
+        if (Array.isArray(res.data)) {
+          res.data = res.data.map(x => {
+            x.percent = Math.round(
+              100 * (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1),
+            );
+            return x;
+          });
+        }
+        return res;
+      });
     }
 
     function checkFields(url, resData, fields) {
@@ -40,6 +50,11 @@ angular.module('app').factory('dataService', [
           'likes',
           'dislikes',
         ]);
+
+        const sum = res.data.likes + res.data.dislikes;
+        if (sum)
+          this.aboutAuthor.percent = Math.floor(res.data.likes * 100 / sum);
+        else res.data.percent = 0;
 
         return res.data;
       });
@@ -67,9 +82,11 @@ angular.module('app').factory('dataService', [
         ]);
 
         // res.data.likeSign = 1;
-        res.data.percent =
-          (res.data.likesCount || 0) /
-          (res.data.likesCount + res.data.dislikesCount || 1);
+        res.data.percent = Math.round(
+          100 *
+            (res.data.likesCount || 0) /
+            (res.data.likesCount + res.data.dislikesCount || 1),
+        );
         return res.data;
       });
     }

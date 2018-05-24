@@ -8,20 +8,21 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=' };
-  const injection = ['dataService'];
-  function controller(dataService) {
+  const injection = ['dataService', 'linkService'];
+  function controller(dataService, linkService) {
     this.aboutAuthor = {};
 
-    const updateData = async () => {
-      await this.watchVideo.promiseDataReady;
-      this.aboutAuthor = await dataService.aboutAuthor(this.watchVideo.userId);
-      const sum = this.aboutAuthor.likes + this.aboutAuthor.dislikes;
-      if (sum)
-        this.aboutAuthor.percent = Math.floor(
-          this.aboutAuthor.likes * 100 / sum,
-        );
-      else this.aboutAuthor.percent = 0;
-      console.log(this.aboutAuthor);
+    const updateData = () => {
+      this.watchVideo.promiseDataReady
+        .then(() => dataService.aboutAuthor(this.watchVideo.userId))
+        .then(res => {
+          this.aboutAuthor = res;
+          this.aboutAuthor.linkToChannel = linkService.makeChannelLink(
+            this.watchVideo.userId,
+          );
+          console.log('about author', this.aboutAuthor);
+        });
+
       // dislikes;
       // id;
       // likes;

@@ -1,10 +1,16 @@
 <div class="author">
-  <a href="#">
-    <img data-ng-src="{{$ctrl.aboutAuthor.image || 'images/user-admin-ava.png'}}" alt="" class="sv-avatar">
+  <a ng-href="{{ $ctrl.aboutAuthor.linkToChannel }}">
+    <img data-ng-src="{{$ctrl.aboutAuthor.image || 'images/user-admin-ava.png'}}"
+      alt="" class="sv-avatar">
   </a>
   <div class="sv-name">
     <div>
-      <a href="#">{{ $ctrl.aboutAuthor.name }}</a> . {{ $ctrl.aboutAuthor.videos }} Videos</div>
+      <a ng-href="{{ $ctrl.aboutAuthor.linkToChannel }}">{{ $ctrl.aboutAuthor.name }}</a> .
+      <br>{{ $ctrl.aboutAuthor.videos }} Videos / {{ $ctrl.aboutAuthor.views
+      }} views / {{ $ctrl.aboutAuthor.likes }} likes / {{ $ctrl.aboutAuthor.dislikes
+      }} dislikes
+    </div>
+    <!-- </div> -->
     <div class="c-sub">
       <div class="c-f" style="cursor: pointer;" ng-click="$ctrl.subscribe()">
         Subscribe
@@ -17,17 +23,17 @@
   </div>
   <div class="sv-views">
     <div class="sv-views-count">
-      {{ $ctrl.aboutAuthor.views }} views
+      {{ $ctrl.watchVideo.playCount }} views
     </div>
     <div class="sv-views-progress">
-      <div class="sv-views-progress-bar" ng-style="{ 'width': $ctrl.aboutAuthor.percent+'%' }"></div>
+      <div class="sv-views-progress-bar" ng-style="{ 'width': $ctrl.watchVideo.percent+'%' }"></div>
     </div>
     <div class="sv-views-stats">
-      <span class="percent"> {{ $ctrl.aboutAuthor.percent }} %</span>
+      <span class="percent"> {{ $ctrl.watchVideo.percent }} %</span>
       <span class="green">
-        <span class="circle"></span> {{ $ctrl.aboutAuthor.likes }}</span>
+        <span class="circle"></span> {{ $ctrl.watchVideo.likesCount }}</span>
       <span class="grey">
-        <span class="circle"></span>{{ $ctrl.aboutAuthor.dislikes }} </span>
+        <span class="circle"></span>{{ $ctrl.watchVideo.dislikesCount }} </span>
     </div>
   </div>
   <div class="clearfix"></div>

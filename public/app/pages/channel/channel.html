@@ -12,7 +12,7 @@
         <channel-menu current-menu="$ctrl.menu"></channel-menu>
       </channel-details>
 
-      <channel-videos ng-show="$ctrl.menu.page==='videos'"></channel-videos>
+      <channel-videos user="$ctrl.user" about-author="$ctrl.aboutAuthor" ng-show="$ctrl.menu.page==='videos'"></channel-videos>
       <row-footer></row-footer>
     </div>
   </content-wrapper>

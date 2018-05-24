@@ -38,7 +38,7 @@
       updateData();
     };
 
-    this.$onInit = async () => {
+    this.$onInit = () => {
       updateData();
     };
   }

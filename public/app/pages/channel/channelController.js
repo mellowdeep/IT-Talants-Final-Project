@@ -12,15 +12,16 @@
     const vm = this;
 
     vm.$onInit = () => {
+      console.log('channel--------------', this.aboutAuthor);
       vm.menu = {
         get page() {
           return this._page;
         },
         set page(v) {
           this._page = v;
-          const search = $location.search();
-          search.tab = this._page;
-          $location.search(search);
+          // const search = $location.search();
+          // search.tab = this._page;
+          // $location.search({ ...search });
         },
         _page: vm.tabValue || 'videos',
       };

@@ -12,8 +12,10 @@
     </div>
     <!-- </div> -->
     <div class="c-sub">
-      <div class="c-f" style="cursor: pointer;" ng-click="$ctrl.subscribe()">
-        Subscribe
+      <div ng-if="$ctrl.user.id !== $ctrl.aboutAuthor.id" class="c-f" style="cursor: pointer;"
+        ng-click="$ctrl.subscribe()">
+        <span ng-if="!$ctrl.aboutAuthor.isSubscribed">Subscribe</span>
+        <span ng-if="$ctrl.aboutAuthor.isSubscribed">Unsubscribe</span>
       </div>
       <div class="c-s">
         {{ $ctrl.aboutAuthor.subscribe_count || 0 }}

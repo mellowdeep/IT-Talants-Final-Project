@@ -14,6 +14,7 @@ angular.module('app').factory('dataService', [
       setCommentLike,
       searchVideoByTag,
       setVideoLike,
+      userVideos,
     };
     // -------------------
 
@@ -58,6 +59,11 @@ angular.module('app').factory('dataService', [
 
         return res.data;
       });
+    }
+
+    function userVideos(userId) {
+      const url = `/user/${userId}/videos`;
+      return $http.get(url);
     }
 
     function getVideo(uuid) {

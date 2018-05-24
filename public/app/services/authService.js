@@ -23,7 +23,7 @@ angular.module('app').factory('authService', [
       callbackArray: [],
     };
 
-    const USER_NOT_LOGGED = { auth: false };
+    const USER_NOT_LOGGED = { auth: false, id: -1 };
 
     return {
       signUp,

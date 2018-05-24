@@ -24,10 +24,11 @@
 
     const search = $location.search();
     let { userId, tab } = search;
-    vm.aboutAuthor = {};
+    let ok;
+    vm.aboutAuthor = { aboutAuthorPromise: new $q(res => (ok = res)) };
 
     if (!userId) {
-      // linkService.redirect('#/404');
+      linkService.redirect('#/404');
       return;
     }
 
@@ -42,7 +43,9 @@
       })
       .then(() => dataService.aboutAuthor(userId))
       .then(res => {
-        vm.aboutAuthor = res;
+        Object.assign(vm.aboutAuthor, res);
+        console.log(vm.aboutAuthor);
+        ok();
       })
       .catch(err => {
         console.log(err);

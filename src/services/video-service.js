@@ -9,6 +9,7 @@ const mapVideo = video => ({
     name: video.name,
     about: video.about,
     tag: video.tag,
+    status: video.status,
     playCount: video.play_count || 0,
     likeSign: video.like_sign || 0,
     dislikeSign: video.dislike_sign || 0,

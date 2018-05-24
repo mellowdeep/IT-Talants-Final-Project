@@ -49,4 +49,4 @@ const userFunction = {
       .then(id => repository.findAvailableInfo(id)),
 };
 
-module.exports = userFunction;
+module.exports = {userFunction, mappUser};

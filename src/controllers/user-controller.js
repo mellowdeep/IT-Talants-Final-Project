@@ -23,7 +23,7 @@ controller.get('/user/:userId', (req, res) => {
       return null;
     })
     .then(subscribe => {
-      userWithInfo.subscribesCount = subscribe.subscribesCount || 0;
+      userWithInfo.subscribesCount = subscribe ? subscribe.subscribesCount : 0;
       userWithInfo.subscribe = subscribe ? 1 : 0;
       return res.status(status.OK).send(userWithInfo);
     })

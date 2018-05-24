@@ -3,7 +3,7 @@ module.exports = (ffmpeg, file, path, takeScreenshotTime, uuid, imageSavePath, v
   ffmpeg(path.join(file.path))
     .takeScreenshots({
         count: 1,
-        size: '200x200',
+        size: '200x140',
         timemarks: [takeScreenshotTime],
         filename: `${uuid}.png`,
       },

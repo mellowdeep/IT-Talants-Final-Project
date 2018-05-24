@@ -36,10 +36,10 @@ const query = {
       "FROM users AS u " +
       "JOIN videos AS v  " +
       "ON v.user_id = u.id " +
-      "WHERE user_id = ? " +
+      "WHERE u.id = ? " +
       "GROUP BY u.id, u.name", userId
     )
-  }
+  },
 };
 
 module.exports = query;

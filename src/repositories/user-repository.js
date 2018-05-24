@@ -29,7 +29,7 @@ const query = {
   },
   findAvailableInfo(userId) {
     return db.getSingleResult(
-      "SELECT u.id, u.name, SUM(v.play_count) AS views, " +
+      "SELECT u.id, u.name, u.image, SUM(v.play_count) AS views, " +
       "COUNT(v.id) AS videos, " +
       "SUM(v.likes_count) AS likes, " +
       "SUM(v.dislikes_count) AS dislikes " +

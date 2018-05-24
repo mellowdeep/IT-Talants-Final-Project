@@ -7,7 +7,7 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = { watchVideo: '=' };
+  const bindings = { watchVideo: '=', user: '=' };
   const injection = ['dataService', 'linkService'];
   function controller(dataService, linkService) {
     this.aboutAuthor = {};
@@ -33,9 +33,32 @@
       // ? subscribes
     };
 
+    this.modal = {
+      get accept() {
+        return this._value;
+      },
+      set accept(v) {
+        this.showModal = false;
+      },
+      _value: false,
+      showModal: false,
+      hideNo: true,
+      text: 'Please login for subscribe',
+      textYes: 'Ok',
+    };
+
     this.subscribe = () => {
-      console.log('subscribe / unsubscribe');
-      updateData();
+      if (!this.user.auth) {
+        this.modal.showModal = true;
+        return;
+      }
+
+      const s = () => {
+        if (this.aboutAuthor.isSubscribed)
+          return dataService.unsubscribe(this.aboutAuthor.id);
+        return dataService.subscribe(this.aboutAuthor.id);
+      };
+      s().then(() => updateData());
     };
 
     this.$onInit = () => {

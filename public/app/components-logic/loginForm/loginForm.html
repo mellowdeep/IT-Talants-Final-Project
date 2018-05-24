@@ -37,17 +37,18 @@
             </div>
             <div class="checkbox">
               <label>
-                <label class="checkbox">
+                <!-- <span class="color-active">{{ $ctrl.errorText }}</span> -->
+                <!-- <label class="checkbox">
                   <input ng-model="$ctrl.agreeToRemember" type="checkbox" name="#">
                   <span class="arrow"></span>
-                </label>
-                <span>Remember me on this computer</span>
-                <span class="text2">(not recomended on public or shared computers)</span>
+                </label> -->
+                <!-- <span>Remember me on this computer</span> -->
+                <!-- <span class="text2">(not recomended on public or shared computers)</span> -->
               </label>
             </div>
             <div class="row">
               <div class="col-lg-7">
-                <button type="submit" class="btn btn-cv1">Login</button>
+                <button ng-disabled="$ctrl.disableSubmit" type="submit" class="btn btn-cv1">Login</button>
               </div>
               <div class="col-lg-1 ortext">or</div>
               <div class="col-lg-4 signuptext">
@@ -55,6 +56,14 @@
               </div>
             </div>
             <!-- <div class="row"> -->
+            <div class="row">
+              <div class="col-lg-12" ng-if="$ctrl.errorText.length">
+                <br>
+                <span class="color-active">{{ $ctrl.errorText }}</span>
+              </div>
+            </div>
+
+
             <hr>
             <!-- </div> -->
 
@@ -67,17 +76,20 @@
           </form>
           <div class="row">
             <div class="col-lg-3">
-              <button class="btn" ng-click="$ctrl.facebook()" style="background-color: rgba(0, 0, 0, 0); ">
+              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.facebook()"
+                style="background-color: rgba(0, 0, 0, 0); ">
                 <i class="fa fa-facebook-square" style="font-size: 40px;"></i>
               </button>
             </div>
             <div class="col-lg-3">
-              <button class="btn" ng-click="$ctrl.twitter()" style="background-color: rgba(0, 0, 0, 0); ">
+              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.twitter()"
+                style="background-color: rgba(0, 0, 0, 0); ">
                 <i class="fa fa-twitter-square" style="font-size: 40px;"></i>
               </button>
             </div>
             <div class="col-lg-3">
-              <button class="btn" ng-click="$ctrl.google()" style="background-color: rgba(0, 0, 0, 0); ">
+              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.google()"
+                style="background-color: rgba(0, 0, 0, 0); ">
                 <i class="fa fa-google-plus-square" style="font-size: 40px;"></i>
               </button>
             </div>

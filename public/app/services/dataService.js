@@ -1,8 +1,9 @@
 angular.module('app').factory('dataService', [
   '$http',
   'Upload',
+  'linkService',
   // --------API-----------
-  function($http, Upload) {
+  function($http, Upload, linkService) {
     return {
       getVideo,
       aboutAuthor,
@@ -15,8 +16,20 @@ angular.module('app').factory('dataService', [
       searchVideoByTag,
       setVideoLike,
       userVideos,
+      subscribe,
+      unsubscribe,
     };
     // -------------------
+
+    function subscribe(userId) {
+      const url = `/subscribe/add/${userId}`;
+      return $http.put(url);
+    }
+
+    function unsubscribe(userId) {
+      const url = `/subscribe/remove/${userId}`;
+      return $http.put(url);
+    }
 
     function searchVideoByTag(tag) {
       const url = `/api/search`;
@@ -51,6 +64,10 @@ angular.module('app').factory('dataService', [
           'likes',
           'dislikes',
         ]);
+
+        if (!Reflect.has(res.data, 'isSubscribed')) {
+          res.data.isSubscribed = res.data.subscribe;
+        }
 
         const sum = res.data.likes + res.data.dislikes;
         if (sum)
@@ -151,14 +168,25 @@ angular.module('app').factory('dataService', [
       // "dislikesCount": 0,
       // "postDate": "2018-5-22",
       // "likeSign": null
+
+      const getDataPromise = $http.get(`/${uuid}/comments`).then(res => {
+        if (Array.isArray(res.data)) {
+          res.data = res.data.map(x => ({
+            ...x,
+            linkToUser: linkService.makeChannelLink(x.userId),
+          }));
+        }
+        return res;
+      });
+
       if (sortType === 'id')
-        return $http.get(`/${uuid}/comments`).then(({ status, data }) => {
+        return getDataPromise.then(({ status, data }) => {
           if (Array.isArray(data)) data.sort((a, b) => b.id - a.id);
           return { status, data };
         });
 
       if (sortType === 'likes')
-        return $http.get(`/${uuid}/comments`).then(({ status, data }) => {
+        return getDataPromise.then(({ status, data }) => {
           if (Array.isArray(data))
             data.sort(
               (a, b) =>
@@ -169,7 +197,7 @@ angular.module('app').factory('dataService', [
           return { status, data };
         });
 
-      return $http.get(`/${uuid}/comments`);
+      return getDataPromise;
     }
 
     function setCommentLike({ commentId, uuid, type, likeSign, dislikeSign }) {

@@ -65,9 +65,9 @@
               <!-- <div class="col-lg-12 forgottext">
                 <a href="#">By clicking "Sign Up" I agree to circle's Terms of Service.</a>
               </div> -->
-              <div class="col-lg-12" ng-if="$ctrl.error.length">
+              <div ng-repeat="text in $ctrl.error" class="col-lg-12" ng-if="$ctrl.error.length">
                 <br>
-                <span class="color-active">{{ $ctrl.error.join(' ') }}</span>
+                <span class="color-active">{{ text }}</span>
               </div>
             </div>
           </form>

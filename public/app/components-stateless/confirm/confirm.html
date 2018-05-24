@@ -10,10 +10,20 @@
         <h4 class="modal-title" id="myModalLabel">{{ $ctrl.modalParams.text || 'Are you sure?' }}</h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="$ctrl.accept(true)">Yes</button>
+        <button ng-if="!$ctrl.modalParams.hideYes" type="button" class="btn btn-default"
+          ng-click="$ctrl.accept(true)">Yes</button>
         <button ng-if="!$ctrl.modalParams.hideNo" type="button" class="btn btn-primary"
           ng-click="$ctrl.accept(false)">No</button>
       </div>
     </div>
   </div>
 </div>
+<!-- 
+$ctrl.accept(false)
+
+$ctrl.modalParams.hideYes
+$ctrl.modalParams.hideNo
+$ctrl.modalParams.showModal
+$ctrl.modalParams.text
+$ctrl.modalParams.textNo
+$ctrl.modalParams.textYes -->

@@ -17,20 +17,32 @@
     //   setTimeout(() => console.log('-----------', this.aboutAuthor), 10000);
     // };
 
-    this.$onChanges = changes => {
-      if (
-        this.aboutAuthor &&
-        changes.aboutAuthor &&
-        // angular.isDefined(changes.aboutAuthor.currentValue) &&
-        changes.aboutAuthor.isFirstChange()
-      ) {
-        console.log(this.aboutAuthor);
-        this.aboutAuthor.aboutAuthorPromise
-          .then(() => dataService.userVideos(this.aboutAuthor.id))
-          .then(({ data }) => {
-            this.videos = data;
-          });
-      }
+    // this.$onChanges = changes => {
+    //   if (
+    //     this.aboutAuthor &&
+    //     changes.aboutAuthor &&
+    //     // angular.isDefined(changes.aboutAuthor.currentValue) &&
+    //     changes.aboutAuthor.isFirstChange()
+    //   ) {
+    //     console.log(this.aboutAuthor);
+    //     this.aboutAuthor.aboutAuthorPromise
+    //       .then(() => dataService.userVideos(this.aboutAuthor.id))
+    //       .then(({ data }) => {
+    //         this.videos = data;
+    //       });
+    //   }
+    // };
+
+    this.$postLink = () => {
+      console.log(
+        '----------------------------',
+        this.aboutAuthor.aboutAuthorPromise.toString(),
+      );
+      this.aboutAuthor.aboutAuthorPromise
+        .then(() => dataService.userVideos(this.aboutAuthor.id))
+        .then(({ data }) => {
+          this.videos = data;
+        });
     };
 
     // about-author="$ctrl.aboutAuthor"

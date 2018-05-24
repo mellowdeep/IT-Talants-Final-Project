@@ -1,5 +1,5 @@
 <div class="channel dark">
-  <logo-menu></logo-menu>
+  <logo-menu user="$ctrl.user"> </logo-menu>
 
   <!-- channel -->
   <channel-banner about-author="$ctrl.aboutAuthor"></channel-banner>
@@ -8,7 +8,7 @@
   <content-wrapper>
     <div class="col-lg-12">
 
-      <channel-details about-author="$ctrl.aboutAuthor">
+      <channel-details user="$ctrl.user" about-author="$ctrl.aboutAuthor">
         <channel-menu current-menu="$ctrl.menu"></channel-menu>
       </channel-details>
 

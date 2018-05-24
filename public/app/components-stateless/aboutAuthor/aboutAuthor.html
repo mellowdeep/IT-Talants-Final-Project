@@ -12,13 +12,13 @@
     </div>
     <!-- </div> -->
     <div class="c-sub">
-      <div ng-if="$ctrl.user.id !== $ctrl.aboutAuthor.id" class="c-f" style="cursor: pointer;"
+      <div ng-if="$ctrl.user.id !== $ctrl.aboutAuthor.id" class="c-f" style="cursor: pointer; width: 110px;"
         ng-click="$ctrl.subscribe()">
         <span ng-if="!$ctrl.aboutAuthor.isSubscribed">Subscribe</span>
         <span ng-if="$ctrl.aboutAuthor.isSubscribed">Unsubscribe</span>
       </div>
       <div class="c-s">
-        {{ $ctrl.aboutAuthor.subscribe_count || 0 }}
+        {{ $ctrl.aboutAuthor.subscribesCount || 0 }}
       </div>
       <div class="clearfix"></div>
     </div>
@@ -40,3 +40,4 @@
   </div>
   <div class="clearfix"></div>
 </div>
+<confirm modal-params="$ctrl.modal"></confirm>

@@ -12,18 +12,27 @@
     console.log(`${moduleName} started`);
     this.password = '';
     this.username = '';
+    this.errorText = '';
     this.agreeToRemember = false;
+    this.disableSubmit = false;
 
     this.facebook = () => console.log('facebook');
     this.twitter = () => console.log('twitter');
     this.google = () => console.log('google');
 
     this.submit = () => {
+      this.disableSubmit = false;
       const { password, username, agreeToRemember } = this;
-      authService.login({ password, username, agreeToRemember }).then(() => {
-        // eslint-disable-next-line
-        $window.location.href = '/#/';
-      });
+      authService
+        .login({ password, username, agreeToRemember })
+        .then(() => {
+          // eslint-disable-next-line
+          $window.location.href = '/#/';
+        })
+        .catch(res => {
+          // console.log(res);
+          this.errorText = 'Incorrect username or password';
+        });
       // console.log();
     };
   }

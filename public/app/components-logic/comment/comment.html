@@ -20,14 +20,14 @@
 
 <div class="cl-comment">
   <div class="cl-avatar">
-    <a ng-href="{{ $ctrl.commentParams.userId }}">
+    <a ng-href="{{ $ctrl.commentParams.linkToUser }}">
       <img ng-src="{{ $ctrl.commentParams.userImage ? $ctrl.commentParams.userImage: 'images/user-admin-ava.png' }}"
         alt="avatar" style="width:70px" />
     </a>
   </div>
   <div class="cl-comment-text">
     <div class="cl-name-date">
-      <a ng-href="{{ $ctrl.commentParams.userId }}"> {{$ctrl.commentParams.name}}</a> . {{$ctrl.commentParams.postDate}}</div>
+      <a ng-href="{{  $ctrl.commentParams.linkToUser }}"> {{$ctrl.commentParams.name}}</a> . {{$ctrl.commentParams.postDate}}</div>
     <div class="cl-text">{{ $ctrl.commentParams.text }}</div>
     <div class="cl-meta">
       <span class="green">

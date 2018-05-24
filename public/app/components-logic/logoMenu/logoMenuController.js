@@ -8,8 +8,22 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { search: '<', user: '<' };
-  const injection = ['authService', '$document', '$scope', '$window'];
-  function controller(authService, $document, $scope, $window) {
+  const injection = [
+    'authService',
+    '$document',
+    '$scope',
+    '$window',
+    'linkService',
+    '$route',
+  ];
+  function controller(
+    authService,
+    $document,
+    $scope,
+    $window,
+    linkService,
+    $route,
+  ) {
     this.$onInit = () => {
       // this.search ready
     };
@@ -39,8 +53,9 @@
       set accept(v) {
         this.showModal = false;
         if (v === true) {
+          this.dropDownUser = false;
           authService.logout().then(() => {
-            this.dropDownUser = false;
+            $route.reload();
           });
         }
       },

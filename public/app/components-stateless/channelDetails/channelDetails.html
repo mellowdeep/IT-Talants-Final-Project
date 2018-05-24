@@ -1,3 +1,4 @@
+<confirm modal-params="$ctrl.modal"></confirm>
 <div class="channel-details">
   <div class="row">
     <div class="col-lg-10 col-lg-offset-2 col-xs-12">
@@ -14,8 +15,9 @@
 
         <div class="c-sub pull-right">
           <div class="c-sub-wrap">
-            <div class="c-f" style="cursor:pointer">
-              Subscribe
+            <div class="c-f" style="cursor:pointer" ng-click="$ctrl.subscribe()" style="cursor: pointer; width: 110px;">
+              <span ng-if="!$ctrl.aboutAuthor.isSubscribed">Subscribe</span>
+              <span ng-if="$ctrl.aboutAuthor.isSubscribed">Unsubscribe</span>
             </div>
             <div class="c-s">
               {{ $ctrl.aboutAuthor.subscribesCount || 0}}

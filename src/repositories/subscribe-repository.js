@@ -24,8 +24,9 @@ const query = {
   },
   findSubscription(userId, subscribeToUserId) {
     return db.getSingleResult(
-      "SELECT * FROM subscribe AS s WHERE s.user_id = ? AND s.subscribe_user_id = ?",
-      [userId, subscribeToUserId]
+      "SELECT s.id, (SELECT COUNT(su.id) FROM subscribe AS su WHERE su.subscribe_user_id = ?) AS subscribesCount " +
+      "FROM subscribe AS s WHERE s.user_id = ? AND s.subscribe_user_id = ?",
+      [subscribeToUserId, userId, subscribeToUserId]
     )
   }
 };

@@ -11,12 +11,10 @@
   const injection = ['$element', '$window', 'dataService'];
   function controller($element, $window, dataService) {
     console.log(`${moduleName} started`);
-    this.like = false;
-    this.dislike = false;
-    this.canLike = true;
+    this.likeButtonDisable = false;
 
     this.setLike = type => {
-      window.testVideo = this.watchVideo;
+      this.likeButtonDisable = true;
       dataService
         .setVideoLike({
           uuid: this.watchVideo.uuid,
@@ -28,7 +26,7 @@
           if (res.status === 200) {
             return dataService.getVideo(this.watchVideo.uuid);
           }
-          this.canLike = true;
+          this.likeButtonDisable = false;
           throw new Error('cannot set like');
         })
         .then(({ likeSign, dislikeSign, likesCount, dislikesCount }) => {
@@ -36,7 +34,7 @@
           this.watchVideo.dislikeSign = dislikeSign;
           this.watchVideo.likesCount = likesCount;
           this.watchVideo.dislikesCount = dislikesCount;
-          this.canLike = true;
+          this.likeButtonDisable = false;
         })
         .catch(err => {
           console.log(err);
@@ -54,15 +52,14 @@
         this.source.attributes.src.value = this.watchVideo.highQuality;
       else this.source.attributes.src.value = this.watchVideo.lowQuality;
 
-      this.video.load();
+      return this.video.load();
     };
 
     this.changeResolution = resolution => {
       this.currentStateResolution = resolution;
-      this.video.pause();
-      updatePage();
-      this.video.load();
-      this.video.play();
+      if (this.video.paused) this.video.pause();
+      updatePage().then(() => this.video.play());
+      // this.video.load();
     };
 
     this.playPause = () => {

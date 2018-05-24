@@ -15,12 +15,12 @@
   </div>
 
   <div class="col-sm-6" style="text-align: right">
-    <button ng-if="$ctrl.user.auth" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.like,'btn-danger':$ctrl.like}"
-      ng-click="$ctrl.setLike()">
+    <button ng-if="$ctrl.user.auth" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.watchVideo.dislikeSign, 'btn-danger': $ctrl.watchVideo.likeSign}"
+      ng-click="$ctrl.setLike(1)" ng-disabled="$ctrl.likeButtonDisable">
       <i class="fa fa-thumbs-o-up" style="color:black; font-size: 25px"></i>
     </button>
-    <button ng-if="$ctrl.user.auth" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.like,'btn-danger':$ctrl.dislike}"
-      ng-click="$ctrl.setDislike()">
+    <button ng-if="$ctrl.user.auth" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.watchVideo.likeSign,'btn-danger':$ctrl.watchVideo.dislikeSign}"
+      ng-click="$ctrl.setLike(-1)" ng-disabled="$ctrl.likeButtonDisable">
       <i class="fa fa-thumbs-o-down" style="color:black; font-size: 25px"></i>
     </button>
   </div>

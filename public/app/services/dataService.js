@@ -13,6 +13,7 @@ angular.module('app').factory('dataService', [
       getCommentsToVideo,
       setCommentLike,
       searchVideoByTag,
+      setVideoLike,
     };
     // -------------------
 
@@ -65,6 +66,10 @@ angular.module('app').factory('dataService', [
           'uuid',
         ]);
 
+        // res.data.likeSign = 1;
+        res.data.percent =
+          (res.data.likesCount || 0) /
+          (res.data.likesCount + res.data.dislikesCount || 1);
         return res.data;
       });
     }
@@ -176,6 +181,44 @@ angular.module('app').factory('dataService', [
         return $http
           .put(`/${uuid}/${commentId}/like/false`)
           .then(() => $http.put(`/${uuid}/${commentId}/dislike/false`));
+      }
+
+      throw new Error('bad notation');
+    }
+
+    function setVideoLike({ uuid, type, likeSign, dislikeSign }) {
+      console.log(uuid, type, likeSign, dislikeSign);
+      if (type === -1 && likeSign === 0 && dislikeSign === 0) {
+        return $http.put(`/${uuid}/dislike/true`);
+      }
+      if (type === -1 && likeSign === 0 && dislikeSign === 1) {
+        return $http.put(`/${uuid}/dislike/false`);
+      }
+      if (type === -1 && likeSign === 1 && dislikeSign === 0) {
+        return $http
+          .put(`/${uuid}/like/false`)
+          .then(() => $http.put(`/${uuid}/dislike/true`));
+      }
+      if (type === -1 && likeSign === 1 && dislikeSign === 1) {
+        return $http
+          .put(`/${uuid}/like/false`)
+          .then(() => $http.put(`/${uuid}/dislike/false`));
+      }
+      if (type === 1 && likeSign === 0 && dislikeSign === 0) {
+        return $http.put(`/${uuid}/like/true`);
+      }
+      if (type === 1 && likeSign === 0 && dislikeSign === 1) {
+        return $http
+          .put(`/${uuid}/dislike/false`)
+          .then(() => $http.put(`/${uuid}/like/true`));
+      }
+      if (type === 1 && likeSign === 1 && dislikeSign === 0) {
+        return $http.put(`/${uuid}/like/false`);
+      }
+      if (type === 1 && likeSign === 1 && dislikeSign === 1) {
+        return $http
+          .put(`/${uuid}/like/false`)
+          .then(() => $http.put(`/${uuid}/dislike/false`));
       }
 
       throw new Error('bad notation');

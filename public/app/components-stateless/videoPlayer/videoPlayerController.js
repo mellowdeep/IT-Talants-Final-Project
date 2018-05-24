@@ -8,18 +8,37 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', type: '=', user: '=' };
-  const injection = ['$element', '$window'];
-  function controller($element, $window) {
+  const injection = ['$element', '$window', 'dataService'];
+  function controller($element, $window, dataService) {
     console.log(`${moduleName} started`);
-    this.like = false;
-    this.dislike = false;
+    this.likeButtonDisable = false;
 
-    this.setLike = () => {
-      console.log('like');
-    };
-
-    this.setDislike = () => {
-      console.log('dislike');
+    this.setLike = type => {
+      this.likeButtonDisable = true;
+      dataService
+        .setVideoLike({
+          uuid: this.watchVideo.uuid,
+          type,
+          likeSign: this.watchVideo.likeSign || 0,
+          dislikeSign: this.watchVideo.dislikeSign || 0,
+        })
+        .then(res => {
+          if (res.status === 200) {
+            return dataService.getVideo(this.watchVideo.uuid);
+          }
+          this.likeButtonDisable = false;
+          throw new Error('cannot set like');
+        })
+        .then(({ likeSign, dislikeSign, likesCount, dislikesCount }) => {
+          this.watchVideo.likeSign = likeSign;
+          this.watchVideo.dislikeSign = dislikeSign;
+          this.watchVideo.likesCount = likesCount;
+          this.watchVideo.dislikesCount = dislikesCount;
+          this.likeButtonDisable = false;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     };
 
     this.currentStateResolution = 'SD';
@@ -33,15 +52,14 @@
         this.source.attributes.src.value = this.watchVideo.highQuality;
       else this.source.attributes.src.value = this.watchVideo.lowQuality;
 
-      this.video.load();
+      return this.video.load();
     };
 
     this.changeResolution = resolution => {
       this.currentStateResolution = resolution;
-      this.video.pause();
-      updatePage();
-      this.video.load();
-      this.video.play();
+      if (this.video.paused) this.video.pause();
+      updatePage().then(() => this.video.play());
+      // this.video.load();
     };
 
     this.playPause = () => {

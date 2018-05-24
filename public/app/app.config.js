@@ -26,6 +26,10 @@ angular.module('app').config([
         template: `<upload user="vm.user"></upload>`,
         controller: 'preUpload as vm',
       })
+      .when('/admin', {
+        template: `<admin user="vm.user"></admin>`,
+        controller: 'preAdmin as vm',
+      })
       .when('/search', {
         template: '<search></search>',
       })

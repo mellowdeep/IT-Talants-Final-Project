@@ -1,7 +1,6 @@
 <div class="container-fluid">
   <div class="row">
     <div class="btn-color-toggle">
-      <!-- <img src="images/icon_bulb_dark.png" alt=""> -->
     </div>
     <div class="navbar-container">
       <div class="container">
@@ -13,50 +12,11 @@
           </div>
           <div class="col-lg-3 col-sm-10 col-xs-10">
             <ul class="list-inline menu">
-              <!-- <li class="pages color-active">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="#/">Home Page</a>
-                  </li>
-                  <li>
-                    <a href="#/single-video">Single Video Page</a>
-                  </li>
-                  <li>
-                    <a href="#/upload.html">Upload Video Page</a>
-                  </li>
-                  <li>
-                    <a href="#/upload-edit.html">Upload Video Edit Page</a>
-                  </li>
-                  <li>
-                    <a href="#/search.html">Searched Videos Page</a>
-                  </li>
-                  <li>
-                    <a href="#/channel.html">Single Channel Page</a>
-                  </li>
-                  <li>
-                    <a href="#/channels.html">Channels Page</a>
-                  </li>
-                  <li>
-                    <a href="#/single-video-playlist.html">Single Videos Page With Playlist</a>
-                  </li>
-                  <li>
-                    <a href="#/history.html">History Page</a>
-                  </li>
-                  <li>
-                    <a href="#/login.html">Login Page</a>
-                  </li>
-                  <li>
-                    <a href="#/signup.html">Signup Page</a>
-                  </li>
-                </ul>
-              </li> -->
               <li>
-                <a class="pages color-active" ng-href="#/">Home</a>
+                <a class="pages color-active" href="categories.html">Categories</a>
               </li>
               <li>
-                <a class="pages color-active" href="#/">New videos</a>
+                <a href="channel.html">Channels</a>
               </li>
             </ul>
           </div>
@@ -67,45 +27,41 @@
           </div>
           <div class="visible-xs clearfix"></div>
           <div class="col-lg-2 col-sm-4  col-xs-8">
-            <div class="avatar pull-left" ng-if="$ctrl.user.auth">
-              <img ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
-                alt="avatar" style="width:50px" />
+            <div class="avatar dropdown" id="logo-menu-drop-down-logout" ng-class="{'open':$ctrl.dropDownUser}" ng-if="$ctrl.user.auth">
+              <img ng-click="$ctrl.buttonLogin()" ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
+                   class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" alt="avatar" style="width:50px;cursor: pointer" />
+              <ul class="dropdown-menu">
+                <li>
+                  <a ng-click="$ctrl.logout()" href="">Logout</a>
+                </li>
+              </ul>
+            </div>
+            <div class="selectuser btn-group pull-left dropdown" id="logo-menu-drop-down-logout" ng-class="{'open':$ctrl.dropDownUser}" ng-if="!$ctrl.user.auth">
+              <button ng-click="$ctrl.buttonLogin()" class="btn btn-default dropdown-toggle"
+                      type="button" id="dropdownMenu1" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="true">
+                SIGN IN
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="#/login">Login</a>
+                </li>
+                <li>
+                  <a href="#/signup">Sign up</a>
+                </li>
+              </ul>
               <span class="status"></span>
+              <div class="clearfix"></div>
             </div>
-            <div class="selectuser pull-left" id="logo-menu-drop-down-logout">
-              <div class="btn-group pull-right dropdown" ng-class="{'open':$ctrl.dropDownUser}">
-                <button ng-click="$ctrl.buttonLogin()" class="btn btn-default dropdown-toggle"
-                  type="button" id="dropdownMenu1" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="true">
-                  Auth
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" ng-if="!$ctrl.user.auth">
-                  <li>
-                    <a href="#/login">Login</a>
-                  </li>
-                  <li>
-                    <a href="#/signup">Sign up</a>
-                  </li>
-                </ul>
-
-                <ul class="dropdown-menu" ng-if="$ctrl.user.auth">
-                  <li>
-                    <a ng-click="$ctrl.logout()" href="">Logout</a>
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-            <div class="clearfix"></div>
           </div>
-        </div>
-        <div>
-          <a href="" ng-click="$ctrl.upload()">
-            <div class="upload-button">
-              <i class="cv cvicon-cv-upload-video"></i>
-            </div>
-          </a>
+          <div>
+            <a href="" ng-click="$ctrl.upload()">
+              <div class="upload-button">
+                <i class="cv cvicon-cv-upload-video"></i>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>

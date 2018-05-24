@@ -561,6 +561,7 @@ video {
   display: block;
   width: 100%;
   object-fit: cover;
+  margin-bottom: 5px;
 }
 .sv-video {
   width: 100%;

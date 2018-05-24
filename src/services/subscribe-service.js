@@ -1,8 +1,9 @@
 const repository = require('../repositories/subscribe-repository');
+const userService = require('./user-service');
 
 const subscribeFunction = {
-  addSubscribtion:(userId, subscribedToUserId) =>
-    repository.addSubscribtion(userId, subscribedToUserId)
+  addSubscription:(userId, subscribedToUserId) =>
+    repository.addSubscription(userId, subscribedToUserId)
       .then(id => {
         if(id) {
           return id;
@@ -11,7 +12,7 @@ const subscribeFunction = {
         throw new Error("Unable to add subscription");
       }),
   removeSubscribe:(userId, subscribedToUserId) =>
-    repository.removeSubcription(userId, subscribedToUserId)
+    repository.removeSubscription(userId, subscribedToUserId)
       .then(row => {
         if(row) {
           return row;
@@ -19,8 +20,12 @@ const subscribeFunction = {
 
         throw new Error("Unable to remove subscription");
       }),
-
-
+  getAllSubscriptions: (userId) =>
+    repository.findAllSubscribedUsers(userId)
+      .then(users => {
+        if (users) return users.map(u => userService.mappUser(u));
+        return users;
+      })
 };
 
 module.exports = subscribeFunction;

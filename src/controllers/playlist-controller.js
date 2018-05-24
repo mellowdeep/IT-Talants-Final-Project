@@ -6,9 +6,14 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
-controller.get('/playlists', (req, res) => {
-  const userId = req.user ? req.user.id : 0;
-  playlistService.getOwnPlaylists(userId)
+controller.get('/myplaylists', (req, res) => {
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
+  playlistService.getOwnPlaylists(loggedUser.id)
     .then(playlists => res.json(playlists))
     .catch(err => res.status(status.NOT_FOUND).send(err.message));
 });
@@ -20,9 +25,15 @@ controller.get('/playlist/:playlistId', (req, res) => {
 });
 
 controller.post('/create/playlist', (req, res) => {
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
   const playlist = {};
   playlist.name = req.body.name;
-  playlist.userId = req.user ? req.user.id : 0;
+  playlist.userId = loggedUser.id;
   playlist.visibility = req.body.visibility || 'public';
 
   playlistService
@@ -32,12 +43,17 @@ controller.post('/create/playlist', (req, res) => {
 });
 
 controller.put('/playlist/:playlistId/:uuid', (req, res) => {
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
   const {playlistId} = req.params;
   const videoUUID = req.params.uuid;
-  const userId = req.user ? req.user.id : 0;
 
   playlistVideosService
-    .addVideo(playlistId, videoUUID, userId)
+    .addVideo(playlistId, videoUUID, loggedUser.id)
     .then(id => res.json(id))
     .catch(err => res.status(status.NOT_FOUND).send(err.message));
 });

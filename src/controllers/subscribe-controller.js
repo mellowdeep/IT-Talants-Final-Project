@@ -12,7 +12,7 @@ controller.put('/subscribe/add/:userId', (req, res) => {
     return;
   }
 
-  subscribeService.addSubscribtion(loggedUser.id, req.params.userId)
+  subscribeService.addSubscription(loggedUser.id, req.params.userId)
     .then(() => res.sendStatus(status.OK))
     .catch(err => res.sent(status.INTERNAL_SERVER_ERROR).send(err.message))
 });
@@ -28,5 +28,19 @@ controller.put('/subscribe/remove/:userId', (req, res) => {
     .then(() => res.sendStatus(status.OK))
     .catch(err => res.sent(status.INTERNAL_SERVER_ERROR).send(err.message))
 });
+
+controller.get('/subscribe/all', (req, res) => {
+  const loggedUser = req.user;
+  if (!loggedUser) {
+    res.status(status.UNAUTHORIZED).send('User not found');
+    return;
+  }
+
+  subscribeService.getAllSubscriptions(loggedUser.id)
+    .then((users) => res.sendStatus(status.OK).send(users))
+    .catch(err => res.sent(status.INTERNAL_SERVER_ERROR).send(err.message))
+});
+
+
 
 module.exports = controller;

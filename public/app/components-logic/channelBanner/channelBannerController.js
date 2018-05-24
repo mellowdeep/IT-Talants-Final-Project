@@ -1,11 +1,11 @@
 // eslint-disable-next-line
 (function() {
-  const moduleName = 'channelPlaylists';
+  const moduleName = 'channelBanner';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
   const injection = ['dataService'];
-  const bindings = { user: '=' };
+  const bindings = { user: '=', aboutAuthor: '=' };
 
   function controller(dataService) {
     console.log(`${moduleName} started`);

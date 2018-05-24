@@ -4,3 +4,9 @@
   box-shadow: inset 0px 0px 0px 4px #f00;
   /* border: 5px dashed white; */
 }
+
+.anchor-active:before {
+  color: #ea2c5a;
+  text-decoration: underline;
+  opacity: 1 !important;
+}

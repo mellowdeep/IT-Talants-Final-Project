@@ -1,0 +1,46 @@
+<div class="channel-details">
+  <div class="row">
+    <div class="col-lg-10 col-lg-offset-2 col-xs-12">
+      <div class="c-details">
+        <div class="c-name">
+          {{$ctrl.aboutAuthor.name}}
+          <!-- <div class="c-checkbox">
+            <img src="images/verified-profile-icon.png" alt="">
+          </div> -->
+        </div>
+
+        <div ng-transclude></div>
+
+
+        <div class="c-sub pull-right">
+          <div class="c-sub-wrap">
+            <div class="c-f" style="cursor:pointer">
+              Subscribe
+            </div>
+            <div class="c-s">
+              {{ $ctrl.aboutAuthor.subscribesCount || 0}}
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
+трябва
+  /user/:userId
+{
+  "id":  има
+  "name": има
+  "views": има
+  "videos": има
+  "likes": има
+  "dislikes": има
+  --
+  isSubscribed няма - user кой гляда за този channel  напрвил ли subscibe
+  subscribesCount няма . Количество на user кой направили subscribe за този channel
+  image  няма - image за channel
+}
+ -->

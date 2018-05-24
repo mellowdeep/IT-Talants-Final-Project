@@ -54,3 +54,6 @@ subscribe_count
 трябва поле
 image
 isSubscribed
+
+channel controller
+change state without reload

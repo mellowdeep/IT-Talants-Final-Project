@@ -23,13 +23,15 @@
     const vm = this;
 
     const search = $location.search();
-    const { userId } = search;
+    let { userId, tab } = search;
     vm.aboutAuthor = {};
 
     if (!userId) {
-      linkService.redirect('#/404');
+      // linkService.redirect('#/404');
+      return;
     }
 
+    vm.tab = tab || 'videos';
     vm.user = { auth: false };
     vm.initData = {};
 

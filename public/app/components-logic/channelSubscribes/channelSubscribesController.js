@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 (function() {
-  const moduleName = 'channelVideos';
+  const moduleName = 'channelSubscribes';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------

@@ -14,11 +14,10 @@ controller.get(
   '/twitter/callback',
   passport.authenticate('twitter'), (req, res) => {
     if (req.user) {
-      return res.redirect('/');
+      return res.redirect('https://127.0.0.1:443/main');
     }
-    res.sendStatus(status.UNAUTHORIZED);
+    return res.sendStatus(status.UNAUTHORIZED);
   },
 );
-
 
 module.exports = controller;

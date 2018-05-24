@@ -14,9 +14,10 @@ controller.get('/auth/facebook',
 controller.get('/auth/facebook/callback',
   passport.authenticate('facebook'), (req, res) => {
     if (req.user) {
-      return res.redirect('/login');
-    }
+      res.redirect('back');
+    } else {
       res.sendStatus(status.UNAUTHORIZED);
+    }
   },
 );
 

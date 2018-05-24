@@ -21,6 +21,12 @@ const query = {
       "WHERE u.id = ?",
       userId
     )
+  },
+  findSubscription(userId, subscribeToUserId) {
+    return db.getSingleResult(
+      "SELECT * FROM subscribe AS s WHERE s.user_id = ? AND s.subscribe_user_id = ?",
+      [userId, subscribeToUserId]
+    )
   }
 };
 

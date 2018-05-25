@@ -39,13 +39,13 @@
         if (vm.user.auth) return dataService.getPlaylists(vm.user.id);
       })
       .then(res => {
-        if (Array.isArray(res.data)) {
+        if (res && Array.isArray(res.data)) {
           vm.playlists = res.data;
         }
         return dataService.search(vm.search);
       })
       .then(res => {
-        if (Array.isArray(res.data)) {
+        if (res && Array.isArray(res.data)) {
           vm.searchData = res.data;
           console.log(vm.searchData);
         }

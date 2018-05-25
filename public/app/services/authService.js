@@ -1,7 +1,8 @@
 angular.module('app').factory('authService', [
   '$q',
   '$http',
-  function($q, $http) {
+  'linkService',
+  function($q, $http, linkService) {
     const data = {
       get user() {
         return this._user;
@@ -15,6 +16,7 @@ angular.module('app').factory('authService', [
         this._user.name = v.name;
         this._user.role = v.role;
         this._user.status = v.status;
+        this._user.linkToPage = v.id ? linkService.makeChannelLink(v.id) : null;
         this.callbackArray.forEach(f => {
           f(this._user);
         });

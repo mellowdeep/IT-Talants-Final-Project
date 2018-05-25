@@ -4,9 +4,10 @@
     <i class="cv cvicon-cv-comment"></i>
     <span class="semibold"> {{ $ctrl.commentsToVideoMain.length }}</span> Comments</div>
   <div class="rc-ava">
-    <a href="#">
+    <a ng-href="{{ $ctrl.user.linkToPage || '' }}">
       <!-- <img src="images/ava5.png" alt=""> -->
-      <img ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
+
+      <img class="img-circle" ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
         alt="avatar" style="width:50px" />
     </a>
   </div>

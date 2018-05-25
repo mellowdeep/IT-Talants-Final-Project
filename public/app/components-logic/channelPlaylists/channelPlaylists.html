@@ -1,1 +1,46 @@
-<channel-playlist-form callback="$ctrl.updateData"></channel-playlist-form>
+<channel-playlist-form ng-if="$ctrl.user.id === $ctrl.aboutAuthor.id" callback="$ctrl.updateData"></channel-playlist-form>
+
+
+<div class="col-lg-12 v-history">
+  <div class="content-block">
+
+
+    <div class="row">
+      <div class="h-video">
+        <div class="col-lg-2 col-sm-5">
+          <div class="b-playlist">
+            <div class="v-img">
+              <img src="images/video1-1.png" alt="" class="l-1" />
+              <img src="images/video1-2.png" alt="" class="l-2" />
+              <a href="single-video-tabs.html">
+                <img src="images/playlist-1.png" alt="" class="l-3" />
+              </a>
+              <div class="items">20</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-8 col-xs-10 col-sm-5">
+          <div class="v-desc">
+            <a href="single-video-tabs.html">The Witcher 3 Wild Hunt: Dragon Hunt monster contract </a>
+          </div>
+          <div class="v-views">
+            4,796 views.
+          </div>
+          <div class="v-percent">
+            <span class="v-circle"></span> 83%</div>
+        </div>
+        <div class="col-lg-2 col-xs-2 col-sm-2 h-clear-list">
+          <a href="#">
+            <i class="cvicon-cv-cancel"></i>
+          </a>
+        </div>
+        <div class="clearfix"></div>
+        <div class="h-divider"></div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

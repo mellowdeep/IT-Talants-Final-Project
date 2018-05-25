@@ -2,8 +2,22 @@ angular.module('app').factory('dataService', [
   '$http',
   'Upload',
   'linkService',
+  '$q',
   // --------API-----------
-  function($http, Upload, linkService) {
+  function($http, Upload, linkService, $q) {
+    const crpl = () => ({
+      name: 'Test',
+      userId: '2',
+      videoCount: 14,
+      playlistId: 20,
+      videoViewsCount: 40,
+      videoLikesCount: 40,
+      videoDislikesCount: 40,
+      visibility: 'public',
+    });
+
+    const playlistsArray = [crpl(), crpl()];
+
     return {
       getVideo,
       aboutAuthor,
@@ -25,17 +39,28 @@ angular.module('app').factory('dataService', [
     // -------------------
 
     function addPlaylist(name) {
-      const url = `/create/playlist`;
-      return $http.post(url, { name });
+      // const url = `/create/playlist`;
+      // return $http.post(url, { name });
+      playlistsArray.push({
+        name: 'name',
+        userId: 2,
+        videoCount: 14,
+        playlistId: 20,
+        videoViewsCount: 40,
+        videoLikesCount: 40,
+        videoDislikesCount: 40,
+        visibility: 'public',
+      });
+      return $q.resolve({ data: 'OK' });
     }
 
     function removePlaylist(playlistId) {}
 
     function getPlaylists(userId) {
-      // const url = `/playlist-user/${userId}`;
+      // const url = `/playlists-user/${userId}`;
       console.log('--------------CHANGE API FOR THIS_____');
-      const url = `/myplaylists`;
-      return $http.get(url);
+      // return $http.get(url);
+      return new $q(res => res({ data: playlistsArray }));
     }
 
     function subscribe(userId) {

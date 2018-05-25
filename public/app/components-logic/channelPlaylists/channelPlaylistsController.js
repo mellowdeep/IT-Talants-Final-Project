@@ -5,10 +5,22 @@
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
   const injection = ['dataService'];
-  const bindings = { user: '=' };
+  const bindings = { user: '=', aboutAuthor: '=' };
 
   function controller(dataService) {
     console.log(`${moduleName} started`);
+    this.playlists = [];
+
+    this.updateData = () => {
+      dataService.getPlaylists(this.aboutAuthor.id).then(({ data }) => {
+        this.playlists = data;
+        console.log('playlists', this.playlists);
+      });
+    };
+
+    this.$postLink = () => {
+      this.aboutAuthor.aboutAuthorPromise.then(() => this.updateData());
+    };
   }
 
   // --------------------------------------------------

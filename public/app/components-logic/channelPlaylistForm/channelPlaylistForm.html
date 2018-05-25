@@ -1,0 +1,67 @@
+<confirm modal-params="$ctrl.modal"></confirm>
+
+<div class="content-wrapper upload-page edit-page">
+
+  <div class="container-fluid u-details-wrap">
+    <div class="row">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="u-details">
+              <div class="row">
+
+                <div class="col-lg-12">
+                  <div class="col-lg-12 ud-caption"></div>
+                  <div class="u-form">
+                    <div class="row">
+                      <div class="col-lg-8">
+                        <div class="form-group">
+                          <label for="e1">Video Title</label>
+                          <input type="text" ng-model="$ctrl.playlistTitle" class="form-control"
+                            id="e1" style="color:white;" placeholder="Jazz-80s playlist ">
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4">
+                        <div class="form-group">
+                          <label for="e4">Privacy Settings</label>
+                          <select class="form-control" id="e4" ng-model="$ctrl.isPrivate">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                          </select>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+
+
+                </div>
+
+
+                <div class="col-lg-12">
+
+                  <div class="u-area">
+                    <form>
+                      <button class="btn btn-primary u-btn" ng-click="$ctrl.saveChanges()" ng-disabled="$ctrl.buttonDisabled">New playlist</button>
+                    </form>
+                  </div>
+                  <div class="u-terms">
+
+                    <hr>
+                  </div>
+
+
+                </div>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,8 +18,25 @@ angular.module('app').factory('dataService', [
       userVideos,
       subscribe,
       unsubscribe,
+      addPlaylist,
+      removePlaylist,
+      getPlaylists,
     };
     // -------------------
+
+    function addPlaylist(name) {
+      const url = `/create/playlist`;
+      return $http.post(url, { name });
+    }
+
+    function removePlaylist(playlistId) {}
+
+    function getPlaylists(userId) {
+      // const url = `/playlist-user/${userId}`;
+      console.log('--------------CHANGE API FOR THIS_____');
+      const url = `/myplaylists`;
+      return $http.get(url);
+    }
 
     function subscribe(userId) {
       const url = `/subscribe/add/${userId}`;

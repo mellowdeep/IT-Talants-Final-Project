@@ -17,13 +17,32 @@ const query = {
     )
   },
   findById(id) {
-    return db.getSingleResult(id)(
+    return db.getSingleResult(
       "SELECT * FROM playlists AS p WHERE p.id = ?", id
     )
   },
-  findByUserId(userId) {
-    return db.getMultipleResult(userId)(
-      "SELECT * FROM playlists AS p WHERE p.userId = ? AND p.visibility = public", userId
+  findByUserId(requestedUserId) {
+    return db.getMultipleResult(
+      "SELECT " +
+      "p.id, " +
+      "p.name, " +
+      "p.visibility, " +
+      "p.user_id, " +
+      "MIN(v.image) AS image, " +
+      "COUNT(v.id) AS video_count, " +
+      "SUM(v.play_count) AS video_views_count, " +
+      "SUM(v.likes_count) AS video_likes_count, " +
+      "SUM(v.dislikes_count) as video_dislikes_count  " +
+      "FROM playlists AS p " +
+      "JOIN users AS u " +
+      "ON u.id = p.user_id " +
+      "LEFT JOIN videos_playlists AS vp " +
+      "ON vp.playlist_id = p.id " +
+      "LEFT JOIN videos AS v " +
+      "on vp.video_id = v.id " +
+      "WHERE p.user_id = ? AND p.visibility = 'public' " +
+      "GROUP BY p.id, p.name, p.user_id, p.visibility",
+      requestedUserId
     )
   },
   deletePlaylist(id, userId){
@@ -31,12 +50,29 @@ const query = {
       "DELETE FROM playlists WHERE id = ? AND  user_id = ?", [id, userId]
     )
   },
-  findAllOwnPlaylists(userId) {
+  findAllOwnPlaylists(requestedUserId) {
     return db.getMultipleResult(
-      "SELECT * FROM playlists AS p WHERE p.id = ?", userId
+      "SELECT " +
+      "p.id, " +
+      "p.name, " +
+      "p.visibility, " +
+      "p.user_id, " +
+      "MIN(v.image) AS image, " +
+      "COUNT(v.id) AS video_count, " +
+      "SUM(v.play_count) AS video_views_count, " +
+      "SUM(v.likes_count) AS video_likes_count, " +
+      "SUM(v.dislikes_count) as video_dislikes_count  " +
+      "FROM playlists AS p " +
+      "JOIN users AS u " +
+      "ON u.id = p.user_id " +
+      "LEFT JOIN videos_playlists AS vp " +
+      "ON vp.playlist_id = p.id " +
+      "LEFT JOIN videos AS v " +
+      "on vp.video_id = v.id " +
+      "GROUP BY p.id, p.name, p.user_id, p.visibility " +
+      "WHERE p.user_id = ?", requestedUserId
     )
   }
-
 };
 
 

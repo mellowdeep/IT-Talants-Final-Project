@@ -6,9 +6,9 @@ const playlistVideosFunction = {
   addVideo: (playlistId, videoUUID, userId) =>
     playlistService
       .getOwnPlaylist(playlistId, userId)
-      .then(videoService.getOneByUUID(videoUUID))
+      .then(() => videoService.getOneByUUID(videoUUID))
       .then(video =>
-        repository.addVideoToPlaylist(playlistId, video.id, userId),
+        repository.addVideoToPlaylist(playlistId, video.id),
       )
       .then(id => id),
   getVideosByPlaylist: playlistId =>

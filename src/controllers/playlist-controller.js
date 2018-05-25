@@ -6,14 +6,12 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
-controller.get('/myplaylists', (req, res) => {
-  const loggedUser = req.user;
-  if (!loggedUser) {
-    res.status(status.UNAUTHORIZED).send('User not found');
-    return;
-  }
+controller.get('/playlists-user/:userId', (req, res) => {
+  const loggedUser = req.user || {};
+  const requestedUserId = req.params.userId;
+  const isYou = !!((loggedUser.id == requestedUserId));
 
-  playlistService.getOwnPlaylists(loggedUser.id)
+  playlistService.getPlaylists(requestedUserId, isYou)
     .then(playlists => res.json(playlists))
     .catch(err => res.status(status.NOT_FOUND).send(err.message));
 });

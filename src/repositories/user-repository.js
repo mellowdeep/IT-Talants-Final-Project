@@ -34,7 +34,7 @@ const query = {
       "SUM(v.likes_count) AS likes, " +
       "SUM(v.dislikes_count) AS dislikes " +
       "FROM users AS u " +
-      "JOIN videos AS v  " +
+      "LEFT JOIN videos AS v  " +
       "ON v.user_id = u.id " +
       "WHERE u.id = ? " +
       "GROUP BY u.id, u.name", userId

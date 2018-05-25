@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="h-video">
+    <div class="col-lg-2 col-sm-5">
+      <div class="b-playlist">
+        <div class="v-img">
+          <img src="images/video1-1.png" alt="" class="l-1" />
+          <img src="images/video1-2.png" alt="" class="l-2" />
+          <a ng-href="{{ $ctrl.playlist.link }}">
+            <img ng-src="{{ $ctrl.playlist.image || 'images/playlist-1.png' }}" alt=""
+              class="l-3" />
+          </a>
+          <div class="items"> {{ $ctrl.playlist.videoCount }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-xs-10 col-sm-5">
+      <div class="v-desc">
+        <a ng-href="{{ $ctrl.playlist.link }}"> {{ $ctrl.playlist.name }} </a>
+      </div>
+      <div class="v-views">
+        {{ $ctrl.playlist.videoViewsCount }} views.
+      </div>
+      <div class="v-percent">
+        <span class="v-circle"></span> {{ $ctrl.playlist.percent }} %</div>
+    </div>
+    <div class="col-lg-2 col-xs-2 col-sm-2 h-clear-list">
+      <a href="" ng-if="$ctrl.user.id === $ctrl.playlist.userId" ng-click="$ctrl.deletePlaylist()">
+        <i class="cvicon-cv-cancel"></i>
+      </a>
+    </div>
+    <div class="clearfix"></div>
+    <div class="h-divider"></div>
+  </div>
+</div>
+
+<confirm modal-params="$ctrl.modal"></confirm>

@@ -7,13 +7,14 @@ angular.module('app').factory('dataService', [
   function($http, Upload, linkService, $q) {
     const crpl = () => ({
       name: 'Test',
-      userId: '2',
+      userId: 2,
       videoCount: 14,
       playlistId: 20,
       videoViewsCount: 40,
       videoLikesCount: 40,
       videoDislikesCount: 40,
       visibility: 'public',
+      image: '/upload/thumbnails/SquyWl8h.png',
     });
 
     const playlistsArray = [crpl(), crpl()];
@@ -42,7 +43,7 @@ angular.module('app').factory('dataService', [
       // const url = `/create/playlist`;
       // return $http.post(url, { name });
       playlistsArray.push({
-        name: 'name',
+        name,
         userId: 2,
         videoCount: 14,
         playlistId: 20,
@@ -50,17 +51,38 @@ angular.module('app').factory('dataService', [
         videoLikesCount: 40,
         videoDislikesCount: 40,
         visibility: 'public',
+        image: '/upload/thumbnails/SquyWl8h.png',
       });
       return $q.resolve({ data: 'OK' });
     }
 
-    function removePlaylist(playlistId) {}
+    function removePlaylist(playlistId) {
+      // const url = `/delete/playlist/:playlistId'`;
+      // return $http.post(url);
+
+      const idx = playlistsArray.findIndex(x => x.playlistId === playlistId);
+      playlistsArray.splice(idx, 1);
+
+      return $q.resolve();
+    }
 
     function getPlaylists(userId) {
       // const url = `/playlists-user/${userId}`;
       console.log('--------------CHANGE API FOR THIS_____');
       // return $http.get(url);
-      return new $q(res => res({ data: playlistsArray }));
+      return new $q(res => res({ data: playlistsArray })).then(res => {
+        res.data = res.data.map(item => {
+          item.link = linkService.makeVideoPlaylistLink({
+            playlistId: item.playlistId,
+          });
+          const sum = item.videoLikesCount + item.videoDislikesCount;
+          if (sum) item.percent = Math.floor(item.videoLikesCount * 100 / sum);
+          else item.percent = 0;
+          return item;
+        });
+
+        return res;
+      });
     }
 
     function subscribe(userId) {
@@ -112,8 +134,7 @@ angular.module('app').factory('dataService', [
         }
 
         const sum = res.data.likes + res.data.dislikes;
-        if (sum)
-          this.aboutAuthor.percent = Math.floor(res.data.likes * 100 / sum);
+        if (sum) res.data.percent = Math.floor(res.data.likes * 100 / sum);
         else res.data.percent = 0;
 
         return res.data;

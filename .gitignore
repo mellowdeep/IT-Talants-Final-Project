@@ -8,5 +8,5 @@ public/upload/
 .prettierignore
 start_ngrok.cmd
 keys.js
-/src/config/dbs/project.db
+src/config/dbs/project.db
 

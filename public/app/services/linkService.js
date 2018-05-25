@@ -6,10 +6,15 @@ angular.module('app').factory('linkService', [
       makeVideoLink,
       redirect,
       makeChannelLink,
+      makeVideoPlaylistLink,
     };
 
     function makeVideoLink(uuid) {
       return `#/video?uuid=${uuid}`;
+    }
+
+    function makeVideoPlaylistLink({ playlistId, numvideoid }) {
+      return `#/video?playlistid=${playlistId}&numvideoid=${numvideoid || 0}`;
     }
 
     function makeChannelLink(userId) {

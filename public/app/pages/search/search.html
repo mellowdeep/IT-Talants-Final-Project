@@ -1,10 +1,10 @@
-<logo-menu search="$ctrl.search"></logo-menu>
+<logo-menu search="$ctrl.search" user="$ctrl.user"></logo-menu>
 <search-filters></search-filters>
 <content-wrapper>
   <div class="col-lg-12">
-    <search-results></search-results>
-    <pagination></pagination>
+    <search-results search="$ctrl.search" user="$ctrl.user" search-data="$ctrl.searchData"
+      playlists="$ctrl.playlists"></search-results>
+    <!-- <pagination></pagination> -->
   </div>
 </content-wrapper>
-<row-footer>
-</row-footer>
+<row-footer></row-footer>

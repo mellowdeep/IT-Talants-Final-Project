@@ -98,7 +98,8 @@
 
 
 
-      <video-item ng-repeat="video in $ctrl.videos" video-params="video" user="$ctrl.user"></video-item>
+      <video-item playlists="$ctrl.playlists" ng-repeat="video in $ctrl.videos"
+        video-params="video" user="$ctrl.user"></video-item>
 
       <!-- 
       <div class=" col-lg-3 col-xs-6 videoitem">

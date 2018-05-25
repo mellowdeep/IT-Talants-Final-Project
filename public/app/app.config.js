@@ -6,7 +6,7 @@ angular.module('app').config([
 
     $routeProvider
       .when('/', {
-        template: `<init-page user="vm.user" init-data="vm.initData"></init-page>`,
+        template: `<init-page user="vm.user" init-data="vm.initData"  playlists="vm.playlists"></init-page>`,
         controller: 'preInitPage as vm',
       })
       .when('/login', {
@@ -31,11 +31,13 @@ angular.module('app').config([
         controller: 'preAdmin as vm',
       })
       .when('/channel', {
-        template: `<channel user="vm.user" tab-value="vm.tab" about-author="vm.aboutAuthor"></channel>`,
+        template: `<channel user="vm.user" tab-value="vm.tab" about-author="vm.aboutAuthor"  playlists="vm.playlists"></channel>`,
         controller: 'preChannel as vm',
       })
       .when('/search', {
-        template: '<search></search>',
+        template:
+          '<search search="vm.search" search-data="vm.searchData" user="vm.user" playlists="vm.playlists"></search>',
+        controller: 'preSearch as vm',
       })
       .when('/test', {
         template: '<h1>h to test</h1>',

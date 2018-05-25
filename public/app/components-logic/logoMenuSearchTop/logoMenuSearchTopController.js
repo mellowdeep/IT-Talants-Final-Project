@@ -12,12 +12,12 @@
     console.log(`${moduleName} started`);
     this.searchText = '';
 
-    this.$onInit = () => {
-      if (this.search && this.search.query) {
-        this.searchText = this.search.query;
-        console.log(this.search.query);
-      }
-    };
+    // this.$onInit = () => {
+    //   if (this.search && this.search.query) {
+    //     this.searchText = this.search.query;
+    //     console.log(this.search.query);
+    //   }
+    // };
 
     this.submit = () => {
       $window.location.href = `#/search?query=${this.searchText.trim()}`;
@@ -27,6 +27,8 @@
     this.dropDownSearchMenu = false;
 
     this.$postLink = () => {
+      // setTimeout(() => console.log('-------------------', this.search), 2000);
+      this.searchText = this.search;
       const fn = e => {
         if (
           e.path.every(p => p.id !== 'logo-menu-search-top-drop-down-logout')

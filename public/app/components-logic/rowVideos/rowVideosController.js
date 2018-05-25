@@ -8,10 +8,9 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { user: '<', initData: '<', headTitle: '@' };
+  const bindings = { user: '<', initData: '<', headTitle: '@', playlists: '=' };
   function controller() {
     console.log(`${moduleName} started`);
-
     // this.videoList = [];
 
     // "user_id": 1,

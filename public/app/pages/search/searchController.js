@@ -7,14 +7,15 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = {};
+  const bindings = {
+    user: '=',
+    searchData: '=',
+    playlists: '=',
+    search: '=',
+  };
   const injection = ['$location'];
   function controller($location) {
     console.log(`${moduleName} started`);
-    this.search = $location.search();
-    if (this.search.query) {
-      console.log(`searching for ${this.search.query}`);
-    }
   }
 
   // --------------------------------------------------

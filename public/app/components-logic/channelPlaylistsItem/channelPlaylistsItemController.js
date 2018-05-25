@@ -28,10 +28,11 @@
       hideYes: false,
       textYes: 'Yes',
       showModal: false,
-      text: 'All fields have to filled',
+      text: '',
     };
 
     this.deletePlaylist = () => {
+      this.modal.text = `Do you want to delete playlist: ${vm.playlist.name}?`;
       this.modal.showModal = true;
     };
   }

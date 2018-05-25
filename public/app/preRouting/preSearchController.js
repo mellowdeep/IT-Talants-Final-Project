@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 (function() {
-  const controllerName = 'preChannel';
+  const controllerName = 'preSearch';
   // --------------------------------------------------
 
   const injection = [
@@ -22,19 +22,14 @@
     console.log(`${controllerName} started`);
     const vm = this;
 
-    const search = $location.search();
-    let { userId, tab } = search;
-    let ok;
-    vm.aboutAuthor = { aboutAuthorPromise: new $q(res => (ok = res)) };
-
-    if (!userId) {
-      linkService.redirect('#/404');
-      return;
+    vm.search = $location.search().query || '';
+    if (vm.search) {
+      console.log(`searching for ${this.search}`);
     }
+    // search="$ctrl.search"
 
-    vm.tab = tab || 'videos';
     vm.user = { auth: false };
-    vm.initData = {};
+    vm.searchData = [];
     vm.playlists = [];
 
     authService
@@ -47,12 +42,14 @@
         if (Array.isArray(res.data)) {
           vm.playlists = res.data;
         }
-        return dataService.aboutAuthor(userId);
+        return dataService.search(vm.search);
       })
       .then(res => {
-        Object.assign(vm.aboutAuthor, res);
-        console.log(vm.aboutAuthor);
-        ok();
+        if (Array.isArray(res.data)) {
+          vm.searchData = res.data;
+          console.log(vm.searchData);
+        }
+        return res;
       })
       .catch(err => {
         console.log(err);

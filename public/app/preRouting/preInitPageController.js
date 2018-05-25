@@ -11,13 +11,21 @@
 
     vm.user = { auth: false };
     vm.initData = {};
+    vm.playlists = [];
 
     authService
       .isLogin()
       .then(res => {
         vm.user = res;
+        if (vm.user.auth) return dataService.getPlaylists(vm.user.id);
+        return null;
       })
-      .then(() => dataService.getInitData())
+      .then(res => {
+        if (res && Array.isArray(res.data)) {
+          vm.playlists = res.data;
+        }
+        return dataService.getInitData();
+      })
       .then(res => {
         vm.initData = res.data;
         console.log(vm.initData);

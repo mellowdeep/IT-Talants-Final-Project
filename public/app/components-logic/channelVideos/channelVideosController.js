@@ -5,7 +5,7 @@
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
   const injection = ['dataService'];
-  const bindings = { user: '<', aboutAuthor: '<' };
+  const bindings = { user: '<', aboutAuthor: '<', playlists: '=' };
 
   function controller(dataService) {
     console.log(`${moduleName} started`);
@@ -14,7 +14,7 @@
 
     // this.userVideos = [];
     // this.$onInit = () => {
-    //   setTimeout(() => console.log('-----------', this.aboutAuthor), 10000);
+
     // };
 
     // this.$onChanges = changes => {

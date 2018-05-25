@@ -4,7 +4,7 @@
       <div class="col-lg-10 col-xs-10">
         <ul class="list-inline">
           <li>Search Results
-            <a href="#">"Uncharted 4"</a>
+            <a href="">"{{ $ctrl.search }}"</a>
           </li>
         </ul>
       </div>
@@ -44,6 +44,12 @@
   </div>
   <div class="cb-content videolist">
     <div class="row">
+
+
+      <video-item ng-repeat="videoItem in $ctrl.searchData" video-params="videoItem"
+        user="$ctrl.user" playlists="$ctrl.playlists"></video-item>
+
+      <!-- 
       <div class="col-lg-3 col-sm-6 videoitem">
         <div class="b-video">
           <div class="v-img">
@@ -429,7 +435,7 @@
               <span class="v-circle"></span> 84%</span>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

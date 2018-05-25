@@ -6,7 +6,12 @@
 
   // START MODULE
   // --------------------------------------------------
-  const bindings = { user: '=', aboutAuthor: '=', tabValue: '=' };
+  const bindings = {
+    user: '=',
+    aboutAuthor: '=',
+    tabValue: '=',
+    playlists: '=',
+  };
   const injection = ['$location'];
   function controller($location) {
     const vm = this;

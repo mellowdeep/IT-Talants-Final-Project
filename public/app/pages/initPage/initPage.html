@@ -5,13 +5,13 @@
     <channel-update ng-if="$ctrl.user.auth"></channel-update>
 
 
-    <row-videos ng-repeat="(title,initData) in $ctrl.initData" user="$ctrl.user"
-      init-data="initData" head-title="{{ title }}"></row-videos>
+    <row-videos playlists="$ctrl.playlists" ng-repeat="(title, initData) in $ctrl.initData"
+      user="$ctrl.user" init-data="initData" head-title="{{ title }}"></row-videos>
 
     <!-- <row-videos user="$ctrl.user" head-title="News"></row-videos> -->
     <!-- <row-videos user="$ctrl.user" head-title="Animations"></row-videos> -->
     <!-- <row-videos user="$ctrl.user" head-title="Topics"></row-videos> -->
-    <row-playlists user="$ctrl.user"></row-playlists>
+    <row-playlists user="$ctrl.user" playlists="$ctrl.playlists"></row-playlists>
     <row-channels user="$ctrl.user"></row-channels>
     <!-- <pagination></pagination> -->
   </div>

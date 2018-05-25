@@ -5,19 +5,19 @@ angular.module('app').factory('dataService', [
   '$q',
   // --------API-----------
   function($http, Upload, linkService, $q) {
-    const crpl = () => ({
-      name: 'Test',
-      userId: 2,
-      videoCount: 14,
-      playlistId: 20,
-      videoViewsCount: 40,
-      videoLikesCount: 40,
-      videoDislikesCount: 40,
-      visibility: 'public',
-      image: '/upload/thumbnails/SquyWl8h.png',
-    });
+    // const crpl = () => ({
+    //   name: 'Test',
+    //   userId: 2,
+    //   videoCount: 14,
+    //   playlistId: 1,
+    //   videoViewsCount: 40,
+    //   videoLikesCount: 40,
+    //   videoDislikesCount: 40,
+    //   visibility: 'public',
+    //   image: '/upload/thumbnails/SquyWl8h.png',
+    // });
 
-    const playlistsArray = [crpl(), crpl()];
+    // const playlistsArray = [crpl(), crpl()];
 
     return {
       getVideo,
@@ -29,6 +29,7 @@ angular.module('app').factory('dataService', [
       getCommentsToVideo,
       setCommentLike,
       searchVideoByTag,
+      search,
       setVideoLike,
       userVideos,
       subscribe,
@@ -36,42 +37,56 @@ angular.module('app').factory('dataService', [
       addPlaylist,
       removePlaylist,
       getPlaylists,
+      addVideoToPlaylist,
     };
     // -------------------
 
+    function addVideoToPlaylist({ playlistId, uuid }) {
+      const url = `/playlist/${playlistId}/${uuid}`;
+      return $http.put(url);
+    }
+
     function addPlaylist(name) {
-      // const url = `/create/playlist`;
-      // return $http.post(url, { name });
-      playlistsArray.push({
-        name,
-        userId: 2,
-        videoCount: 14,
-        playlistId: 20,
-        videoViewsCount: 40,
-        videoLikesCount: 40,
-        videoDislikesCount: 40,
-        visibility: 'public',
-        image: '/upload/thumbnails/SquyWl8h.png',
-      });
-      return $q.resolve({ data: 'OK' });
+      const url = `/create/playlist`;
+      return $http.post(url, { name });
+      // playlistsArray.push({
+      //   name,
+      //   userId: 2,
+      //   videoCount: 14,
+      //   playlistId: 1,
+      //   videoViewsCount: 40,
+      //   videoLikesCount: 40,
+      //   videoDislikesCount: 40,
+      //   visibility: 'public',
+      //   image: '/upload/thumbnails/SquyWl8h.png',
+      // });
+      // return $q.resolve({ data: 1 });
     }
 
     function removePlaylist(playlistId) {
-      // const url = `/delete/playlist/:playlistId'`;
-      // return $http.post(url);
+      const url = `/delete/playlist/${playlistId}`;
+      return $http.delete(url);
 
-      const idx = playlistsArray.findIndex(x => x.playlistId === playlistId);
-      playlistsArray.splice(idx, 1);
+      // const idx = playlistsArray.findIndex(x => x.playlistId === playlistId);
+      // playlistsArray.splice(idx, 1);
 
-      return $q.resolve();
+      // return $q.resolve();
     }
 
     function getPlaylists(userId) {
-      // const url = `/playlists-user/${userId}`;
-      console.log('--------------CHANGE API FOR THIS_____');
-      // return $http.get(url);
-      return new $q(res => res({ data: playlistsArray })).then(res => {
+      const url = `/playlists-user/${userId}`;
+      // return new $q(res => res({ data: playlistsArray }))
+
+      return $http.get(url).then(res => {
         res.data = res.data.map(item => {
+          item.playlistId = item.id;
+          item.userId = item.userId || item.user_id;
+          item.videoCount = item.videoCount || item.video_count;
+          item.videoViewsCount = item.videoViewsCount || item.video_views_count;
+          item.videoLikesCount = item.videoLikesCount || item.video_likes_count;
+          item.videoDislikesCount =
+            item.videoDislikesCount || item.video_dislikes_count;
+
           item.link = linkService.makeVideoPlaylistLink({
             playlistId: item.playlistId,
           });
@@ -103,6 +118,23 @@ angular.module('app').factory('dataService', [
             x.percent = Math.round(
               100 * (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1),
             );
+            x.linkToVideo = linkService.makeVideoLink(x.uuid);
+            return x;
+          });
+        }
+        return res;
+      });
+    }
+
+    function search(searchText) {
+      const url = `/api/search`;
+      return $http.post(url, { type: 'query', query: searchText }).then(res => {
+        if (Array.isArray(res.data)) {
+          res.data = res.data.map(x => {
+            x.percent = Math.round(
+              100 * (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1),
+            );
+            x.linkToVideo = linkService.makeVideoLink(x.uuid);
             return x;
           });
         }

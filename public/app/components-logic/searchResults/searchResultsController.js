@@ -7,14 +7,21 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-
+  const bindings = {
+    user: '=',
+    search: '=',
+    searchData: '=',
+    playlists: '=',
+  };
   function controller() {
     console.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular.module('app').component(moduleName, { templateUrl, controller });
+  angular
+    .module('app')
+    .component(moduleName, { templateUrl, controller, bindings });
   // END module
   // eslint-disable-next-line
 })();

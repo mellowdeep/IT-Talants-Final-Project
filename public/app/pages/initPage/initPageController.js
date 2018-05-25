@@ -6,10 +6,9 @@
 
   // START MODULE
   // --------------------------------------------------
-  const bindings = { user: '<', initData: '<' };
+  const bindings = { user: '<', initData: '<', playlists: '=' };
   function controller() {
     console.log(`${moduleName} started`);
-    // setTimeout(() => console.log(this.initData), 3000);
 
     // Object.keys(this.initData).forEach()
   }

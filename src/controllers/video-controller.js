@@ -54,7 +54,7 @@ controller.get('/video/:uuid', (req, res) => {
     .then(video => {
       currVideo = video;
       if (loggedUser) {
-        return videoService.getVideoAndUserRate(video, loggedUser.id);
+       return videoService.getVideoAndUserRate(video, loggedUser.id);
       }
 
       return video;

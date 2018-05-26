@@ -12,10 +12,10 @@ const query = {
   findVideosByPlaylistId(playlistId) {
     return db.getMultipleResult(
       "SELECT * FROM playlists AS p " +
-      "join videos_playlists AS vp " +
-      "on vp.playlist_id = v.id " +
-      "join videos AS v " +
-      "on v.id = vp.video_id " +
+      "JOIN videos_playlists AS vp " +
+      "ON vp.playlist_id = p.id " +
+      "JOIN videos AS v " +
+      "ON v.id = vp.video_id " +
       "WHERE p.id = ?", playlistId
     )
   },

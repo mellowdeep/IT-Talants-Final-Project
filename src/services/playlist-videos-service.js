@@ -12,10 +12,11 @@ const playlistVideosFunction = {
       )
       .then(id => id),
   getVideosByPlaylist: playlistId =>
-    repository.findVideosByPlaylistId(playlistId).then(videos => {
-      if (videos) return videos;
-      throw new Error('Video not found');
-    }),
+    repository.findVideosByPlaylistId(playlistId)
+      .then(videos => {
+        if (videos) return videos.map(v => videoService.mapVideo(v));
+        throw new Error('Video not found');
+      }),
   deleteVideoFromPlaylist: (playlistId, videoUUID) =>
     videoService
       .getOneByUUID(videoUUID)

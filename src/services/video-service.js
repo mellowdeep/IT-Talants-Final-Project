@@ -157,4 +157,4 @@ const videoFunction = {
 
 };
 
-module.exports = videoFunction;
+module.exports = {...videoFunction, mapVideo};

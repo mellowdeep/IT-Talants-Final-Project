@@ -62,9 +62,15 @@ controller.get('/video/:uuid', (req, res) => {
     .then(video  => video ?
       res.status(status.OK).send(video):
       res.status(status.OK).send(currVideo))
+    .catch(err => res.status(status.NOT_FOUND).send(err.message))
     .then(() => videoService.increaseCounter(currVideo))
-    .then(() => recently.addVideo(currVideo.id, loggedUser.id, seenDate))
-    .catch(err => res.status(status.NOT_FOUND). send(err.message))
+    .then(() => {
+      if(loggedUser){
+        return recently.addVideo(currVideo.id, loggedUser.id, seenDate);
+      }
+    })
+    .catch(err => console.log(err.message));
+
 });
 
 

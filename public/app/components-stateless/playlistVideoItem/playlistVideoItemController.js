@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 (function() {
-  const moduleName = 'recommendedVideos';
+  const moduleName = 'playlistVideoItem';
   // eslint-disable-next-line
   const templateUrl = `/app/components-stateless/${moduleName}/${moduleName}.html`;
   // templateUrlGenerate(moduleName);
@@ -8,7 +8,7 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { videoParams: '<' };
+  const bindings = { videoParams: '<', watchVideo: '=' };
   function controller() {
     console.log(`${moduleName} started`);
   }

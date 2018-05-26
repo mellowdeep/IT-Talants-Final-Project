@@ -43,20 +43,24 @@ angular.module('app').factory('dataService', [
     // -------------------
 
     function getVideosFromPlaylist(playlistId) {
-      // const url = `/playlist/${playlistId}/videos`;
-      // return $http.get(url);
-      return search('Bonobo').then(res => {
-        res.data = res.data.map((video, id) => {
-          video.playlistVideoId = id + 1;
-          const { uuid } = video;
-          video.linkInPlaylist = linkService.makeVideoLinkInPlaylist({
-            playlistId,
-            uuid,
-          });
-          return video;
-        });
-        return res;
-      });
+      const url = `/playlist/${playlistId}/videos`;
+      return (
+        $http
+          .get(url)
+          // return search('Bonobo')
+          .then(res => {
+            res.data = res.data.map((video, id) => {
+              video.playlistVideoId = id + 1;
+              const { uuid } = video;
+              video.linkInPlaylist = linkService.makeVideoLinkInPlaylist({
+                playlistId,
+                uuid,
+              });
+              return video;
+            });
+            return res;
+          })
+      );
     }
 
     function addVideoToPlaylist({ playlistId, uuid }) {

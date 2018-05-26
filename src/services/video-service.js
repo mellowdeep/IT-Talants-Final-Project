@@ -37,9 +37,9 @@ const videoFunction = {
     userVideoLikesService.findVideoWithUserRate(userId,video.id)
       .then(like => {
         if(like) {
-          video.like_sign = like.like_sign;
-          video.dislike_sign = like.dislike_sign;
-          return mapVideo(video);
+          video.likeSign = like.like_sign;
+          video.dislikeSign = like.dislike_sign;
+          return video;
         }
 
         return video;

@@ -7,6 +7,7 @@ const mapVideo = video => ({
     userId: video.user_id,
     uuid: video.uuid,
     name: video.name,
+    visibility: video.visibility,
     about: video.about,
     tag: video.tag,
     status: video.status,
@@ -32,10 +33,12 @@ const videoFunction = {
 
       throw new Error('Video not found');
       }),
-  getVideoByIdAndUserRate: (videoId, userId) =>
-    userVideoLikesService.findVideoWithUserRate(userId,videoId)
-      .then(video => {
-        if(video) {
+  getVideoAndUserRate: (video, userId) =>
+    userVideoLikesService.findVideoWithUserRate(userId,video.id)
+      .then(like => {
+        if(like) {
+          video.like_sign = like.like_sign;
+          video.dislike_sign = like.dislike_sign;
           return mapVideo(video);
         }
 

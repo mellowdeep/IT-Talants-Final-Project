@@ -22,11 +22,8 @@ const query = {
   findVideoWithUserRate(userId, videoId) {
     return db.getSingleResult(
       "SELECT * FROM users_videos_likes AS uvl " +
-      "JOIN videos AS v " +
-      "ON v.id = uvl.videos_id " +
-      "WHERE v.id = ? OR " +
-      "(uvl.user_id = ? AND uvl.videos_id = ?) ",
-      [videoId, userId, videoId]
+      "WHERE uvl.user_id = ? AND uvl.videos_id = ? ",
+      [userId, videoId]
     )
   }
 };

@@ -69,8 +69,9 @@ const query = {
       "ON vp.playlist_id = p.id " +
       "LEFT JOIN videos AS v " +
       "on vp.video_id = v.id " +
-      "GROUP BY p.id, p.name, p.user_id, p.visibility " +
-      "WHERE p.user_id = ?", requestedUserId
+      "WHERE p.user_id = ? " +
+      "GROUP BY p.id, p.name, p.user_id, p.visibility ",
+      requestedUserId
     )
   }
 };

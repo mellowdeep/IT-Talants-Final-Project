@@ -38,8 +38,26 @@ angular.module('app').factory('dataService', [
       removePlaylist,
       getPlaylists,
       addVideoToPlaylist,
+      getVideosFromPlaylist,
     };
     // -------------------
+
+    function getVideosFromPlaylist(playlistId) {
+      // const url = `/playlist/${playlistId}/videos`;
+      // return $http.get(url);
+      return search('Bonobo').then(res => {
+        res.data = res.data.map((video, id) => {
+          video.playlistVideoId = id + 1;
+          const { uuid } = video;
+          video.linkInPlaylist = linkService.makeVideoLinkInPlaylist({
+            playlistId,
+            uuid,
+          });
+          return video;
+        });
+        return res;
+      });
+    }
 
     function addVideoToPlaylist({ playlistId, uuid }) {
       const url = `/playlist/${playlistId}/${uuid}`;
@@ -87,7 +105,7 @@ angular.module('app').factory('dataService', [
           item.videoDislikesCount =
             item.videoDislikesCount || item.video_dislikes_count;
 
-          item.link = linkService.makeVideoPlaylistLink({
+          item.link = linkService.makePlaylistLink({
             playlistId: item.playlistId,
           });
           const sum = item.videoLikesCount + item.videoDislikesCount;

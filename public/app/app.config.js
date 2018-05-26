@@ -18,6 +18,11 @@ angular.module('app').config([
           '<single-video user="vm.user" watch-video="vm.watchVideo"></single-video>',
         controller: 'preVideo as vm',
       })
+      .when('/playlist', {
+        template:
+          '<playlist-video user="vm.user" watch-video="vm.watchVideo" playlist-videos="vm.playlistVideos"></playlist-video>',
+        controller: 'prePlaylistVideo as vm',
+      })
       .when('/signup', {
         template: '<sign-up></sign-up>',
         controller: 'preSignUp as vm',

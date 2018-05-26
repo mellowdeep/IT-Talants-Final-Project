@@ -39,12 +39,14 @@
 
     authService
       .isLogin()
+      .catch(() => {})
       .then(res => {
         vm.user = res;
         if (vm.user.auth) return dataService.getPlaylists(vm.user.id);
       })
       .then(res => {
-        if (Array.isArray(res.data)) {
+        console.log('---------------------------');
+        if (res && Array.isArray(res.data)) {
           vm.playlists = res.data;
         }
         return dataService.aboutAuthor(userId);

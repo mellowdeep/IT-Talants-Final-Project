@@ -17,9 +17,20 @@
     this.disableSubmit = false;
 
     this.facebook = () => {
-      facebookService.loginToFaceBookParams().then(({ response, accToken }) => {
-        console.log(response, accToken);
-      });
+      facebookService
+        .loginToFaceBookParams()
+        .then(({ response, accToken }) => {
+          console.log({ response, accToken });
+          return authService.loginFacebook({ response, accToken });
+        })
+        .then(() => {
+          // eslint-disable-next-line
+          $window.location.href = '/#/';
+        })
+        .catch(res => {
+          // console.log(res);
+          this.errorText = 'No connect to facebook';
+        });
     };
 
     this.twitter = () => console.log('twitter');

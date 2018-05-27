@@ -96,17 +96,16 @@ angular.module('app').factory('authService', [
       });
     }
 
-      function loginFacebook({ response, accToken }) {
-        const url = `/login/facebook`;
-        return $http.post(url, { response, accToken }).then(res => {
-          if (res.data === false) data.user = USER_NOT_LOGGED;
-          else {
-            data.user = res.data;
-            data.user.auth = true;
-          }
-          return data.user;
-        });
-      }
+    function loginFacebook({ response, accToken }) {
+      const url = `/login/facebook`;
+      return $http.post(url, { response, accToken }).then(res => {
+        if (res.data === false) data.user = USER_NOT_LOGGED;
+        else {
+          data.user = res.data;
+          data.user.auth = true;
+        }
+        return data.user;
+      });
     }
 
     // const cacheSession = function() {

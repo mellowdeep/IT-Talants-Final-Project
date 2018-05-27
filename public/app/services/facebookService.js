@@ -8,7 +8,8 @@ angular.module('app').factory('facebookService', [
     $window.fbAsyncInit = function() {
       FB.init({
         appId: '968381570005893',
-        autoLogAppEvents: true,
+        status: true,
+        cookie: true,
         xfbml: true,
         version: 'v2.4',
       });

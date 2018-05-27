@@ -10,7 +10,7 @@ angular.module('app').factory('facebookService', [
         appId: '968381570005893',
         autoLogAppEvents: true,
         xfbml: true,
-        version: 'v3.0',
+        version: 'v2.4',
       });
 
       // checkLoginState();

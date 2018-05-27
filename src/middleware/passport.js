@@ -15,6 +15,7 @@ module.exports = app => {
   });
 
   require("./strategies/local-strategy")();
+  require("./strategies/custom-facebook")();
   require("./strategies/google-strategy")();
   require("./strategies/twitter-strategy")();
   require("./strategies/facebook.strategy")();

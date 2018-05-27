@@ -73,6 +73,31 @@ const query = {
       "GROUP BY p.id, p.name, p.user_id, p.visibility ",
       requestedUserId
     )
+  },
+  findRandomPlaylists() {
+    return db.getMultipleResult(
+      "SELECT " +
+      "p.id, " +
+      "p.name, " +
+      "p.visibility, " +
+      "p.user_id, " +
+      "MIN(v.image) AS image, " +
+      "COUNT(v.id) AS video_count, " +
+      "SUM(v.play_count) AS video_views_count, " +
+      "SUM(v.likes_count) AS video_likes_count, " +
+      "SUM(v.dislikes_count) as video_dislikes_count  " +
+      "FROM playlists AS p " +
+      "JOIN users AS u " +
+      "ON u.id = p.user_id " +
+      "LEFT JOIN videos_playlists AS vp " +
+      "ON vp.playlist_id = p.id " +
+      "LEFT JOIN videos AS v " +
+      "on vp.video_id = v.id " +
+      "WHERE p.visibility = 'public' " +
+      "GROUP BY p.id, p.name, p.user_id, p.visibility " +
+      "ORDER BY p.id DESC " +
+      "LIMIT 4",
+    )
   }
 };
 

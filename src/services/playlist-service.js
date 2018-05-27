@@ -22,6 +22,12 @@ const playlistFunction = {
         if (playlist) return playlist;
         throw new Error("Playlist not found");
       }),
+  getRandomPlaylists: () =>
+    repository.findRandomPlaylists()
+      .then(playlists => {
+        if(playlists) return playlists.map(p => mapPlaylist(p));
+        return playlists;
+      }),
   getOwnPlaylist: (id, userId) =>
     repository.findOwnPlaylist(id, userId)
       .then(playlist => {

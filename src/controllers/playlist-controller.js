@@ -6,6 +6,13 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
+controller.get('/playlist/lastest', (req, res) => {
+    playlistService.getRandomPlaylists()
+      .then(playlists => res.status(status.OK).send(playlists))
+      .catch(err => res.status(status.BAD_REQUEST).send(err.message))
+
+});
+
 controller.get('/playlists-user/:userId', (req, res) => {
   const loggedUser = req.user || {};
   const requestedUserId = req.params.userId;

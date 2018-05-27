@@ -1,7 +1,6 @@
 const express = require('express');
 
 const videoService = require('../services/video-service');
-const playlistService = require('../services/playlist-service');
 
 const status = require('../config/status-code');
 

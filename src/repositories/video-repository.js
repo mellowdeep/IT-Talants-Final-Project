@@ -28,7 +28,7 @@ const query = {
   },
   findByUUID(uuid) {
     return db.getSingleResult(
-      'SELECT * FROM videos AS v WHERE v.uuid = ?',
+      "SELECT * FROM videos AS v WHERE v.uuid = ? AND v.status IS NOT 'blocked'",
       uuid,
     );
   },
@@ -68,11 +68,11 @@ const query = {
       status,
     );
   },
-  findAllByUserId(userId, status) {
+  findAllByUserId(userId, visibility) {
     return db.getMultipleResult(
-      'SELECT * FROM videos AS v WHERE v.user_id = ? AND v.status IS NOT ?',
+      'SELECT * FROM videos AS v WHERE v.user_id = ? AND v.visibility IS NOT ?',
       userId,
-      status,
+      visibility,
     );
   },
   findByTagAndMatchName(type, searchQuery) {

@@ -62,16 +62,17 @@ const videoFunction = {
         if (videos) return videos.map(v => mapVideo(v));
         throw new Error('Video not found');
       }),
-  updateVideo: (obj, id) =>
+  updateVideo: (obj, id, newStatus) =>
     videoFunction.getVideoById(id)
       .then(video => {
         const name = obj.name || video.name;
         const about = obj.about || video.about;
         const tag = obj.tag || video.tag;
         const visibility = obj.visibility || video.visibility;
-        const status = obj.status || video.status;
+        const status = obj.status || newStatus ||  video.status;
         const likes = obj.likesCount || video.likesCount;
-        return repository.updateVideo(name, about, tag, visibility, status, likes, video.id)
+        const dislikes = obj.dislikesCount || video.dislikesCount;
+        return repository.updateVideo(name, about, tag, visibility, status, likes, dislikes,  id)
       })
       .then(row => row),
   addRemoveLike: (video, userId, isLike) =>
@@ -131,16 +132,16 @@ const videoFunction = {
   getVideoById: (id) =>
     repository.getVideoById(id)
       .then(video => {
-        if(video) return video;
+        if(video) return mapVideo(video);
         throw new Error("Video not found");
       }),
-  getVideosByUserId: (userId, status) =>
+  getVideosByUserId: (userId, visibility) =>
     userService.getUserById(userId)
       .then(user => {
         if(user) return user.id;
         throw new Error('User not found');
       })
-      .then(id => repository.findAllByUserId(id,status))
+      .then(id => repository.findAllByUserId(id,visibility))
       .then(videos => videos),
   getRecentlyVideos: (userId) =>
     repository.getLastWatchedVideos(userId)

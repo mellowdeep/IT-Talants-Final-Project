@@ -32,7 +32,7 @@ angular.module('app').config([
         controller: 'preUpload as vm',
       })
       .when('/admin', {
-        template: `<admin user="vm.user"></admin>`,
+        template: `<admin user="vm.user" videos-to-approve="vm.videosToApprove"></admin>`,
         controller: 'preAdmin as vm',
       })
       .when('/channel', {

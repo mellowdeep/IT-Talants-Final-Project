@@ -106,20 +106,10 @@ const videoFunction = {
         throw new Error('Unable to rate video');
       }),
   getAllByTypeAndMatchName:(type, searchQuery) =>
-    (type === 'tag' ?
+    type === 'tag' ?
           repository.findByTagForSearch(searchQuery) :
-          repository.findByTagAndMatchName(searchQuery))
-      .then(videos => {
-        if(Array.isArray(videos)){
-          return videos.map(v => mapVideo(v));
-        }
-
-        if(videos){
-          return mapVideo(videos);
-        }
-
-        return videos;
-      }),
+          repository.findByTagAndMatchName(searchQuery)
+      .then(videos => videos),
   increaseCounter: (video) =>
     repository.increaseCounter(video.id, ++video.playCount)
       .then(row => {

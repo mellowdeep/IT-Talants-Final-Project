@@ -37,7 +37,7 @@ controller.get('/subscribe/all', (req, res) => {
   }
 
   subscribeService.getAllSubscriptions(loggedUser.id)
-    .then((users) => res.sendStatus(status.OK).send(users))
+    .then(users => res.sent(status.OK).send(users))
     .catch(err => res.sent(status.INTERNAL_SERVER_ERROR).send(err.message))
 });
 

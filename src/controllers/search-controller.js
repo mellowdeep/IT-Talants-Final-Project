@@ -6,15 +6,10 @@ const status = require('../config/status-code');
 
 const controller = express.Router();
 
-controller.post('/api/search', (req, res) => {
+controller.post('/api/search1', (req, res) => {
   const { query, type } = req.body;
   if(!query || !type) {
     res.status(status.BAD_REQUEST).send('Type or query is null');
-    return;
-  }
-
-  if(type !== 'tag' || type !== 'query') {
-    res.status(status.BAD_REQUEST).send('Invalid search request');
     return;
   }
 

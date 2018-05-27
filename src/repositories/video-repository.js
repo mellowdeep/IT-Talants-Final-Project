@@ -75,7 +75,7 @@ const query = {
       visibility,
     );
   },
-  findByTagAndMatchName(type, searchQuery) {
+  findByTagAndMatchName(searchQuery) {
     return db.getMultipleResult(
       `SELECT 
         videos.uuid 

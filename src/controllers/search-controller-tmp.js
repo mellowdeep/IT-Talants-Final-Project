@@ -11,7 +11,7 @@ const controller = express.Router();
 controller.post('/api/search', (req, res) => {
 
   const { query, type } = req.body;
-  if(!query || !type) return res.status(status.NOT_FOUND).send('Type or query is null')
+  if(!query || !type) return res.status(status.NOT_FOUND).send('Type or query is null');
   // res.status(status.OK).send({msg:'test'})
 
   if(type==='tag'){

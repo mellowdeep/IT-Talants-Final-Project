@@ -36,6 +36,7 @@ angular.module('app').factory('authService', [
       authObj,
       digest,
       removeDigest,
+      loginFacebook,
     };
 
     function digest(fn) {

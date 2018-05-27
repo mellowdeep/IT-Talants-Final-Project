@@ -54,27 +54,29 @@
   <div class="cb-content">
     <div class="row">
 
-      <div class="col-lg-3 col-sm-6 col-xs-12">
+      <div ng-repeat="playlist in $ctrl.playlistLatest" class="col-lg-3 col-sm-6 col-xs-12">
         <div class="b-playlist">
           <div class="v-img">
             <img src="images/video1-1.png" alt="" class="l-1" />
             <img src="images/video1-2.png" alt="" class="l-2" />
-            <a href="single-video-tabs.html">
-              <img src="images/playlist-1.png" alt="" class="l-3" />
+            <a ng-href="{{ playlist.link }}">
+              <img ng-src="{{  playlist.image || 'images/playlist-1.png' }}" alt="" class="l-3"
+              />
             </a>
-            <div class="items">20</div>
+            <div class="items">{{ playlist.videoCount }}</div>
           </div>
           <div class="v-desc">
-            <a href="#">There Can Only Be One! Introducing Tanc & Hercules</a>
+            <a ng-href="{{ playlist.link }}"> {{ playlist.name }}</a>
           </div>
           <div class="v-views">
-            127,548 views.
+            {{ playlist.videoViewsCount }} views.
             <span class="v-percent">
-              <span class="v-circle"></span> 78%</span>
+              <span class="v-circle"></span> {{ playlist.percent }}%</span>
           </div>
         </div>
       </div>
 
+      <!-- 
       <div class="col-lg-3 col-sm-6 col-xs-12">
         <div class="b-playlist">
           <div class="v-img">
@@ -137,7 +139,7 @@
               <span class="v-circle"></span> 84%</span>
           </div>
         </div>
-      </div>
+      </div> -->
 
     </div>
   </div>

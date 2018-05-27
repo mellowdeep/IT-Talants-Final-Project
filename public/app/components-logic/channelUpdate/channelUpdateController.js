@@ -8,13 +8,24 @@
   // START MODULE
   // --------------------------------------------------
 
-  function controller() {
+  const injection = ['dataService'];
+  function controller(dataService) {
     console.log(`${moduleName} started`);
+    this.subscribes = [];
+    this.$onInit = () => {
+      dataService.getSubscribesAll().then(res => {
+        this.subscribes.push(...res.data);
+        console.log(this.subscribes);
+      });
+    };
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular.module('app').component(moduleName, { templateUrl, controller });
+  angular.module('app').component(moduleName, {
+    templateUrl,
+    controller: [...injection, controller],
+  });
   // END module
   // eslint-disable-next-line
 })();

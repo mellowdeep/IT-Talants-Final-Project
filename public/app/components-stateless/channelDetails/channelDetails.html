@@ -15,9 +15,13 @@
 
         <div class="c-sub pull-right">
           <div class="c-sub-wrap">
-            <div class="c-f" style="cursor:pointer" ng-click="$ctrl.subscribe()" style="cursor: pointer; width: 110px;">
+            <div ng-if="$ctrl.aboutAuthor.id !== $ctrl.user.id" class="c-f" style="cursor:pointer"
+              ng-click="$ctrl.subscribe()" style="cursor: pointer; width: 110px;">
               <span ng-if="!$ctrl.aboutAuthor.isSubscribed">Subscribe</span>
               <span ng-if="$ctrl.aboutAuthor.isSubscribed">Unsubscribe</span>
+            </div>
+            <div ng-if="$ctrl.aboutAuthor.id === $ctrl.user.id" class="c-f" style="width: 110px;">
+              <span>Subscribes</span>
             </div>
             <div class="c-s">
               {{ $ctrl.aboutAuthor.subscribesCount || 0}}

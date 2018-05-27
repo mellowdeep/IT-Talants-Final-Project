@@ -17,6 +17,12 @@
         <span ng-if="!$ctrl.aboutAuthor.isSubscribed">Subscribe</span>
         <span ng-if="$ctrl.aboutAuthor.isSubscribed">Unsubscribe</span>
       </div>
+
+      <div ng-if="$ctrl.user.id === $ctrl.aboutAuthor.id" class="c-f" style="width: 110px;">
+        <span>Subscribes</span>
+
+      </div>
+
       <div class="c-s">
         {{ $ctrl.aboutAuthor.subscribesCount || 0 }}
       </div>

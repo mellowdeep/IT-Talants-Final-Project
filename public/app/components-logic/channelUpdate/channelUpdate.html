@@ -8,6 +8,9 @@
           </li>
         </ul>
       </div>
+
+
+      <!--       
       <div class="col-lg-2 col-sm-2 col-xs-2">
         <div class="btn-group pull-right bg-clean">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
@@ -38,17 +41,26 @@
           </ul>
         </div>
         <div class="clearfix"></div>
-      </div>
+      </div> -->
+
     </div>
   </div>
+
   <div class="cb-content avatars">
     <div class="row">
-      <div class="col-lg-1 col-sm-2 col-xs-4">
-        <a href="#">
-          <img src="images/ava2.png" alt="">
+
+      <!-- id, name,image, status -->
+      <div ng-repeat="subscribe in $ctrl.subscribes" class="col-lg-1 col-sm-2 col-xs-4">
+        <a ng-href="{{subscribe.link}}">
+          <img ng-src="{{ subscribe.image || images/ava2.png }}" style="width:50px"
+            class="img-circle" alt="">
           <div class="note">1</div>
         </a>
       </div>
+
+
+      <!-- 
+
       <div class="col-lg-1 col-sm-2 col-xs-4">
         <a href="#">
           <img src="images/ava3.png" alt="">
@@ -114,7 +126,11 @@
           <img src="images/ava1.png" alt="">
           <div class="note">125</div>
         </a>
-      </div>
+      </div> -->
+
+
+
+
     </div>
   </div>
 </div>

@@ -27,6 +27,7 @@
       textYes: 'Ok',
     };
 
+    setTimeout(() => console.log(this.aboutAuthor, this.user.id), 3000);
     console.log('chd', this.aboutAuthor);
 
     this.subscribe = () => {

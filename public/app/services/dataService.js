@@ -39,8 +39,48 @@ angular.module('app').factory('dataService', [
       getPlaylists,
       addVideoToPlaylist,
       getVideosFromPlaylist,
+      getSubscribesAll,
+      playlistLatest,
     };
     // -------------------
+
+    function playlistLatest() {
+      const url = `/playlist/lastest`;
+
+      return $http.get(url).then(res => {
+        res.data = res.data.map(item => {
+          item.playlistId = item.id;
+          item.userId = item.userId || item.user_id;
+          item.videoCount = item.videoCount || item.video_count;
+          item.videoViewsCount = item.videoViewsCount || item.video_views_count;
+          item.videoLikesCount = item.videoLikesCount || item.video_likes_count;
+          item.videoDislikesCount =
+            item.videoDislikesCount || item.video_dislikes_count;
+
+          item.link = linkService.makePlaylistLink({
+            playlistId: item.playlistId,
+          });
+          const sum = item.videoLikesCount + item.videoDislikesCount;
+          if (sum) item.percent = Math.floor(item.videoLikesCount * 100 / sum);
+          else item.percent = 0;
+          return item;
+        });
+
+        return res;
+      });
+    }
+
+    function getSubscribesAll() {
+      const url = `/subscribe/all`;
+      return $http.get(url).then(res => {
+        res.data = res.data.map(item => {
+          item.link = linkService.makeChannelLink(item.id);
+          return item;
+        });
+
+        return res;
+      });
+    }
 
     function getVideosFromPlaylist(playlistId) {
       const url = `/playlist/${playlistId}/videos`;

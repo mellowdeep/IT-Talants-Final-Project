@@ -20,7 +20,8 @@
     // };
 
     this.submit = () => {
-      $window.location.href = `#/search?query=${this.searchText.trim()}`;
+      if (this.searchText.trim().length === 0) $window.location.href = `#/`;
+      else $window.location.href = `#/search?query=${this.searchText.trim()}`;
     };
 
     const handlerFunctions = [];
@@ -28,7 +29,7 @@
 
     this.$postLink = () => {
       // setTimeout(() => console.log('-------------------', this.search), 2000);
-      this.searchText = this.search;
+      this.searchText = this.search || '';
       const fn = e => {
         if (
           e.path.every(p => p.id !== 'logo-menu-search-top-drop-down-logout')

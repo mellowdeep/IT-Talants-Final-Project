@@ -21,6 +21,7 @@ controller.post('/api/search', (req, res) => {
       FROM
         videos
       WHERE videos.visibility = 'public'
+        and videos.status IS NOT 'blocked'
         and tag = ?`, query)
     .then( uuids => Promise.all(uuids.map(({ uuid }) => videoService.getOneByUUID(uuid))))
     .then( videos => res.status(status.OK).send(videos))
@@ -34,6 +35,7 @@ controller.post('/api/search', (req, res) => {
       FROM
         videos
       WHERE videos.visibility = 'public'
+        and videos.status IS NOT 'blocked'
         and upper(videos.name) like upper(?)`, `%${query}%`)
     .then( uuids => Promise.all(uuids.map(({ uuid }) => videoService.getOneByUUID(uuid))))
     .then( videos => res.status(status.OK).send(videos))

@@ -84,10 +84,10 @@
                 </button>
                 <ul class="dropdown-menu" ng-if="!$ctrl.user.auth">
                   <li>
-                    <a href="#/login">Login</a>
+                    <a href="#/login" ng-click="$ctrl.clickOnLogin()">Login</a>
                   </li>
                   <li>
-                    <a href="#/signup">Sign up</a>
+                    <a href="#/signup" ng-click="$ctrl.clickOnLogin()">Sign up</a>
                   </li>
                 </ul>
 
@@ -96,7 +96,7 @@
                     <a ng-click="$ctrl.logout()" href="">Logout</a>
                   </li>
                   <li ng-if="$ctrl.user.role==='admin'">
-                    <a ng-href="#/admin">Admin</a>
+                    <a ng-href="#/admin" ng-click="$ctrl.clickOnLogin()">Admin</a>
                   </li>
                 </ul>
 

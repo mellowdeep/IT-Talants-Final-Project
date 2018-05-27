@@ -114,6 +114,7 @@
   <script src="./app/services/authService.js"></script>
   <script src="./app/services/dataService.js"></script>
   <script src="./app/services/adminService.js"></script>
+  <script src="./app/services/facebookService.js"></script>   
 
 
 
@@ -122,7 +123,9 @@
 </head>
 
 <body class="dark" ng-app="app">
+  <logo-menu user="$ctrl.user"></logo-menu>
   <div ng-view></div>
+  <row-footer></row-footer>
 </body>
 
 </html>

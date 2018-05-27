@@ -7,7 +7,7 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = { search: '<', user: '<' };
+  const bindings = { search: '<' };
   const injection = [
     'authService',
     '$document',
@@ -31,6 +31,10 @@
     const handlerFunctions = [];
     this.dropDownUser = false;
     // this.user = { auth: false };
+
+    this.clickOnLogin = () => {
+      this.dropDownUser = false;
+    };
 
     // authService.auth().then(res => {
     //   this.user = res;
@@ -69,6 +73,7 @@
     };
 
     this.$postLink = () => {
+      this.user = authService.authObj();
       const fn = e => {
         if (e.path.every(p => p.id !== 'logo-menu-drop-down-logout')) {
           $scope.$apply(() => {

@@ -7,8 +7,8 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const injection = ['authService', '$window'];
-  function controller(authService, $window) {
+  const injection = ['authService', '$window', 'facebookService'];
+  function controller(authService, $window, facebookService) {
     console.log(`${moduleName} started`);
     this.password = '';
     this.username = '';
@@ -16,7 +16,12 @@
     this.agreeToRemember = false;
     this.disableSubmit = false;
 
-    this.facebook = () => console.log('facebook');
+    this.facebook = () => {
+      facebookService.getMyLastName().then(({ response, accToken }) => {
+        console.log(response, accToken);
+      });
+    };
+
     this.twitter = () => console.log('twitter');
     this.google = () => console.log('google');
 

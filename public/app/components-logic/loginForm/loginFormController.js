@@ -17,7 +17,7 @@
     this.disableSubmit = false;
 
     this.facebook = () => {
-      facebookService.getMyLastName().then(({ response, accToken }) => {
+      facebookService.loginToFaceBookParams().then(({ response, accToken }) => {
         console.log(response, accToken);
       });
     };

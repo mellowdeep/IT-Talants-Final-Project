@@ -3883,6 +3883,11 @@ body.dark .navbar-container2 .color-default {
 body.dark .list-inline li a {
   color: #7e7e7e;
 }
+
+.navbar-container > .container > div > div > ul > li:first-child {
+  margin-left: -55px;
+}
+
 body.dark .list-inline li a:not(.color-active):hover {
   color: #a2abaf !important;
 }
@@ -4232,6 +4237,9 @@ i.cv:hover {
 }
 .color-active {
   color: #ea2c5a !important;
+  font-weight: bold;
+  text-transform: uppercase;
+
 }
 .color-active > a {
   color: #ea2c5a !important;

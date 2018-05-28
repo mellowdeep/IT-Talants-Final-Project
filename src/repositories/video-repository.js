@@ -3,8 +3,8 @@ const db = require('../config/db');
 const query = {
   findByTag(tag) {
     return db.getMultipleResult(
-      'SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ? LIMIT 8',
-      [tag, 'public'],
+      'SELECT * FROM videos AS v WHERE v.tag = ? AND v.visibility = ? AND v.status IS NOT ? LIMIT 8',
+      [tag, 'public', 'blocked'],
     );
   },
   updateVideo(name, about, tag, visibility, status, likes, dislikesCount, videoId) {
@@ -56,9 +56,8 @@ const query = {
   },
   deleteVideo(uuid, userId) {
     return db.deleteObj(
-      'DELETE FROM videos AS v WHERE v.uuid = ? AND ' +
-        '(v.user_id = ? OR ' +
-        '(SELECT u.role FROM users as u WHERE u.id = ?) = admin)',
+      "DELETE FROM videos WHERE uuid = ? AND user_id = ? " +
+      "OR (SELECT u.role FROM users as u WHERE u.id = ?)  = 'admin'",
       [uuid, userId, userId],
     );
   },
@@ -70,9 +69,10 @@ const query = {
   },
   findAllByUserId(userId, visibility) {
     return db.getMultipleResult(
-      'SELECT * FROM videos AS v WHERE v.user_id = ? AND v.visibility IS NOT ?',
-      userId,
+      'SELECT * FROM videos AS v WHERE v.user_id = ? AND v.visibility IS NOT ? AND v.status IS NOT ?',
+      [userId,
       visibility,
+        'blocked']
     );
   },
   findByTagAndMatchName(searchQuery) {
@@ -100,9 +100,10 @@ const query = {
       "SELECT * FROM videos AS v " +
       "JOIN recently_seen as rc " +
       "ON rc.video_id = v.id " +
-      "WHERE rc.user_id = ?" +
+      "WHERE rc.user_id = ? AND v.status IS NOT ? " +
       "ORDER BY rc.seen_date DESC " +
-      "LIMIT 10", userId
+      "LIMIT 10",
+      [userId,'blocked']
     )
   },
   findAllByTagWithSeenStatus(tag, userId) {
@@ -111,9 +112,9 @@ const query = {
       "JOIN recently_seen as rc " +
       "ON rc.video_id = v.id " +
       "WHERE rc.user_id = ? " +
-      "AND v.tag = ?" +
+      "AND v.tag = ? AND v.status IS NOT ?" +
       "ORDER BY v.post_date DESC ",
-      [userId, tag]
+      [userId, tag, 'blocked']
     )
   }
 };

@@ -7,21 +7,21 @@
 
 <div class="row">
   <div class="col-sm-6">
-    <button ng-if="$ctrl.watchVideo.lowQuality" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.currentStateResolution==='HD','btn-danger':$ctrl.currentStateResolution==='SD'}"
+    <button ng-if="$ctrl.watchVideo.lowQuality" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.currentStateResolution==='HD','btn-info':$ctrl.currentStateResolution==='SD'}"
       ng-click="$ctrl.changeResolution('SD')">SD</button>
     <button ng-if="$ctrl.watchVideo.highQuality" type="button" class="btn"
-      ng-class="{ 'btn-secondary': $ctrl.currentStateResolution==='SD','btn-danger':$ctrl.currentStateResolution==='HD'}"
+      ng-class="{ 'btn-secondary': $ctrl.currentStateResolution==='SD','btn-info':$ctrl.currentStateResolution==='HD'}"
       ng-click="$ctrl.changeResolution('HD')">HD</button>
   </div>
 
   <div class="col-sm-6" style="text-align: right">
-    <button ng-if="$ctrl.user.auth" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.watchVideo.dislikeSign, 'btn-danger': $ctrl.watchVideo.likeSign}"
+    <button ng-if="$ctrl.user.auth" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.watchVideo.dislikeSign, 'btn-success': $ctrl.watchVideo.likeSign}"
       ng-click="$ctrl.setLike(1)" ng-disabled="$ctrl.likeButtonDisable">
-      <i class="fa fa-thumbs-o-up" style="color:black; font-size: 25px"></i>
+      <i class="fa fa-thumbs-up" style="color:black; font-size: 25px"></i>
     </button>
     <button ng-if="$ctrl.user.auth" type="button" class="btn" ng-class="{ 'btn-secondary': $ctrl.watchVideo.likeSign,'btn-danger':$ctrl.watchVideo.dislikeSign}"
       ng-click="$ctrl.setLike(-1)" ng-disabled="$ctrl.likeButtonDisable">
-      <i class="fa fa-thumbs-o-down" style="color:black; font-size: 25px"></i>
+      <i class="fa fa-thumbs-up" style="color:black; font-size: 25px"></i>
     </button>
   </div>
 </div>

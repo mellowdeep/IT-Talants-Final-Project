@@ -44,6 +44,10 @@ angular.module('app').config([
           '<search search="vm.search" search-data="vm.searchData" user="vm.user" playlists="vm.playlists"></search>',
         controller: 'preSearch as vm',
       })
+      .when('/stream', {
+        template: '<video-stream user="vm.user"></video-stream>',
+        controller: 'preStream as vm',
+      })
       .when('/test', {
         template: '<test></test>',
       })

@@ -21,8 +21,9 @@
     '$scope',
     'dataService',
     '$timeout',
+    '$q',
   ];
-  function controller($element, $document, $scope, dataService, $timeout) {
+  function controller($element, $document, $scope, dataService, $timeout, $q) {
     console.log(`${moduleName} started`);
     const vm = this;
 
@@ -57,34 +58,100 @@
       });
     };
 
+    this.watchLater = () => {
+      this.hideAll();
+      const { uuid } = this.videoParams;
+      const name = 'Watch later';
+      $q
+        .resolve()
+        .then(() => {
+          const data = this.playlists.find(item => item === name);
+          let playlistId = null;
+          if (data) playlistId = data.playlistId;
+          if (playlistId) return { data: playlistId };
+          return dataService.addPlaylist({ name, visibility: 'private' });
+        })
+        .then(({ data }) => {
+          const playlistId = data;
+          return dataService.addVideoToPlaylist({ playlistId, uuid });
+        })
+        .then(() => {
+          vm.showOkAdded = true;
+          $timeout(() => {
+            vm.showOkAdded = false;
+          }, 1700);
+          return dataService.getPlaylists(this.user.id);
+        });
+    };
+
     this.addToNewPlaylist = () => {
       this.hideAll();
       // this.modal.showModal = true;
       const { uuid } = vm.videoParams;
-      swal('Please type name of new Playlist', {
-        content: 'input',
+
+      const input = document.createElement('input');
+      input.type = 'text';
+
+      swal({
+        title: 'Please type name of new Playlist',
+        content: input,
+        buttons: {
+          private: {
+            text: 'private',
+            visible: true,
+            closeModal: true,
+          },
+          public: {
+            text: 'public',
+            visible: true,
+            closeModal: true,
+          },
+          cancel: {
+            text: 'cancel',
+            visible: true,
+            closeModal: true,
+          },
+        },
         // closeModal: false,
-      }).then(showInput => {
-        console.log(showInput);
+      })
+        .then(val => {
+          const visibility = val;
+          const name = input.value;
 
-        if (showInput.trim().length === 0) {
-          swal({ text: 'Impossible playlist length', icon: 'warning' });
-        } else
-          dataService
-            .addPlaylist(showInput)
-            .then(({ data }) => {
-              const playlistId = data;
-              return dataService.addVideoToPlaylist({ playlistId, uuid });
-            })
-            .then(() => {
-              vm.showOkAdded = true;
-              $timeout(() => {
-                vm.showOkAdded = false;
-              }, 1700);
-            });
-      });
+          if (name.trim().length === 0 && val !== null) {
+            swal({ text: 'Impossible playlist length', icon: 'warning' });
+            return { name: null, visibility: null };
+          }
 
-      console.log('new playlist', this.modal.showModal);
+          switch (val) {
+            case 'private':
+              return { name, visibility: 'private' };
+            case 'public':
+              return { name, visibility: 'public' };
+            default:
+              return { name: null, visibility: null };
+          }
+        })
+        .then(({ name, visibility }) => {
+          if (name)
+            dataService
+              .addPlaylist({ name, visibility })
+              .then(({ data }) => {
+                const playlistId = data;
+                return dataService.addVideoToPlaylist({ playlistId, uuid });
+              })
+              .then(() => {
+                vm.showOkAdded = true;
+                $timeout(() => {
+                  vm.showOkAdded = false;
+                }, 1700);
+                return dataService.getPlaylists(this.user.id);
+              })
+              .then(({ data }) => {
+                this.playlists.length = 0;
+                this.playlists.push(...data);
+              });
+        });
     };
 
     this.modal = {

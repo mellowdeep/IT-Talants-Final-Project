@@ -1,0 +1,31 @@
+<div>
+  <div>
+    <div uib-carousel active="$ctrl.active" interval="$ctrl.myInterval" no-wrap="$ctrl.noWrapSlides">
+      <div uib-slide ng-repeat="slide in $ctrl.slides" index="slide.id">
+        <img ng-src="{{ slide.image }}">
+        <div class="carousel-caption">
+          <h4>Slide {{ slide.id }}</h4>
+          <p>{{ slide.text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-info" ng-click="$ctrl.addSlide()">Add Slide</button>
+      <button type="button" class="btn btn-info" ng-click="$ctrl.randomize()">Randomize slides</button>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="$ctrl.noWrapSlides"> Disable Slide Looping
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      Interval, in milliseconds:
+      <input type="number" class="form-control" ng-model="$ctrl.myInterval">
+      <br />Enter a negative number or 0 to stop the interval.
+    </div>
+  </div> -->
+
+
+</div>

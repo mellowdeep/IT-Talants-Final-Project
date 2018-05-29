@@ -29,6 +29,7 @@
     };
 
     this.inputByUser = '';
+
     this.modalParams = {
       hideNo: true,
       text: 'Please login',
@@ -107,7 +108,8 @@
 
     this.userSubmitComment = () => {
       if (!this.user.auth) {
-        this.modalParams.showModal = true;
+        // this.modalParams.showModal = true;
+        swal({ title: 'Please login' });
         return;
       }
       let newId;

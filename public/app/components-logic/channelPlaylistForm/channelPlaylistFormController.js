@@ -41,7 +41,10 @@
         this.isPrivate.trim().length === 0 ||
         this.playlistTitle.trim().length === 0
       ) {
-        this.modal.showModal = true;
+        // this.modal.showModal = true;
+
+        swal({ text: 'All fields have to filled', icon: 'warning' });
+
         this.buttonDisabled = false;
         return;
       }

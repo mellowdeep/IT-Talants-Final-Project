@@ -8,8 +8,8 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', user: '=' };
-  const injection = ['dataService', 'linkService'];
-  function controller(dataService, linkService) {
+  const injection = ['dataService', 'linkService', '$window'];
+  function controller(dataService, linkService, $window) {
     this.aboutAuthor = {};
 
     const updateData = () => {
@@ -49,7 +49,16 @@
 
     this.subscribe = () => {
       if (!this.user.auth) {
-        this.modal.showModal = true;
+        // this.modal.showModal = true;
+
+        swal({
+          title: 'Please login for subscribe',
+          icon: 'info',
+          // buttons: { cancel: 'cancel', logout: 'logout' },
+        }).then(() => {
+          $window.location.href = `#/login`;
+        });
+
         return;
       }
 

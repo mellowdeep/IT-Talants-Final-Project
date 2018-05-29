@@ -68,8 +68,19 @@
     };
 
     this.logout = () => {
-      this.modal.showModal = true;
+      // this.modal.showModal = true;
       this.dropDownUser = false;
+
+      swal({
+        title: 'Do you want to logout?',
+        icon: 'warning',
+        buttons: { cancel: 'cancel', logout: 'logout' },
+      }).then(value => {
+        if (value === 'logout')
+          authService.logout().then(() => {
+            $route.reload();
+          });
+      });
     };
 
     this.$postLink = () => {

@@ -8,9 +8,53 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { user: '<', initData: '<', headTitle: '@', playlists: '=' };
+  const bindings = {
+    user: '<',
+    initData: '<',
+    headTitle: '@',
+    playlists: '=',
+    initDataReady: '=',
+  };
   function controller() {
     console.log(`${moduleName} started`);
+
+    this.myInterval = 0;
+    this.noWrapSlides = false;
+    this.active = 0;
+    this.sliders = [];
+    this.sliderIndex = 0;
+    this.sliderDelta = 4;
+
+    this.update = () => {
+      this.initDataReady
+        .then(() => {
+          console.log('data', this.initData);
+          this.sliders.length = 0;
+          while (this.sliderIndex * this.sliderDelta < this.initData.length) {
+            this.sliders.push({
+              data: this.initData.slice(
+                this.sliderIndex * this.sliderDelta,
+                (this.sliderIndex + 1) * this.sliderDelta,
+              ),
+              sliderIndex: this.sliderIndex,
+            });
+            this.sliderIndex += 1;
+          } // while
+        })
+        .then(() => {
+          console.log(this.sliders);
+        });
+    };
+
+    this.$postLink = () => {
+      this.update();
+      // console.log(this.initDataReady);
+      // update();
+    };
+
+    // let slides = (this.slides = []);
+    // let currIndex = 0;
+
     // this.videoList = [];
 
     // "user_id": 1,

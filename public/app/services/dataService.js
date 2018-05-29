@@ -293,10 +293,18 @@ angular.module('app').factory('dataService', [
         // ]);
 
         Object.keys(res.data).forEach(key => {
-          res.data[key] = res.data[key].map(x => {
-            x.percent =
-              100 * (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1);
-            return x;
+          res.data[key] = res.data[key].map((item, id) => {
+            item.percent =
+              100 *
+              (item.likesCount || 0) /
+              (item.likesCount + item.dislikesCount || 1);
+            item.slideId = id;
+
+            if (item.name.length > 20) {
+              item.name = `${item.name.slice(0, 20)}...`;
+            }
+
+            return item;
           });
         });
 

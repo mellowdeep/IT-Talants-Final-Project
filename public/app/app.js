@@ -1,4 +1,10 @@
-angular.module('app', ['ngRoute', 'ngFileUpload']);
+angular.module('app', [
+  'ngRoute',
+  'ngFileUpload',
+  'ngSanitize',
+  'ngAnimate',
+  'ui.bootstrap',
+]);
 
 // .component('testInfo1', {
 //   templateUrl: '/app/components/test/test1.template.html',

@@ -42,13 +42,18 @@
   </div>
 
   <!-- VideoList -->
-
+  <!--    -->
   <div class="cb-content videolist">
     <div class="row">
+      <div uib-carousel active="$ctrl.active" interval="$ctrl.myInterval" no-wrap="$ctrl.noWrapSlides"
+        class="carousel slide" data-ride="carousel" template-url="app/templates/templateCarousel.html">
+        <div uib-slide ng-repeat="slide in $ctrl.sliders track by slide.sliderIndex"
+          index="slide.sliderIndex">
 
-      <video-item ng-repeat="videoItem in $ctrl.initData" video-params="videoItem"
-        user="$ctrl.user" playlists="$ctrl.playlists"></video-item>
-
+          <video-item ng-repeat="video in slide.data" video-params="video" user="$ctrl.user"
+            playlists="$ctrl.playlists"></video-item>
+        </div>
+      </div>
     </div>
   </div>
 </div>

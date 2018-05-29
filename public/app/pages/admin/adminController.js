@@ -67,7 +67,22 @@
 
     this.saveChangesButton = () => {
       this.buttonDisable = true;
-      this.modal.showModal = true;
+
+      swal({
+        title: 'Save changes?',
+        icon: 'info',
+        buttons: { cancel: 'cancel', ok: 'ok' },
+      }).then(v => {
+        if (v === 'ok') {
+          vm.saveChanges().then(() => {
+            vm.buttonDisable = false;
+          });
+        } else {
+          vm.buttonDisable = false;
+        }
+      });
+
+      // this.modal.showModal = true;
     };
 
     this.saveChanges = () => {

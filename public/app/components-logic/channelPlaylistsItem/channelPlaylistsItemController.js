@@ -32,8 +32,32 @@
     };
 
     this.deletePlaylist = () => {
-      this.modal.text = `Do you want to delete playlist: ${vm.playlist.name}?`;
-      this.modal.showModal = true;
+      // this.modal.text = `Do you want to delete playlist: ${vm.playlist.name}?`;
+      // this.modal.showModal = true;
+
+      swal({
+        text: `Do you want to delete playlist: ${vm.playlist.name}?`,
+        buttons: {
+          cancel: 'cancel',
+          ok: 'OK',
+        },
+        icon: 'warning',
+      }).then(value => {
+        // console.log(showInput);
+        switch (value) {
+          case 'cancel':
+            // swal("Pikachu fainted! You gained 500 XP!");
+            break;
+
+          case 'ok':
+            dataService.removePlaylist(vm.playlist.playlistId).then(() => {
+              vm.callback();
+            });
+            break;
+
+          default:
+        }
+      });
     };
   }
 

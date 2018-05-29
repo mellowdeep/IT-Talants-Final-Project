@@ -5,7 +5,8 @@
     <channel-update ng-if="($ctrl.user.auth && $ctrl.subscribes.length)" subscribes="$ctrl.subscribes"></channel-update>
 
 
-    <row-videos playlists="$ctrl.playlists" ng-if="initData.length" ng-repeat="(title, initData) in $ctrl.initData"
+    <row-videos init-data-ready="$ctrl.initDataReady" playlists="$ctrl.playlists"
+      ng-if="initData.length" ng-repeat="(title, initData) in $ctrl.initData"
       user="$ctrl.user" init-data="initData" head-title="{{ title }}"></row-videos>
 
     <!-- <row-videos user="$ctrl.user" head-title="News"></row-videos> -->

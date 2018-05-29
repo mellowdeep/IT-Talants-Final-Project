@@ -10,32 +10,39 @@
   text-decoration: underline;
   opacity: 1 !important;
 }
- 
 
+.display-mode {
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
 
+.display-mode span {
+  display: inline-block;
+  height: 1px;
+  width: 1px;
+}
 
-
-                    
 .scrollbar {
-
-    height: 300px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-
+  height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .scrollbar-danger::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color:  #2e2e2e;
-  border-radius: 10px; 
+  background-color: #2e2e2e;
+  border-radius: 10px;
 }
 
 .scrollbar-danger::-webkit-scrollbar {
   width: 12px;
-  background-color:  #2e2e2e; }
+  background-color: #2e2e2e;
+}
 
 .scrollbar-danger::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color: #ea2c5a; }
-
+  background-color: #ea2c5a;
+}

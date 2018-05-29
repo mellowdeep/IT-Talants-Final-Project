@@ -11,10 +11,14 @@
     initData: '<',
     playlists: '=',
     subscribes: '=',
+    initDataReady: '=',
   };
   function controller() {
     console.log(`${moduleName} started`);
 
+    this.$postLink = () => {
+      console.log('promise', this.initDataReady);
+    };
     // Object.keys(this.initData).forEach()
   }
 

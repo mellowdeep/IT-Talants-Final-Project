@@ -9,8 +9,8 @@
   // --------------------------------------------------
   const bindings = { aboutAuthor: '=', user: '=' };
   // const require = ['^about-author'];
-  const injection = ['dataService'];
-  function controller(dataService) {
+  const injection = ['dataService', '$window'];
+  function controller(dataService, $window) {
     console.log(`${moduleName} started`);
 
     this.modal = {
@@ -27,13 +27,20 @@
       textYes: 'Ok',
     };
 
-    setTimeout(() => console.log(this.aboutAuthor, this.user.id), 3000);
+    // setTimeout(() => console.log(this.aboutAuthor, this.user.id), 3000);
     console.log('chd', this.aboutAuthor);
 
     this.subscribe = () => {
       console.log('test', this.user);
       if (!this.user.auth) {
-        this.modal.showModal = true;
+        // this.modal.showModal = true;
+        swal({
+          title: 'Please login for subscribe',
+          icon: 'info',
+          // buttons: { cancel: 'cancel', logout: 'logout' },
+        }).then(() => {
+          $window.location.href = `#/login`;
+        });
         return;
       }
 

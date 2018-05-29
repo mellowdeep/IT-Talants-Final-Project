@@ -7,7 +7,7 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = { currentMenu: '=' };
+  const bindings = { currentMenu: '=', user: '=', aboutAuthor: '=' };
   const injection = [];
   function controller() {}
 

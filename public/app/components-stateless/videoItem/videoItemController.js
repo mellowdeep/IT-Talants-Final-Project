@@ -26,7 +26,7 @@
     console.log(`${moduleName} started`);
     const vm = this;
 
-    // setTimeout(() => console.log(this.user), 4000);
+    // setTimeout(() => console.log(this.videoParams), 4000);
 
     this.mouseOnVideo = false;
     this.mouseOnPlus = false;
@@ -59,7 +59,32 @@
 
     this.addToNewPlaylist = () => {
       this.hideAll();
-      this.modal.showModal = true;
+      // this.modal.showModal = true;
+      const { uuid } = vm.videoParams;
+      swal('Please type name of new Playlist', {
+        content: 'input',
+        // closeModal: false,
+      }).then(showInput => {
+        console.log(showInput);
+
+        if (showInput.trim().length === 0) {
+          swal({ text: 'Impossible playlist length', icon: 'warning' });
+        } else
+          dataService
+            .addPlaylist(showInput)
+            .then(({ data }) => {
+              const playlistId = data;
+              return dataService.addVideoToPlaylist({ playlistId, uuid });
+            })
+            .then(() => {
+              vm.showOkAdded = true;
+              $timeout(() => {
+                vm.showOkAdded = false;
+              }, 1700);
+            });
+      });
+
+      console.log('new playlist', this.modal.showModal);
     };
 
     this.modal = {

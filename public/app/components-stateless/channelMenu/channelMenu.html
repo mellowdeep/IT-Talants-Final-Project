@@ -4,7 +4,14 @@
       <a href="" ng-click="$ctrl.currentMenu.page='videos'" ng-class="{'anchor-active': $ctrl.currentMenu.page=== 'videos'}">Videos</a>
     </li>
     <li>
-      <a href="" ng-click="$ctrl.currentMenu.page='playlist'" ng-class="{'anchor-active': $ctrl.currentMenu.page=== 'playlist'}">Playlist</a>
+      <a href="" ng-click="$ctrl.currentMenu.page='playlist'" ng-class="{'anchor-active': $ctrl.currentMenu.page=== 'playlist'}">
+
+        {{ $ctrl.user.id === $ctrl.aboutAuthor.id ? 'My playlists' : 'Playlists'
+        }}
+
+
+
+      </a>
     </li>
     <!-- <li>
       <a href="" ng-click="$ctrl.currentMenu.page='channels'" ng-class="{'anchor-active': $ctrl.currentMenu.page=== 'channels'}">Channels</a>

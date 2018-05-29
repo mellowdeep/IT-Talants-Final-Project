@@ -69,7 +69,21 @@
         // });
 
         // $timeout(() => {
-        if (res.status === 200) this.modal.showModal = true;
+        if (res.status === 200) {
+          swal({
+            title: 'We will inform you when video is ready',
+            icon: 'info',
+            // buttons: { cancel: 'cancel', logout: 'logout' },
+          }).then(() => ($window.location.href = `#/`));
+          // .then(value => {
+          //   if (value === 'logout')
+          //     authService.logout().then(() => {
+          //       $route.reload();
+          //     });
+          // });
+
+          // this.modal.showModal = true;
+        }
         // });
         // $scope.$apply(() => {
         //   if (res.status === 200) this.modal.showModal = true;

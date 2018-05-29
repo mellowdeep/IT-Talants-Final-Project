@@ -6,7 +6,7 @@ angular.module('app').config([
 
     $routeProvider
       .when('/', {
-        template: `<init-page user="vm.user" init-data="vm.initData"  subscribes="vm.subscribes"  playlists="vm.playlists"></init-page>`,
+        template: `<init-page user="vm.user" init-data="vm.initData"  subscribes="vm.subscribes" init-data-ready="vm.initDataReady"  playlists="vm.playlists"></init-page>`,
         controller: 'preInitPage as vm',
       })
       .when('/login', {
@@ -45,7 +45,7 @@ angular.module('app').config([
         controller: 'preSearch as vm',
       })
       .when('/test', {
-        template: '<h1>h to test</h1>',
+        template: '<test></test>',
       })
       .when('/404', {
         template: '<page404>h to test</page404>',

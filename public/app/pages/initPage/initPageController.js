@@ -6,7 +6,12 @@
 
   // START MODULE
   // --------------------------------------------------
-  const bindings = { user: '<', initData: '<', playlists: '=' };
+  const bindings = {
+    user: '<',
+    initData: '<',
+    playlists: '=',
+    subscribes: '=',
+  };
   function controller() {
     console.log(`${moduleName} started`);
 

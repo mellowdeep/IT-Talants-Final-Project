@@ -2,10 +2,10 @@
 <!-- <go-to ng-if="$ctrl.user.auth"></go-to> -->
 <content-wrapper>
   <div class="col-lg-12">
-    <channel-update ng-if="$ctrl.user.auth"></channel-update>
+    <channel-update ng-if="($ctrl.user.auth && $ctrl.subscribes.length)" subscribes="$ctrl.subscribes"></channel-update>
 
 
-    <row-videos playlists="$ctrl.playlists" ng-repeat="(title, initData) in $ctrl.initData"
+    <row-videos playlists="$ctrl.playlists" ng-if="initData.length" ng-repeat="(title, initData) in $ctrl.initData"
       user="$ctrl.user" init-data="initData" head-title="{{ title }}"></row-videos>
 
     <!-- <row-videos user="$ctrl.user" head-title="News"></row-videos> -->

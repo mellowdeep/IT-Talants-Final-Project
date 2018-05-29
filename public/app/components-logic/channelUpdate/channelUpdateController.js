@@ -9,15 +9,11 @@
   // --------------------------------------------------
 
   const injection = ['dataService'];
+  const bindings = { subscribes: '=' };
   function controller(dataService) {
     console.log(`${moduleName} started`);
     this.subscribes = [];
-    this.$onInit = () => {
-      dataService.getSubscribesAll().then(res => {
-        this.subscribes.push(...res.data);
-        console.log(this.subscribes);
-      });
-    };
+    this.$onInit = () => {};
   }
 
   // --------------------------------------------------
@@ -25,6 +21,7 @@
   angular.module('app').component(moduleName, {
     templateUrl,
     controller: [...injection, controller],
+    bindings,
   });
   // END module
   // eslint-disable-next-line

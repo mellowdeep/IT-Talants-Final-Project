@@ -6,7 +6,7 @@ angular.module('app').config([
 
     $routeProvider
       .when('/', {
-        template: `<init-page user="vm.user" init-data="vm.initData"  playlists="vm.playlists"></init-page>`,
+        template: `<init-page user="vm.user" init-data="vm.initData"  subscribes="vm.subscribes"  playlists="vm.playlists"></init-page>`,
         controller: 'preInitPage as vm',
       })
       .when('/login', {
@@ -36,7 +36,7 @@ angular.module('app').config([
         controller: 'preAdmin as vm',
       })
       .when('/channel', {
-        template: `<channel user="vm.user" tab-value="vm.tab" about-author="vm.aboutAuthor"  playlists="vm.playlists"></channel>`,
+        template: `<channel user="vm.user" tab-value="vm.tab" about-author="vm.aboutAuthor" playlists="vm.playlists"></channel>`,
         controller: 'preChannel as vm',
       })
       .when('/search', {

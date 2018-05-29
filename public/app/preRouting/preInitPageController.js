@@ -12,6 +12,7 @@
     vm.user = { auth: false };
     vm.initData = {};
     vm.playlists = [];
+    vm.subscribes = [];
 
     authService
       .isLogin()
@@ -29,6 +30,13 @@
       .then(res => {
         vm.initData = res.data;
         console.log(vm.initData);
+        if (vm.user.auth) return dataService.getSubscribesAll();
+      })
+      .then(res => {
+        if (vm.user.auth && res && Array.isArray(res.data)) {
+          vm.subscribes.push(...res.data);
+          console.log(vm.subscribes);
+        }
       });
   }
 

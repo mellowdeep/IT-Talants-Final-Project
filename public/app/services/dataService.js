@@ -108,9 +108,9 @@ angular.module('app').factory('dataService', [
       return $http.put(url);
     }
 
-    function addPlaylist(name) {
+    function addPlaylist({ name, visibility }) {
       const url = `/create/playlist`;
-      return $http.post(url, { name });
+      return $http.post(url, { name, visibility });
       // playlistsArray.push({
       //   name,
       //   userId: 2,

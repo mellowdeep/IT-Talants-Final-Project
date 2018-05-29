@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 (function() {
-  const moduleName = 'videoPlaylist';
+  const moduleName = 'videoStream';
   // eslint-disable-next-line
   const templateUrl = `/app/pages/${moduleName}/${moduleName}.html`;
   // templateUrlGenerate(moduleName);

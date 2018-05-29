@@ -31,13 +31,28 @@
           console.log('data', this.initData);
           this.sliders.length = 0;
           while (this.sliderIndex * this.sliderDelta < this.initData.length) {
-            this.sliders.push({
-              data: this.initData.slice(
-                this.sliderIndex * this.sliderDelta,
-                (this.sliderIndex + 1) * this.sliderDelta,
-              ),
-              sliderIndex: this.sliderIndex,
-            });
+            if (
+              (this.sliderIndex + 1) * this.sliderDelta >
+              this.initData.length
+            ) {
+              this.sliders.push({
+                data: this.initData.slice(
+                  this.initData.length - this.sliderDelta >= 0
+                    ? this.initData.length - this.sliderDelta
+                    : 0,
+                  this.initData.length,
+                ),
+                sliderIndex: this.sliderIndex,
+              });
+            } else
+              this.sliders.push({
+                data: this.initData.slice(
+                  this.sliderIndex * this.sliderDelta,
+                  (this.sliderIndex + 1) * this.sliderDelta,
+                ),
+                sliderIndex: this.sliderIndex,
+              });
+
             this.sliderIndex += 1;
           } // while
         })

@@ -4247,3 +4247,15 @@ i.cv:hover {
 .c-social i.fa {
   color: white !important;
 }
+
+body .carousel-control {
+  bottom: 115px;
+  color: #ea2c5a;
+  font-size: 35px;
+}
+
+.banner {
+  margin-top: -28px;
+  width: 100%;
+  height: 90px;
+}

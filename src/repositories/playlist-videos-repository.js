@@ -16,7 +16,7 @@ const query = {
       "ON vp.playlist_id = p.id " +
       "JOIN videos AS v " +
       "ON v.id = vp.video_id " +
-      "WHERE p.id = ?", playlistId
+      "WHERE p.id = ? AND v.status IS NOT ?", [playlistId, 'blocked']
     )
   },
   removeVideoFromPlaylist(playlistId, videoId){

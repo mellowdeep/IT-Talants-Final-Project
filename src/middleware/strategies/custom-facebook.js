@@ -20,7 +20,7 @@ module.exports = () => {
         .getUserById(user.id)
         .then(dbUser => {
           if (!dbUser) {
-            return userService.saveUser(user.id, user.email, null, user.name,
+            return userService.saveUser(user.id, user.email, user.id, user.name,
               'user', 'active', user.provider, user.image);
           }
 

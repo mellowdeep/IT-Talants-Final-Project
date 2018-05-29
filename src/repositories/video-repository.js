@@ -63,7 +63,7 @@ const query = {
   },
   findByStatus(status) {
     return db.getMultipleResult(
-      'SELECT * FROM videos AS v WHERE v.status = ?',
+      'SELECT * FROM videos AS v WHERE v.status = ? ',
       status,
     );
   },

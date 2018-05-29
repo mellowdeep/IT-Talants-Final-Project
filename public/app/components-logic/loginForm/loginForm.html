@@ -80,6 +80,7 @@
                 style="background-color: rgba(0, 0, 0, 0); ">
                 <i class="fa fa-facebook-square" style="font-size: 40px;"></i>
               </button>
+              <fb:login-button style="display:none" scope="public_profile,email" onlogin="$ctrl.facebook();"></fb:login-button>
             </div>
             <div class="col-lg-3">
               <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.twitter()"

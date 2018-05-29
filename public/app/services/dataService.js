@@ -292,6 +292,14 @@ angular.module('app').factory('dataService', [
         //   'uuid',
         // ]);
 
+        Object.keys(res.data).forEach(key => {
+          res.data[key] = res.data[key].map(x => {
+            x.percent =
+              100 * (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1);
+            return x;
+          });
+        });
+
         return res;
       });
     }

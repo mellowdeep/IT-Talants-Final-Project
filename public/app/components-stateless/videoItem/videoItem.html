@@ -25,7 +25,7 @@
     <div class="v-img">
       <a ng-href="#/video?uuid={{ $ctrl.videoParams.uuid }}">
         <img ng-src="{{$ctrl.videoParams.image}}" alt="video" style="width:100%; height:100%;">
-        <div ng-if=" $ctrl.videoParams.watched" class="watched-mask"></div>
+        <div ng-if="$ctrl.videoParams.watched" class="watched-mask"></div>
         <div ng-if="$ctrl.videoParams.watched" class="watched">WATCHED</div>
         <div ng-if="$ctrl.showOkAdded" class="watched-mask"></div>
         <div ng-if="$ctrl.showOkAdded" class="watched" style="color:white; font-size: 2em; background-color: transparent;">

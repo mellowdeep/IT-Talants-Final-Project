@@ -11,7 +11,7 @@
   // <video-item image="" href="" time="" title="" views="" like-rate=""></video-item>
   const bindings = {
     videoParams: '<',
-    user: '<',
+    user: '=',
     playlists: '=',
   };
 
@@ -25,6 +25,8 @@
   function controller($element, $document, $scope, dataService, $timeout) {
     console.log(`${moduleName} started`);
     const vm = this;
+
+    // setTimeout(() => console.log(this.user), 4000);
 
     this.mouseOnVideo = false;
     this.mouseOnPlus = false;
@@ -97,10 +99,10 @@
     };
 
     this.$postLink = () => {
-      this.percent =
-        100 *
-        (this.videoParams.likesCount || 0) /
-        (this.videoParams.likesCount + this.videoParams.dislikesCount || 1);
+      // this.percent =
+      //   100 *
+      //   (this.videoParams.likesCount || 0) /
+      //   (this.videoParams.likesCount + this.videoParams.dislikesCount || 1);
 
       const elPlus = Array.from($element.find('div')).find(e =>
         e.matches('.plus'),

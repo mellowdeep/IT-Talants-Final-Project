@@ -10,7 +10,7 @@ module.exports = () => {
       const {response, accToken} = res.body;
       const user = {
         id: response.id.toString()
-          .slice(0, 18),
+          .slice(0, 12),
         username: response.email,
         image: response.picture.data.url,
         name: response.name,

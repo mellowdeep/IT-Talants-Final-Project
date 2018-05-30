@@ -31,7 +31,7 @@
       hideNo: true,
       textYes: 'OK',
       showModal: false,
-      text: 'All fields have to filled',
+      text: 'Playlist requires a name',
     };
 
     this.saveChanges = () => {
@@ -43,7 +43,7 @@
       ) {
         // this.modal.showModal = true;
 
-        swal({ text: 'All fields have to filled', icon: 'warning' });
+        swal({ text: 'Playlist requires a name', icon: 'warning' });
 
         this.buttonDisabled = false;
         return;

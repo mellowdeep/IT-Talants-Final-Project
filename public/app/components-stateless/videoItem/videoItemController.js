@@ -97,7 +97,7 @@
       input.type = 'text';
 
       swal({
-        title: 'Please type name of new Playlist',
+        title: 'Playlist name',
         content: input,
         buttons: {
           private: {
@@ -123,7 +123,7 @@
           const name = input.value;
 
           if (name.trim().length === 0 && val !== null) {
-            swal({ text: 'Impossible playlist length', icon: 'warning' });
+            swal({ text: 'Playlist requires a name', icon: 'warning' });
             return { name: null, visibility: null };
           }
 

@@ -43,8 +43,12 @@ body {
   /*color: #2e2e2e;*/
   background-color: #5e5e5e;
   background-color: #343232;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d51433' fill-opacity='0.39' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
-  background-repeat: repeat;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d51433' fill-opacity='0.39' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E") no-repeat center center fixed;
+  -webkit-background-size: cover; /* For WebKit*/
+  -moz-background-size: cover;    /* Mozilla*/
+  -o-background-size: cover;      /* Opera*/
+  background-size: cover;         /* Generic*/
+
   font-family: 'Hind Guntur', sans-serif;
   font-size: 16px;
   background-color: #ffffff;
@@ -3888,6 +3892,8 @@ body.dark .navbar-container2 .color-default {
 }
 body.dark .list-inline li a {
   color: #7e7e7e;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .navbar-container > .container > div > div > ul > li:first-child {

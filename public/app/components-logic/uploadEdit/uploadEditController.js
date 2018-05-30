@@ -41,7 +41,7 @@
       _value: false,
       hideNo: true,
       showModal: false,
-      text: 'We will inform you when video is ready',
+      text: 'Your video is being processed, you will be notified once processing is complete',
     };
 
     this.cancelButton = () => {
@@ -71,7 +71,7 @@
         // $timeout(() => {
         if (res.status === 200) {
           swal({
-            title: 'We will inform you when video is ready',
+            title: 'Your video is being processed, you will be notified once processing is complete',
             icon: 'info',
             // buttons: { cancel: 'cancel', logout: 'logout' },
           }).then(() => ($window.location.href = `#/`));

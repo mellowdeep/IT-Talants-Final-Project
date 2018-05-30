@@ -17,8 +17,8 @@ const query = {
     return db.getMultipleResult(
       "SELECT * FROM subscribe AS s " +
       "JOIN users AS u " +
-      "ON u.id = s.user_id " +
-      "WHERE u.id = ?",
+      "ON u.id = s.subscribe_user_id " +
+      "WHERE s.user_id = ?",
       userId
     )
   },

@@ -72,8 +72,9 @@
         // $timeout(() => {
         if (res.status === 200) {
           swal({
-            title: 'Your video is being processed, you will be notified once processing is complete',
-            icon: 'info',
+            text: 'Your video is being processed, you will be notified once processing is complete',
+            icon: 'success',
+            html: true
             // buttons: { cancel: 'cancel', logout: 'logout' },
           }).then(() => ($window.location.href = `#/`));
           // .then(value => {

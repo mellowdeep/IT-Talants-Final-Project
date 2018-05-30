@@ -41,8 +41,8 @@
 */
 body {
   /*color: #2e2e2e;*/
-  background-color: #5e5e5e;
-  background-color: #343232;
+  /*background-color: #5e5e5e;*/
+  /*background-color: #343232;*/
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d51433' fill-opacity='0.39' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E") no-repeat center center fixed;
   -webkit-background-size: cover; /* For WebKit*/
   -moz-background-size: cover;    /* Mozilla*/
@@ -51,7 +51,7 @@ body {
 
   font-family: 'Hind Guntur', sans-serif;
   font-size: 16px;
-  background-color: #ffffff;
+  /*background-color: #ffffff;*/
 }
 body.light {
   background-color: #ffffff;
@@ -66,6 +66,7 @@ body.dark .content-wrapper {
   /*background-color: #343434;*/
   background-color: #393939;
   background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d73131' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  min-height: 800px;
 }
 .logo {
   width: 44px;
@@ -1497,6 +1498,9 @@ ul.menu {
 }
 .login-wraper {
   position: relative;
+  background-color: #393939;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d73131' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  min-height: 800px;
 }
 .login-wraper .login-window {
   position: absolute;
@@ -4270,4 +4274,10 @@ body .carousel-control {
   margin-top: -28px;
   width: 100%;
   height: 90px;
+}
+
+
+.image-banner {
+  display: block;
+  height: 80px;
 }

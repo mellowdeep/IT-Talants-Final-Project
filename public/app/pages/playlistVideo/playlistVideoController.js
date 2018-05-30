@@ -7,7 +7,13 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const bindings = { watchVideo: '=', user: '=', playlistVideos: '=' };
+  const bindings = {
+    watchVideo: '=',
+    user: '=',
+    playlistVideos: '=',
+    currentVideoPlalist: '=',
+    playlistData: '=',
+  };
   const injection = ['dataService', '$window', 'linkService'];
   function controller(dataService, $window, linkService) {
     console.log(`${moduleName} started`);
@@ -19,6 +25,8 @@
     this.autoplayChange = () => {
       this.watchVideo.autoplay = !this.watchVideo.autoplay;
     };
+
+    // setTimeout(() => console.log(this.playlistData), 3000);
 
     this.$postLink = () => {
       this.watchVideo.promiseDataReady
@@ -36,11 +44,16 @@
               return false;
             },
             set(v) {
-              if (v && vm.recommendedVideos.length && vm.watchVideo.autoplay) {
-                const url = linkService.makeVideoLink(
-                  vm.recommendedVideos[0].uuid,
+              if (
+                v &&
+                vm.currentVideoPlalist.num + 1 < vm.playlistVideos.length &&
+                vm.watchVideo.autoplay
+              ) {
+                console.log(vm.playlistVideos, vm.currentVideoPlalist.num);
+                linkService.redirect(
+                  vm.playlistVideos[vm.currentVideoPlalist.num + 1]
+                    .linkInPlaylist,
                 );
-                linkService.redirect(url);
               }
             },
           });

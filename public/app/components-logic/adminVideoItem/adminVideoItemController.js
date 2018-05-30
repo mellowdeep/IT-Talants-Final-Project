@@ -5,10 +5,43 @@
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
   const injection = ['dataService'];
-  const bindings = { user: '=', videoParams: '=' };
+  const bindings = { user: '=', videoParams: '=', saveChanges: '=' };
 
   function controller(dataService) {
     console.log(`${moduleName} started`);
+
+    this.saveChangesButton = () => {
+      swal({
+        title: 'Approve or block',
+        icon: 'warning',
+        buttons: { approve: 'Approve', block: 'Block', cancel: 'Cancel' },
+      }).then(v => {
+        console.log(v);
+
+        switch (v) {
+          case 'approve':
+            this.videoParams.approveVideo = 'YES';
+            this.saveChanges();
+            return;
+          case 'block':
+            this.videoParams.approveVideo = 'NO';
+            this.saveChanges();
+            return;
+          default:
+            return;
+        }
+
+        // this.videoParams.approveVideo = 'YES';
+
+        // if (v === 'ok') {
+        //   vm.saveChanges().then(() => {
+        //     vm.buttonDisable = false;
+        //   });
+        // } else {
+        //   vm.buttonDisable = false;
+        // }
+      });
+    };
 
     this.approve = val => {
       const status = this.videoParams.approveVideo;

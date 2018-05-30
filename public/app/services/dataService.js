@@ -41,8 +41,14 @@ angular.module('app').factory('dataService', [
       getVideosFromPlaylist,
       getSubscribesAll,
       playlistLatest,
+      getPlaylistData,
     };
     // -------------------
+
+    function getPlaylistData(playlistId) {
+      const url = `/playlist/${playlistId}`;
+      return $http.get(url);
+    }
 
     function playlistLatest() {
       const url = `/playlist/lastest`;
@@ -94,7 +100,7 @@ angular.module('app').factory('dataService', [
               const { uuid } = video;
               video.linkInPlaylist = linkService.makeVideoLinkInPlaylist({
                 playlistId,
-                uuid,
+                num: id,
               });
               return video;
             });
@@ -295,10 +301,11 @@ angular.module('app').factory('dataService', [
 
         Object.keys(res.data).forEach(key => {
           res.data[key] = res.data[key].map((item, id) => {
-            item.percent =
-              100 *
-              (item.likesCount || 0) /
-              (item.likesCount + item.dislikesCount || 1);
+            const sum = item.videoLikesCount + item.videoDislikesCount;
+            if (sum)
+              item.percent = Math.floor(item.videoLikesCount * 100 / sum);
+            else item.percent = 0;
+
             item.slideId = id;
 
             if (item.name.length > 20) {

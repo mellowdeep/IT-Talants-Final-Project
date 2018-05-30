@@ -14,8 +14,8 @@ angular.module('app').factory('linkService', [
       return `#/video?uuid=${uuid}`;
     }
 
-    function makeVideoLinkInPlaylist({ playlistId, uuid }) {
-      return `#/playlist?id=${playlistId}&uuid=${uuid}`;
+    function makeVideoLinkInPlaylist({ playlistId, num }) {
+      return `#/playlist?id=${playlistId}&num=${num}`;
     }
 
     function makePlaylistLink({ playlistId }) {

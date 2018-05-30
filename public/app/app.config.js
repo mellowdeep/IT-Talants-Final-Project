@@ -20,7 +20,7 @@ angular.module('app').config([
       })
       .when('/playlist', {
         template:
-          '<playlist-video user="vm.user" watch-video="vm.watchVideo" playlist-videos="vm.playlistVideos"></playlist-video>',
+          '<playlist-video playlist-data="vm.playlistData" current-video-plalist="vm.currentVideoPlalist" user="vm.user" watch-video="vm.watchVideo" playlist-videos="vm.playlistVideos"></playlist-video>',
         controller: 'prePlaylistVideo as vm',
       })
       .when('/signup', {

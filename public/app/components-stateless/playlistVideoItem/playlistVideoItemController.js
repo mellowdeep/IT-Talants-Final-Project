@@ -8,7 +8,11 @@
   // START MODULE
   // --------------------------------------------------
 
-  const bindings = { videoParams: '<', watchVideo: '=' };
+  const bindings = {
+    videoParams: '<',
+    watchVideo: '=',
+    currentVideoPlalist: '=',
+  };
   function controller() {
     console.log(`${moduleName} started`);
   }

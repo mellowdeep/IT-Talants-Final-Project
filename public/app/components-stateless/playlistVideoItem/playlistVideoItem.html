@@ -1,8 +1,14 @@
 <div class="h-video playlist row">
   <div class="col-lg-5 col-sm-5 col-xs-6">
     <div class="v-number">
-      <span ng-if="$ctrl.watchVideo.uuid !== $ctrl.videoParams.uuid">{{ $ctrl.videoParams.playlistVideoId }}</span>
+      <!-- <span ng-if="$ctrl.watchVideo.uuid !== $ctrl.videoParams.uuid">{{ $ctrl.videoParams.playlistVideoId }}</span>
       <span ng-if="$ctrl.watchVideo.uuid === $ctrl.videoParams.uuid">
+        -->
+      <span ng-if="+$ctrl.currentVideoPlalist.num!== +$ctrl.videoParams.playlistVideoId-1">{{ $ctrl.videoParams.playlistVideoId }}</span>
+      <span ng-if="+$ctrl.currentVideoPlalist.num === +$ctrl.videoParams.playlistVideoId-1">
+
+        <!-- current-video-plalist="vm.currentVideoPlalist"  -->
+
         <i class="cv cvicon-cv-play"></i>
       </span>
     </div>

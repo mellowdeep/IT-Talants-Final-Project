@@ -24,6 +24,7 @@
     this.percentOfTrack = 0;
     this.isPrivate = 0;
     this.durationScreenShot = 0;
+    this.tag = '';
     this.tags = ['music', 'news', 'trailers', 'animation'];
 
     this.modal = {
@@ -133,6 +134,8 @@
       this.video = $element.find('video')[0];
       // eslint-disable-next-line
       this.videoSource = $element.find('source')[0];
+      this.isPrivate = 'public';
+      this.tag = 'trailers';
       this.div = Array.from($element.find('div')).find(x => {
         return x.id === 'trackvideo';
       });

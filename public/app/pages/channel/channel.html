@@ -12,9 +12,8 @@
         <channel-menu current-menu="$ctrl.menu" user="$ctrl.user" about-author="$ctrl.aboutAuthor"></channel-menu>
       </channel-details>
 
-      <channel-videos playlists="$ctrl.playlists" user="$ctrl.user" about-author="$ctrl.aboutAuthor"
-        ng-show="$ctrl.menu.page==='videos'"></channel-videos>
-      <channel-playlists user="$ctrl.user" about-author="$ctrl.aboutAuthor" ng-show="$ctrl.menu.page==='playlist'"></channel-channel-playlists>
+      <channel-videos playlists="$ctrl.playlists" user="$ctrl.user" about-author="$ctrl.aboutAuthor" ng-show="$ctrl.menu.page==='videos'"></channel-videos>
+      <channel-playlists my-playlists="$ctrl.playlists" user="$ctrl.user" about-author="$ctrl.aboutAuthor" ng-show="$ctrl.menu.page==='playlist'"></channel-channel-playlists>
     </div>
   </content-wrapper>
   <!-- <row-footer></row-footer> -->

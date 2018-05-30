@@ -181,6 +181,7 @@ angular.module('app').factory('dataService', [
               100 * (x.likesCount || 0) / (x.likesCount + x.dislikesCount || 1),
             );
             x.linkToVideo = linkService.makeVideoLink(x.uuid);
+            // x.watched = x.watched || x.seen;
             return x;
           });
         }

@@ -47,7 +47,7 @@
       .then(res => {
         console.log('---------------------------');
         if (res && Array.isArray(res.data)) {
-          vm.playlists = res.data;
+          vm.playlists.push(...res.data);
         }
         return dataService.aboutAuthor(userId);
       })

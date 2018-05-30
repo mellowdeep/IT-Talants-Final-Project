@@ -65,7 +65,7 @@
       $q
         .resolve()
         .then(() => {
-          const data = this.playlists.find(item => item === name);
+          const data = this.playlists.find(item => item.name === name);
           let playlistId = null;
           if (data) playlistId = data.playlistId;
           if (playlistId) return { data: playlistId };
@@ -81,6 +81,10 @@
             vm.showOkAdded = false;
           }, 1700);
           return dataService.getPlaylists(this.user.id);
+        })
+        .then(({ data }) => {
+          this.playlists.length = 0;
+          this.playlists.push(...data);
         });
     };
 

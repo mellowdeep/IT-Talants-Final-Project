@@ -40,7 +40,7 @@
       })
       .then(res => {
         if (res && Array.isArray(res.data)) {
-          vm.playlists = res.data;
+          vm.playlists.push(...res.data);
         }
         return dataService.search(vm.search);
       })

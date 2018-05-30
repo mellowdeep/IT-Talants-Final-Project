@@ -33,17 +33,17 @@
   <!-- <script src="./libs/mediaelement-and-player.min.js"></script> -->
   <!-- angular libs -->
 
-  <script src="./libs/angular.js"></script>
-  <script src="./libs/angular-route.js"></script>
+  <script src="./libs/angular.min.js"></script>
+  <script src="./libs/angular-route.min.js"></script>
 
   <script src="./libs/ng-file-upload-shim.min.js"></script>
   <!-- for no html5 browsers support -->
   <script src="./libs/ng-file-upload.js"></script>
 
 
-  <script src="./libs/angular-animate.js"></script>
-  <script src="./libs/angular-touch.js"></script>
-  <script src="./libs/angular-sanitize.js"></script>
+  <script src="./libs/angular-animate.min.js"></script>
+  <script src="./libs/angular-touch.min.js"></script>
+  <script src="./libs/angular-sanitize.min.js"></script>
 
   <script src="./libs/ui-bootstrap-tpls-2.5.0.js"></script>
 
@@ -78,6 +78,8 @@
   <script src="./app/components-logic/channelPlaylistForm/channelPlaylistFormController.js"></script>
   <script src="./app/components-logic/channelPlaylistsItem/channelPlaylistsItemController.js"></script>
   <script src="./app/components-logic/adminVideoItem/adminVideoItemController.js"></script>
+  <script src="./app/components-logic/videoStreamElement/videoStreamElementController.js"></script>
+
 
   <!-- <script src="./app/components-logic/"></script> -->
   <!-- STATELESS COMPONENTS -->
@@ -139,7 +141,7 @@
 
 <body class="dark" ng-app="app">
   <logo-menu user="$ctrl.user"></logo-menu>
-  <div ng-view></div>
+  <div ng-view class="page"></div>
   <row-footer></row-footer>
 </body>
 

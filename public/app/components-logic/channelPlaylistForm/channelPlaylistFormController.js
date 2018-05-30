@@ -50,7 +50,7 @@
       }
 
       dataService
-        .addPlaylist(this.playlistTitle)
+        .addPlaylist({ name: this.playlistTitle, visibility: this.isPrivate })
         .then(res => {
           this.buttonDisabled = false;
           this.callback();
@@ -59,6 +59,10 @@
         .catch(err => {
           this.buttonDisabled = false;
         });
+    };
+
+    this.$postLink = () => {
+      this.isPrivate = 'public';
     };
 
     // this.$postLink = () => {

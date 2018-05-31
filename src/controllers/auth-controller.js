@@ -24,7 +24,7 @@ controller.get('/register', (req, res) => {
 
 controller.get('/logout', (req, res) => {
   req.session.destroy();
-  res.send(status.OK)
+  res.sendStatus(status.OK)
 });
 
 controller.post(
@@ -34,7 +34,7 @@ controller.post(
     if (req.user) {
       res.send(req.user);
     } else {
-      res.send(status.BAD_REQUEST);
+      res.sendStatus(status.BAD_REQUEST);
     }
   },
 );

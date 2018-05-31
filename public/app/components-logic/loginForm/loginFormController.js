@@ -7,15 +7,15 @@
   // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
-  const injection = ['authService', '$window', 'facebookService'];
-  function controller(authService, $window, facebookService) {
+  const injection = ['authService', '$window', 'facebookService','$element'];
+  function controller(authService, $window, facebookService,$element) {
     console.log(`${moduleName} started`);
     this.password = '';
     this.username = '';
     this.errorText = '';
     this.agreeToRemember = false;
     this.disableSubmit = false;
-
+    let fbButton;
     this.facebook = () => {
       facebookService
         .loginToFaceBookParams()
@@ -33,6 +33,10 @@
         });
     };
 
+    this.$postLink= ()=>{
+       // fbButton = $element.find('fb')[0];
+       // console.log(fbButton)
+    }
     this.twitter = () => console.log('twitter');
     this.google = () => console.log('google');
 

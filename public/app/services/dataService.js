@@ -301,9 +301,9 @@ angular.module('app').factory('dataService', [
 
         Object.keys(res.data).forEach(key => {
           res.data[key] = res.data[key].map((item, id) => {
-            const sum = item.videoLikesCount + item.videoDislikesCount;
+            const sum = item.likesCount + item.dislikesCount;
             if (sum)
-              item.percent = Math.floor(item.videoLikesCount * 100 / sum);
+              item.percent = Math.floor(item.likesCount * 100 / sum);
             else item.percent = 0;
 
             item.slideId = id;

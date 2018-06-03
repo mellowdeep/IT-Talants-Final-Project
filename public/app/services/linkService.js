@@ -8,10 +8,25 @@ angular.module('app').factory('linkService', [
       makeChannelLink,
       makeVideoLinkInPlaylist,
       makePlaylistLink,
+      makeSearchLink,
+      homeLink,
+      loginLink,
+      p404Link,
     };
 
+    function p404Link() {
+      return `#/404`;
+    }
     function makeVideoLink(uuid) {
       return `#/video?uuid=${uuid}`;
+    }
+
+    function homeLink() {
+      return `#/`;
+    }
+
+    function loginLink() {
+      return '#/login';
     }
 
     function makeVideoLinkInPlaylist({ playlistId, num }) {
@@ -26,7 +41,11 @@ angular.module('app').factory('linkService', [
       return `#/channel?userId=${userId}`;
     }
 
+    function makeSearchLink(search) {
+      return `#/search?query=${search.trim()}`;
+    }
     function redirect(link) {
+      // eslint-disable-next-line no-param-reassign
       $window.location.href = link;
     }
   },

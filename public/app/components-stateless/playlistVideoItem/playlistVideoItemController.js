@@ -13,15 +13,22 @@
     watchVideo: '=',
     currentVideoPlalist: '=',
   };
-  function controller() {
-    console.log(`${moduleName} started`);
+
+  const injection = ['helperService'];
+
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------
   // LOAD component
   angular
     .module('app')
-    .component(moduleName, { templateUrl, controller, bindings });
+    .component(moduleName, {
+      templateUrl,
+      controller: [...injection, controller],
+      bindings,
+    });
   // END module
   // eslint-disable-next-line
 })();

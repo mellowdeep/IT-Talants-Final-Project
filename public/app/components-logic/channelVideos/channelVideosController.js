@@ -4,37 +4,16 @@
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
-  const injection = ['dataService'];
   const bindings = { user: '<', aboutAuthor: '<', playlists: '=' };
 
-  function controller(dataService) {
-    console.log(`${moduleName} started`);
+  const injection = ['dataService', 'helperService'];
+  function controller(dataService, helperService) {
+    helperService.log(`${moduleName} started`);
 
     this.videos = [];
 
-    // this.userVideos = [];
-    // this.$onInit = () => {
-
-    // };
-
-    // this.$onChanges = changes => {
-    //   if (
-    //     this.aboutAuthor &&
-    //     changes.aboutAuthor &&
-    //     // angular.isDefined(changes.aboutAuthor.currentValue) &&
-    //     changes.aboutAuthor.isFirstChange()
-    //   ) {
-    //     console.log(this.aboutAuthor);
-    //     this.aboutAuthor.aboutAuthorPromise
-    //       .then(() => dataService.userVideos(this.aboutAuthor.id))
-    //       .then(({ data }) => {
-    //         this.videos = data;
-    //       });
-    //   }
-    // };
-
     this.$postLink = () => {
-      console.log(
+      helperService.log(
         '----------------------------',
         this.aboutAuthor.aboutAuthorPromise.toString(),
       );
@@ -44,8 +23,6 @@
           this.videos = data;
         });
     };
-
-    // about-author="$ctrl.aboutAuthor"
   }
 
   // --------------------------------------------------

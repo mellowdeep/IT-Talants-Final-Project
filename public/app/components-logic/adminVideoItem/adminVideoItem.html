@@ -13,22 +13,13 @@
         <a ng-href="{{ $ctrl.videoParams.linkToVideo }}">{{ $ctrl.videoParams.name }}</a>
       </div>
       <div class="v-views">
-        {{ $ctrl.videoParams.playCount }} views. {{ $ctrl.videoParams.postDate
-        }}
+        {{ $ctrl.videoParams.playCount }} views. {{ $ctrl.videoParams.postDate }}
       </div>
       <div class="v-percent">
         <span class="v-circle"></span> {{ $ctrl.videoParams.percent }}%</div>
     </div>
-    <button class="btn u-btn admin-action" ng-click="$ctrl.saveChangesButton() "
-    ng-disabled="$ctrl.buttonDisable ">Take Action</button>
-    <!--<div class="col-lg-2 col-xs-2 col-sm-2 h-clear-list">-->
-      <!--<a href="" ng-click="$ctrl.approve(true)" ng-class="{ active: $ctrl.videoParams.approveVideo==='YES' ,  'color-active': $ctrl.videoParams.approveVideo==='YES' }">-->
-        <!--<i class="cvicon-cv-plus" style="font-size: 1.9em"></i>-->
-      <!--</a>-->
-      <!--<a href="" ng-click="$ctrl.approve(false)" ng-class="{ active: $ctrl.videoParams.approveVideo==='NO',  'color-active': $ctrl.videoParams.approveVideo==='NO'  }">-->
-        <!--<i class="cvicon-cv-cancel" style="font-size: 1.7em"></i>-->
-      <!--</a>-->
-    <!--</div>-->
+    <button class="btn u-btn admin-action" ng-click="$ctrl.saveChangesButton() " ng-disabled="$ctrl.buttonDisable ">Take Action</button>
+
     <div class="clearfix"></div>
     <div class="h-divider"></div>
   </div>

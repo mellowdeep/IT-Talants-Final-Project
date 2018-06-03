@@ -1,3 +1,4 @@
+/* eslint-disable */
 angular.module('app').factory('facebookService', [
   '$rootScope',
   '$window',

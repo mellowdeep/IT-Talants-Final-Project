@@ -9,9 +9,17 @@
     '$window',
     '$location',
     '$q',
+    'helperService',
   ];
-  function controller(authService, dataService, $window, $location, $q) {
-    console.log(`${controllerName} started`);
+  function controller(
+    authService,
+    dataService,
+    $window,
+    $location,
+    $q,
+    helperService,
+  ) {
+    helperService.log(`${controllerName} started`);
     const vm = this;
     let ok;
     vm.watchVideo = {};
@@ -38,7 +46,6 @@
     dataService
       .getVideosFromPlaylist(id)
       .then(res => {
-        console.log('--------------', res);
         if (!res.data.length) throw Error('array without elements');
         vm.playlistVideos = res.data;
 
@@ -51,11 +58,9 @@
         )
           num = 0;
 
+        // eslint-disable-next-line prefer-destructuring
         uuid = vm.playlistVideos[num].uuid;
 
-        // if (!vm.playlistVideos.find(x => x.uuid === uuid)) {
-        //   [{ uuid }] = vm.playlistVideos;
-        // }
         vm.currentVideoPlalist.id = id;
         vm.currentVideoPlalist.uuid = uuid;
         vm.currentVideoPlalist.num = num;
@@ -71,11 +76,10 @@
         return dataService.getPlaylistData(id);
       })
       .then(({ data }) => {
-        // console.log()
         Object.assign(vm.playlistData, data);
       })
       .catch(err => {
-        console.log(err);
+        helperService.log(err);
         // $window.location.href = '#/404';
       });
   }

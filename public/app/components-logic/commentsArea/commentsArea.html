@@ -1,14 +1,11 @@
-<confirm modal-params="$ctrl.modalParams"></confirm>
 <div class="reply-comment">
   <div class="rc-header">
     <i class="cv cvicon-cv-comment"></i>
     <span class="semibold"> {{ $ctrl.commentsToVideoMain.length }}</span> Comments</div>
   <div class="rc-ava">
     <a ng-href="{{ $ctrl.user.linkToPage || '' }}">
-      <!-- <img src="images/ava5.png" alt=""> -->
-
-      <img class="img-circle" ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
-        alt="avatar" style="width:50px" />
+      <img class="img-circle" ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}" alt="avatar" style="width:50px"
+      />
     </a>
   </div>
   <div class="rc-comment">
@@ -37,16 +34,13 @@
 
   <!-- comment -->
 
-  <comment class="cl-comment" ng-repeat="comment in $ctrl.commentsToVideo"
-    user="$ctrl.user" watch-video="$ctrl.watchVideo" comment-params="comment"></comment>
+  <comment class="cl-comment" ng-repeat="comment in $ctrl.commentsToVideo" user="$ctrl.user" watch-video="$ctrl.watchVideo"
+    comment-params="comment"></comment>
 
 
   <div class="row">
     <div class="col-lg-12">
       <div class="loadmore-comments">
-        <!-- <form>
-          <button class="btn btn-default h-btn">Load more Comments</button>
-        </form> -->
       </div>
     </div>
   </div>

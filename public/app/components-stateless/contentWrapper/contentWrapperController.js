@@ -3,24 +3,19 @@
   const moduleName = 'contentWrapper';
   // eslint-disable-next-line
   const templateUrl = `/app/components-stateless/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = {};
-  function controller() {
-    console.log(`${moduleName} started`);
-
-    // this.$onInit = () => {
-    //   if (!this.wrapperClass) this.wrapperClass = 'col-lg-12';
-    // };
+  const injection = ['helperService'];
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------
   // LOAD component
   angular.module('app').component(moduleName, {
     templateUrl,
-    controller,
+    controller: [...injection, controller],
     transclude: true,
     bindings,
   });

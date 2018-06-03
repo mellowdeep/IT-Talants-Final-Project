@@ -1,11 +1,8 @@
 <div class="single-video dark">
-  <!-- <logo-menu user="$ctrl.user"></logo-menu> -->
-  <!-- <go-to></go-to> -->
 
   <content-wrapper>
     <div class="col-lg-8 col-xs-12 col-sm-12">
-      <video-player user="$ctrl.user" class="sv-video" watch-video="$ctrl.watchVideo"
-        type="high"></video-player>
+      <video-player user="$ctrl.user" class="sv-video" watch-video="$ctrl.watchVideo" type="high"></video-player>
       <h1>
         <a href="#">{{ $ctrl.watchVideo.name }}</a>
       </h1>
@@ -33,35 +30,8 @@
         <div class="clearfix"></div>
       </div>
 
-
-      <!-- <div class="list">
-        <recommended-videos class="h-video row" ng-repeat="video in $ctrl.channelVideos"
-          video-params="video">
-        </recommended-videos>
-      </div> -->
-
-      <!-- <ad-google class="adblock" text="336 x 280"></ad-google> -->
-
-      <!-- <div class="caption">
-        <div class="left">
-          <a href="#">Recomended Videos</a>
-        </div>
-        <div class="clearfix"></div>
-      </div> -->
-
-
-      <!-- style="height: 300px; overflow-y: scroll;" -->
-      <!-- <div class="list scrollbar scrollbar-danger">
-        <playlist-video ng-repeat="video in $ctrl.recommendedVideos" video-params="video"
-          class="h-video row">
-        </playlist-video>
-      </div>
-      <div class="caption">
-        <div class="clearfix"></div>
-      </div> -->
       <div class="list">
-        <recommended-video ng-repeat="video in $ctrl.recommendedVideos" video-params="video"
-          class="h-video row">
+        <recommended-video ng-repeat="video in $ctrl.recommendedVideos" video-params="video" class="h-video row">
         </recommended-video>
       </div>
       <!-- END Recomended Videos -->
@@ -72,8 +42,5 @@
       </div>
     </div>
 
-
-
   </content-wrapper>
-  <!-- <row-footer></row-footer> -->
 </div>

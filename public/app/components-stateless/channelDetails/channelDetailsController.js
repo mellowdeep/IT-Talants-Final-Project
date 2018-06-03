@@ -3,43 +3,20 @@
   const moduleName = 'channelDetails';
   // eslint-disable-next-line
   const templateUrl = `/app/components-stateless/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = { aboutAuthor: '=', user: '=' };
-  // const require = ['^about-author'];
-  const injection = ['dataService', '$window'];
-  function controller(dataService, $window) {
-    console.log(`${moduleName} started`);
-
-    this.modal = {
-      get accept() {
-        return this._value;
-      },
-      set accept(v) {
-        this.showModal = false;
-      },
-      _value: false,
-      showModal: false,
-      hideNo: true,
-      text: 'Please login for subscribe',
-      textYes: 'Ok',
-    };
-
-    // setTimeout(() => console.log(this.aboutAuthor, this.user.id), 3000);
-    console.log('chd', this.aboutAuthor);
+  const injection = ['dataService', '$window', 'helperService', 'linkService'];
+  function controller(dataService, $window, helperService, linkService) {
+    helperService.log(`${moduleName} started`);
 
     this.subscribe = () => {
-      console.log('test', this.user);
       if (!this.user.auth) {
-        // this.modal.showModal = true;
         swal({
           title: 'Please login for subscribe',
           icon: 'info',
-          // buttons: { cancel: 'cancel', logout: 'logout' },
         }).then(() => {
-          $window.location.href = `#/login`;
+          linkService.redirect(linkService.loginLink());
         });
         return;
       }
@@ -56,10 +33,6 @@
           this.aboutAuthor.subscribesCount = subscribesCount;
         });
     };
-
-    // this.$onInit = () => {
-    //   if (!this.wrapperClass) this.wrapperClass = 'col-lg-12';
-    // };
   }
 
   // --------------------------------------------------

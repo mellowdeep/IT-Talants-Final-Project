@@ -2,9 +2,8 @@ angular.module('app').factory('adminService', [
   '$http',
   'Upload',
   'linkService',
-  '$q',
   // --------API-----------
-  function($http, Upload, linkService, $q) {
+  function($http, Upload, linkService) {
     return {
       getVideosToApprove,
       approveVideoId,
@@ -13,13 +12,11 @@ angular.module('app').factory('adminService', [
     // -------------------
 
     function approveVideoId(videoId) {
-      console.log('approve video', videoId);
       const url = `/admin/approve/${videoId}`;
       return $http.put(url);
     }
 
     function blockVideoId(videoId) {
-      console.log('block video', videoId);
       const url = `/admin/block/${videoId}`;
       return $http.put(url);
     }
@@ -31,9 +28,8 @@ angular.module('app').factory('adminService', [
           .get(url)
           // return search('Bonobo')
           .then(res => {
-            res.data = res.data.map((video, id) => {
-              const { uuid } = video;
-
+            res.data = res.data.map(videoItem => {
+              const video = videoItem;
               video.userId = video.userId || video.user_id;
               video.playCount = video.playCount || video.play_count;
               video.likesCount = video.likesCount || video.likes_count;

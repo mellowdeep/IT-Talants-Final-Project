@@ -3,13 +3,13 @@
   const moduleName = 'channelMenu';
   // eslint-disable-next-line
   const templateUrl = `/app/components-stateless/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = { currentMenu: '=', user: '=', aboutAuthor: '=' };
-  const injection = [];
-  function controller() {}
+  const injection = ['helperService'];
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
+  }
 
   // --------------------------------------------------
   // LOAD component

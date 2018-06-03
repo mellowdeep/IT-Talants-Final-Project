@@ -9,23 +9,33 @@
     '$window',
     '$location',
     '$q',
+    'linkService',
+    'helperService',
   ];
-  function controller(authService, dataService, $window, $location, $q) {
-    console.log(`${controllerName} started`);
+  function controller(
+    authService,
+    dataService,
+    $window,
+    $location,
+    $q,
+    linkService,
+    helperService,
+  ) {
+    helperService.log(`${controllerName} started`);
     const vm = this;
     let ok;
     vm.watchVideo = {};
 
-    vm.watchVideo.promiseDataReady = new $q(res => (ok = res));
-    console.log(vm.watchVideo);
+    vm.watchVideo.promiseDataReady = new $q(res => {
+      ok = res;
+    });
 
     const check = async () => {
       const search = $location.search();
       // http://localhost:3000/#/video?uuid=DtxGPq0e
 
       if (!search.uuid) {
-        // eslint-disable-next-line
-        $window.location.href = '#/';
+        linkService.redirect(linkService.homeLink());
         return;
       }
       let watchVideo;
@@ -33,8 +43,8 @@
         watchVideo = await dataService.getVideo(search.uuid);
       } catch (e) {
         if (e.status === 404) {
-          console.log('not found video');
-          $window.location.href = '#/404';
+          linkService.redirect(linkService.homeLink());
+
           return;
         }
         throw e;
@@ -45,7 +55,6 @@
         $window.location.href = '#/404';
         return;
       }
-      console.log('data video', vm.watchVideo);
       ok();
       vm.user = await authService.isLogin();
     };

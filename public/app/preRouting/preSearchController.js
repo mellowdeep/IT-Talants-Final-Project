@@ -9,7 +9,8 @@
     'linkService',
     '$window',
     '$location',
-    '$q',
+    // '$q',
+    'helperService',
   ];
   function controller(
     authService,
@@ -17,14 +18,15 @@
     linkService,
     $window,
     $location,
-    $q,
+    // $q,
+    helperService,
   ) {
-    console.log(`${controllerName} started`);
+    helperService.log(`${controllerName} started`);
     const vm = this;
 
     vm.search = $location.search().query || '';
     if (vm.search) {
-      console.log(`searching for ${this.search}`);
+      helperService.log(`searching for ${vm.search}`);
     }
     // search="$ctrl.search"
 
@@ -37,6 +39,7 @@
       .then(res => {
         vm.user = res;
         if (vm.user.auth) return dataService.getPlaylists(vm.user.id);
+        return null;
       })
       .then(res => {
         if (res && Array.isArray(res.data)) {
@@ -47,13 +50,12 @@
       .then(res => {
         if (res && Array.isArray(res.data)) {
           vm.searchData = res.data;
-          console.log(vm.searchData);
         }
         return res;
       })
       .catch(err => {
-        console.log(err);
-        linkService.redirect('#/404');
+        helperService.log(err);
+        linkService.redirect(linkService.p404Link());
       });
   }
 

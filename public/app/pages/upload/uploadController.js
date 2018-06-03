@@ -3,15 +3,19 @@
   const moduleName = 'upload';
   // eslint-disable-next-line
   const templateUrl = `/app/pages/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
   const bindings = { user: '<' };
-  const injection = ['authService', '$window', '$q'];
-  function controller(authService, $window, $q) {
-    console.log(`${moduleName} started`);
+  const injection = [
+    'authService',
+    '$window',
+    '$q',
+    'helperService',
+    'linkService',
+  ];
+  function controller(authService, $window, $q, helperService, linkService) {
+    helperService.log(`${moduleName} started`);
     const vm = this;
     vm.SELECT_FILE = 'SELECT_FILE';
     vm.EDIT_FILE = 'EDIT_FILE';
@@ -23,7 +27,6 @@
         return this._file;
       },
       set file(v) {
-        console.log('watcher event', v);
         this._file = v;
         vm.pageStatus = vm.EDIT_FILE;
         ok();
@@ -34,8 +37,7 @@
     };
 
     const loginWatcher = user => {
-      // eslint-disable-next-line
-      if (user.auth === false) $window.location.href = '#/';
+      if (user.auth === false) linkService.redirect(linkService.loginLink());
     };
 
     vm.$onInit = () => {

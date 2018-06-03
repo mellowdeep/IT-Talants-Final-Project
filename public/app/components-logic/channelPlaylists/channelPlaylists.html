@@ -2,7 +2,6 @@
   <div class="content-block">
     <hr>
     <channel-playlists-item user="$ctrl.user" ng-repeat="playlist in $ctrl.playlists" playlist="playlist" callback="$ctrl.updateData"></channel-playlists-item>
-
   </div>
 </div>
 <channel-playlist-form ng-if="$ctrl.user.id === $ctrl.aboutAuthor.id" callback="$ctrl.updateData"></channel-playlist-form>

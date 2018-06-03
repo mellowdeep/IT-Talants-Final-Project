@@ -3,14 +3,12 @@
   const moduleName = 'singleVideo';
   // eslint-disable-next-line
   const templateUrl = `/app/pages/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', user: '=' };
-  const injection = ['dataService', '$window', 'linkService'];
-  function controller(dataService, $window, linkService) {
-    console.log(`${moduleName} started`);
+  const injection = ['dataService', '$window', 'linkService', 'helperService'];
+  function controller(dataService, $window, linkService, helperService) {
+    helperService.log(`${moduleName} started`);
     this.inputByUser = '';
     this.currentVideo = {};
     this.autoplay = true;
@@ -24,7 +22,6 @@
       this.watchVideo.promiseDataReady
         .then(() => dataService.searchVideoByTag(this.watchVideo.tag))
         .then(res => {
-          if (res.status === 200) console.log(res.data);
           this.recommendedVideos = res.data.filter(
             x => x.id !== this.watchVideo.id,
           );

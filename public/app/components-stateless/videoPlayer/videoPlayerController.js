@@ -3,14 +3,12 @@
   const moduleName = 'videoPlayer';
   // eslint-disable-next-line
   const templateUrl = `/app/components-stateless/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', type: '=', user: '=' };
-  const injection = ['$element', '$window', 'dataService'];
-  function controller($element, $window, dataService) {
-    console.log(`${moduleName} started`);
+  const injection = ['$element', '$window', 'dataService', 'helperService'];
+  function controller($element, $window, dataService, helperService) {
+    helperService.log(`${moduleName} started`);
     this.likeButtonDisable = false;
 
     this.setLike = type => {
@@ -37,14 +35,13 @@
           this.likeButtonDisable = false;
         })
         .catch(err => {
-          console.log(err);
+          helperService.log(err);
         });
     };
 
     this.currentStateResolution = 'SD';
 
     const updatePage = async () => {
-      console.log('update');
       await this.watchVideo.promiseDataReady;
 
       this.video.attributes.poster.value = this.watchVideo.image;
@@ -59,11 +56,9 @@
       this.currentStateResolution = resolution;
       if (this.video.paused) this.video.pause();
       updatePage().then(() => this.video.play());
-      // this.video.load();
     };
 
     this.playPause = () => {
-      console.log(this.video.muted);
       if (this.video) {
         if (this.video.paused) {
           this.video.play();
@@ -81,13 +76,8 @@
 
       this.video.addEventListener('ended', () => {
         this.watchVideo.endplay = true;
-        // if (this.watchVideo.autoplay) {
-        //   $window.location.href = `#/video?uuid=${this.uuidnext}`;
-        // }
       });
 
-      // const watchVideo = obj.currentValue;
-      // console.log('data', watchVideo);
       updatePage();
     };
   }

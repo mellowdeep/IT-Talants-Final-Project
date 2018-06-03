@@ -2,13 +2,14 @@ angular.module('app').factory('authService', [
   '$q',
   '$http',
   'linkService',
-  function($q, $http, linkService) {
+  'helperService',
+  function($q, $http, linkService, helperService) {
     const data = {
       get user() {
         return this._user;
       },
       set user(v) {
-        console.log('login data', v);
+        helperService.log('login data', v);
         this._user.firstTime = false;
         this._user.auth = v.auth;
         this._user.id = v.id;
@@ -50,7 +51,7 @@ angular.module('app').factory('authService', [
 
     function auth() {
       if (data.user.firstTime) return isLogin();
-      return Promise.resolve(data.user);
+      return $q.resolve(data.user);
     }
 
     function authObj() {
@@ -58,7 +59,6 @@ angular.module('app').factory('authService', [
     }
 
     function logout() {
-      // return Promise.resolve().then(isLogin);
       return $http.get('/logout').then(isLogin);
     }
 
@@ -108,39 +108,5 @@ angular.module('app').factory('authService', [
         return data.user;
       });
     }
-
-    // const cacheSession = function() {
-    //   SessionService.set('authenticated', true);
-    // };
-    // const uncacheSession = function() {
-    //   SessionService.unset('authenticated');
-    // };
-    // const loginError = function(response) {
-    //   FlashService.show(response.flash);
-    // };
-    // const sanitizeCredentials = function(credentials) {
-    //   return {
-    //     email: $sanitize(credentials.email),
-    //     password: $sanitize(credentials.password),
-    //     csrf_token: CSRF_TOKEN,
-    //   };
-    // };
-    // return {
-    //   login: function(credentials) {
-    //     var login = $http.post('/auth/login', sanitizeCredentials(credentials));
-    //     login.success(cacheSession);
-    //     login.success(FlashService.clear);
-    //     login.error(loginError);
-    //     return login;
-    //   },
-    //   logout: function() {
-    //     var logout = $http.get('/auth/logout');
-    //     logout.success(uncacheSession);
-    //     return logout;
-    //   },
-    //   isLoggedIn: function() {
-    //     return SessionService.get('authenticated');
-    //   },
-    // };
   },
 ]);

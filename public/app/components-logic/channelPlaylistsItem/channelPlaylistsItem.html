@@ -6,8 +6,7 @@
           <img src="images/video1-1.png" alt="" class="l-1" />
           <img src="images/video1-2.png" alt="" class="l-2" />
           <a ng-href="{{ $ctrl.playlist.link }}">
-            <img ng-src="{{ $ctrl.playlist.image || 'images/playlist-1.png' }}" alt=""
-              class="l-3" />
+            <img ng-src="{{ $ctrl.playlist.image || 'images/playlist-1.png' }}" alt="" class="l-3" />
           </a>
           <div class="items"> {{ $ctrl.playlist.videoCount }}</div>
         </div>
@@ -33,5 +32,3 @@
     <div class="h-divider"></div>
   </div>
 </div>
-
-<confirm modal-params="$ctrl.modal"></confirm>

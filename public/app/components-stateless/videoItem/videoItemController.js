@@ -3,12 +3,9 @@
   const moduleName = 'videoItem';
   // eslint-disable-next-line
   const templateUrl = `/app/components-stateless/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
-  // <video-item image="" href="" time="" title="" views="" like-rate=""></video-item>
   const bindings = {
     videoParams: '<',
     user: '=',
@@ -22,12 +19,19 @@
     'dataService',
     '$timeout',
     '$q',
+    'helperService',
   ];
-  function controller($element, $document, $scope, dataService, $timeout, $q) {
-    console.log(`${moduleName} started`);
+  function controller(
+    $element,
+    $document,
+    $scope,
+    dataService,
+    $timeout,
+    $q,
+    helperService,
+  ) {
+    helperService.log(`${moduleName} started`);
     const vm = this;
-
-    // setTimeout(() => console.log(this.videoParams), 4000);
 
     this.mouseOnVideo = false;
     this.mouseOnPlus = false;
@@ -67,7 +71,11 @@
         .then(() => {
           const data = this.playlists.find(item => item.name === name);
           let playlistId = null;
-          if (data) playlistId = data.playlistId;
+
+          if (data) {
+            // eslint-disable-next-line prefer-destructuring
+            playlistId = data.playlistId;
+          }
           if (playlistId) return { data: playlistId };
           return dataService.addPlaylist({ name, visibility: 'private' });
         })
@@ -90,9 +98,9 @@
 
     this.addToNewPlaylist = () => {
       this.hideAll();
-      // this.modal.showModal = true;
       const { uuid } = vm.videoParams;
 
+      // eslint-disable-next-line angular/document-service
       const input = document.createElement('input');
       input.type = 'text';
 
@@ -116,10 +124,8 @@
             closeModal: true,
           },
         },
-        // closeModal: false,
       })
         .then(val => {
-          const visibility = val;
           const name = input.value;
 
           if (name.trim().length === 0 && val !== null) {
@@ -158,48 +164,7 @@
         });
     };
 
-    this.modal = {
-      get accept() {
-        return this._value;
-      },
-      set accept(v) {
-        if (v === false) {
-          this.showModal = false;
-          return;
-        }
-        if (v === true && this.input.trim().length > 0) {
-          this.showModal = false;
-          const { uuid } = vm.videoParams;
-          dataService
-            .addPlaylist(this.showInput)
-            .then(({ data }) => {
-              const playlistId = data;
-              return dataService.addVideoToPlaylist({ playlistId, uuid });
-            })
-            .then(() => {
-              vm.showOkAdded = true;
-              $timeout(() => {
-                vm.showOkAdded = false;
-              }, 1700);
-            });
-        }
-      },
-      _value: false,
-      hideNo: false,
-      hideYes: false,
-      textYes: 'Yes',
-      showModal: false,
-      showInput: true,
-      input: '',
-      text: 'Please type name of new Playlist',
-    };
-
     this.$postLink = () => {
-      // this.percent =
-      //   100 *
-      //   (this.videoParams.likesCount || 0) /
-      //   (this.videoParams.likesCount + this.videoParams.dislikesCount || 1);
-
       const elPlus = Array.from($element.find('div')).find(e =>
         e.matches('.plus'),
       );
@@ -237,7 +202,7 @@
 
     this.$onDestroy = () => {
       handlerFunctions.forEach(({ event, fn }) => $document.on(event, fn));
-      console.log(`${moduleName} destroy`);
+      helperService.log(`${moduleName} destroy`);
     };
   }
 

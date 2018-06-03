@@ -3,15 +3,14 @@
   const controllerName = 'preStream';
   // --------------------------------------------------
 
-  const injection = ['authService', '$window'];
-  function controller(authService, $window) {
-    console.log(`${controllerName} started`);
+  const injection = ['authService', '$window', 'linkService', 'helperService'];
+  function controller(authService, $window, linkService, helperService) {
+    helperService.log(`${controllerName} started`);
     const vm = this;
     authService.auth().then(() => {
       vm.user = authService.authObj();
       if (!vm.user.auth) {
-        // eslint-disable-next-line
-        $window.location.href = '#/';
+        linkService.redirect(linkService.homeLink());
       }
     });
   }

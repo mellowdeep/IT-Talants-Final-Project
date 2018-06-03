@@ -3,8 +3,6 @@
   const moduleName = 'logoMenu';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = { search: '<' };
@@ -15,6 +13,7 @@
     '$window',
     'linkService',
     '$route',
+    'helperService',
   ];
   function controller(
     authService,
@@ -23,52 +22,32 @@
     $window,
     linkService,
     $route,
+    helperService,
   ) {
-    this.$onInit = () => {
-      // this.search ready
-    };
+    helperService.log(`${moduleName} started`);
 
     const handlerFunctions = [];
     this.dropDownUser = false;
-    // this.user = { auth: false };
 
     this.clickOnLogin = () => {
       this.dropDownUser = false;
     };
 
-    // authService.auth().then(res => {
-    //   this.user = res;
-    // });
-
     this.upload = () => {
-      console.log('test');
-      if (this.user.auth) $window.location.href = '#/upload';
-      else $window.location.href = '#/login';
+      if (this.user.auth) {
+        // eslint-disable-next-line no-param-reassign
+        $window.location.href = '#/upload';
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        $window.location.href = '#/login';
+      }
     };
 
     this.buttonLogin = () => {
       this.dropDownUser = !this.dropDownUser;
     };
 
-    this.modal = {
-      get accept() {
-        return this._value;
-      },
-      set accept(v) {
-        this.showModal = false;
-        if (v === true) {
-          this.dropDownUser = false;
-          authService.logout().then(() => {
-            $route.reload();
-          });
-        }
-      },
-      _value: false,
-      showModal: false,
-    };
-
     this.logout = () => {
-      // this.modal.showModal = true;
       this.dropDownUser = false;
 
       swal({
@@ -90,7 +69,6 @@
           $scope.$apply(() => {
             this.dropDownUser = false;
           });
-          // $scope.$digest();
         }
       };
       const event = 'click';
@@ -100,10 +78,8 @@
 
     this.$onDestroy = () => {
       handlerFunctions.forEach(({ event, fn }) => $document.on(event, fn));
-      console.log('destroy');
+      helperService.log('destroy');
     };
-
-    console.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------

@@ -3,16 +3,15 @@
   const controllerName = 'preSignUp';
   // --------------------------------------------------
 
-  const injection = ['authService', '$window'];
-  function controller(authService, $window) {
-    console.log(`${controllerName} started`);
+  const injection = ['authService', '$window', 'helperService', 'linkService'];
+  function controller(authService, $window, helperService, linkService) {
+    helperService.log(`${controllerName} started`);
 
     const check = async () => {
       const user = await authService.isLogin();
 
       if (user.auth) {
-        // eslint-disable-next-line
-        $window.location.href = '#/';
+        linkService.redirect(linkService.homeLink());
       }
     };
 

@@ -2,26 +2,26 @@
   const moduleName = 'logoMenuSearchTop';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = { search: '<' };
-  const injection = ['$window', '$scope', '$document'];
-  function controller($window, $scope, $document) {
-    console.log(`${moduleName} started`);
+  const injection = [
+    '$window',
+    '$scope',
+    '$document',
+    'helperService',
+    'linkService',
+  ];
+  function controller($window, $scope, $document, helperService, linkService) {
+    helperService.log(`${moduleName} started`);
     this.searchText = '';
 
-    // this.$onInit = () => {
-    //   if (this.search && this.search.query) {
-    //     this.searchText = this.search.query;
-    //     console.log(this.search.query);
-    //   }
-    // };
-
     this.submit = () => {
-      if (this.searchText.trim().length === 0) $window.location.href = `#/`;
-      else $window.location.href = `#/search?query=${this.searchText.trim()}`;
+      if (this.searchText.trim().length === 0) {
+        linkService.redirect(linkService.homeLink());
+      } else {
+        linkService.redirect(linkService.makeSearchLink(this.searchText));
+      }
     };
 
     const handlerFunctions = [];
@@ -46,7 +46,6 @@
 
     this.$onDestroy = () => {
       handlerFunctions.forEach(({ event, fn }) => $document.off(event, fn));
-      console.log('destroy');
     };
   }
 

@@ -3,9 +3,21 @@
   const controllerName = 'preAdmin';
   // --------------------------------------------------
 
-  const injection = ['authService', '$window', 'adminService', 'linkService'];
-  function controller(authService, $window, adminService, linkService) {
-    console.log(`${controllerName} started`);
+  const injection = [
+    'authService',
+    '$window',
+    'adminService',
+    'linkService',
+    'helperService',
+  ];
+  function controller(
+    authService,
+    $window,
+    adminService,
+    linkService,
+    helperService,
+  ) {
+    helperService.log(`${controllerName} started`);
 
     const vm = this;
     vm.user = { auth: false, id: -1 };
@@ -28,8 +40,8 @@
         }
       })
       .catch(err => {
-        console.log(err);
-        linkService.redirect('#/404');
+        helperService.log(err);
+        linkService.redirect(linkService.homeLink());
       });
   }
 

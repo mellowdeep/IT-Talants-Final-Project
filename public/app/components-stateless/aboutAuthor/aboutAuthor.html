@@ -1,19 +1,16 @@
 <div class="author">
   <a ng-href="{{ $ctrl.aboutAuthor.linkToChannel }}">
-    <img data-ng-src="{{$ctrl.aboutAuthor.image || 'images/user-admin-ava.png'}}"
-      alt="" class="sv-avatar">
+    <img data-ng-src="{{$ctrl.aboutAuthor.image || 'images/user-admin-ava.png'}}" alt="" class="sv-avatar">
   </a>
   <div class="sv-name">
     <div>
       <a ng-href="{{ $ctrl.aboutAuthor.linkToChannel }}">{{ $ctrl.aboutAuthor.name }}</a> .
-      <br>{{ $ctrl.aboutAuthor.videos }} Videos / {{ $ctrl.aboutAuthor.views
-      }} views / {{ $ctrl.aboutAuthor.likes }} likes / {{ $ctrl.aboutAuthor.dislikes
-      }} dislikes
+      <br>{{ $ctrl.aboutAuthor.videos }} Videos / {{ $ctrl.aboutAuthor.views }} views / {{ $ctrl.aboutAuthor.likes }} likes /
+      {{ $ctrl.aboutAuthor.dislikes }} dislikes
     </div>
     <!-- </div> -->
     <div class="c-sub">
-      <div ng-if="$ctrl.user.id !== $ctrl.aboutAuthor.id" class="c-f" style="cursor: pointer; width: 110px;"
-        ng-click="$ctrl.subscribe()">
+      <div ng-if="$ctrl.user.id !== $ctrl.aboutAuthor.id" class="c-f" style="cursor: pointer; width: 110px;" ng-click="$ctrl.subscribe()">
         <span ng-if="!$ctrl.aboutAuthor.isSubscribed">Subscribe</span>
         <span ng-if="$ctrl.aboutAuthor.isSubscribed">Unsubscribe</span>
       </div>
@@ -46,4 +43,3 @@
   </div>
   <div class="clearfix"></div>
 </div>
-<confirm modal-params="$ctrl.modal"></confirm>

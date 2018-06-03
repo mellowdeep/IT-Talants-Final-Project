@@ -1,20 +1,10 @@
-<!-- <logo-menu user="$ctrl.user"></logo-menu> -->
-<!-- <go-to ng-if="$ctrl.user.auth"></go-to> -->
 <content-wrapper>
   <div class="col-lg-12">
     <channel-update ng-if="($ctrl.user.auth && $ctrl.subscribes.length)" subscribes="$ctrl.subscribes"></channel-update>
 
-
-    <row-videos init-data-ready="$ctrl.initDataReady" playlists="$ctrl.playlists"
-      ng-if="initData.length" ng-repeat="(title, initData) in $ctrl.initData"
+    <row-videos init-data-ready="$ctrl.initDataReady" playlists="$ctrl.playlists" ng-if="initData.length" ng-repeat="(title, initData) in $ctrl.initData"
       user="$ctrl.user" init-data="initData" head-title="{{ title }}"></row-videos>
 
-    <!-- <row-videos user="$ctrl.user" head-title="News"></row-videos> -->
-    <!-- <row-videos user="$ctrl.user" head-title="Animations"></row-videos> -->
-    <!-- <row-videos user="$ctrl.user" head-title="Topics"></row-videos> -->
     <row-playlists user="$ctrl.user" playlists="$ctrl.playlists"></row-playlists>
-    <!-- <row-channels user="$ctrl.user"></row-channels> -->
-    <!-- <pagination></pagination> -->
   </div>
 </content-wrapper>
-<!-- <row-footer></row-footer> -->

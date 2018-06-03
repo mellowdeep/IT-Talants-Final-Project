@@ -3,14 +3,14 @@
   const moduleName = 'videoStreamElement';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
   const bindings = { user: '=' };
-  const injection = ['$element'];
-  function controller($element) {
+  const injection = ['$element', 'helperService'];
+  function controller($element, helperService) {
+    helperService.log(`${moduleName} started`);
+
     let video;
 
     this.stopStream = () => {
@@ -18,19 +18,18 @@
     };
 
     this.$postLink = () => {
+      // eslint-disable-next-line prefer-destructuring
       video = $element.find('video')[0];
-      console.log(video);
       navigator.mediaDevices
         .getUserMedia({ audio: false, video: true })
         .then(stream => {
-          // console.log(stream);
           video.srcObject = stream;
           video.onloadedmetadata = () => {
             video.play();
           };
         })
         .catch(err => {
-          console.log(err);
+          helperService.log(err);
         });
     };
   }

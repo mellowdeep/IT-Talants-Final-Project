@@ -10,6 +10,7 @@
     '$window',
     '$location',
     '$q',
+    'helperService',
   ];
   function controller(
     authService,
@@ -18,13 +19,15 @@
     $window,
     $location,
     $q,
+    helperService,
   ) {
-    console.log(`${controllerName} started`);
+    helperService.log(`${controllerName} started`);
     const vm = this;
 
     const search = $location.search();
-    let { userId, tab } = search;
+    const { userId, tab } = search;
     let ok;
+    // eslint-disable-next-line
     vm.aboutAuthor = { aboutAuthorPromise: new $q(res => (ok = res)) };
 
     if (!userId) {
@@ -43,9 +46,9 @@
       .then(res => {
         vm.user = res;
         if (vm.user.auth) return dataService.getPlaylists(vm.user.id);
+        return null;
       })
       .then(res => {
-        console.log('---------------------------');
         if (res && Array.isArray(res.data)) {
           vm.playlists.push(...res.data);
         }
@@ -53,11 +56,10 @@
       })
       .then(res => {
         Object.assign(vm.aboutAuthor, res);
-        console.log(vm.aboutAuthor);
         ok();
       })
       .catch(err => {
-        console.log(err);
+        helperService.log(err);
         linkService.redirect('#/404');
       });
   }

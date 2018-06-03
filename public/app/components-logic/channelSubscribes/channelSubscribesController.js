@@ -4,11 +4,11 @@
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
-  const injection = ['dataService'];
+  const injection = ['helperService'];
   const bindings = { user: '=' };
 
-  function controller(dataService) {
-    console.log(`${moduleName} started`);
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------

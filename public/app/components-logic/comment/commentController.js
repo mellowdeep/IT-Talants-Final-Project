@@ -4,18 +4,18 @@
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
-  const injection = ['dataService'];
   const bindings = { commentParams: '=', user: '=', watchVideo: '=' };
 
-  function controller(dataService) {
-    console.log(`${moduleName} started`);
+  const injection = ['dataService', 'helperService'];
+  function controller(dataService, helperService) {
+    helperService.log(`${moduleName} started`);
     this.canLike = true;
 
     this.likeComment = type => {
-      console.log('click like');
+      helperService.log('click like');
       this.canLike = false;
 
-      console.log(this.commentParams);
+      helperService.log(this.commentParams);
       dataService
         .setCommentLike({
           uuid: this.watchVideo.uuid,
@@ -45,7 +45,7 @@
           this.canLike = true;
         })
         .catch(err => {
-          console.log(err);
+          helperService.log(err);
         });
     };
   }

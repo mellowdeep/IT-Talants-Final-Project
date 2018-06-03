@@ -7,11 +7,7 @@
           Watch
           <span class="color-active">millions
             <br> of</span>
-          <!-- <span class="color-b1">v</span>
-          <span class="color-b2">i</span>
-          <span class="color-b3">de</span>
-          <span class="color-active">os</span>
-           -->
+
           <span class="color-b3">videos</span> for free.
         </div>
         <div class="overtext">
@@ -26,16 +22,15 @@
           <form ng-submit="$ctrl.submit()">
             <div class="form-group">
               <label for="exampleInputEmail1">Email</label>
-              <input ng-model="$ctrl.username" type="email" class="form-control" id="exampleInputEmail1"
-                placeholder="Your email">
+              <input ng-model="$ctrl.username" type="email" class="form-control" id="exampleInputEmail1" placeholder="Your email">
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
-              <input ng-model="$ctrl.password" type="password" class="form-control" id="exampleInputPassword1"
-                placeholder="Your password">
+              <input ng-model="$ctrl.password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Your password">
             </div>
             <div class="checkbox">
               <label>
+                <!-- TODO Agree to remember !!!! -->
                 <!-- <span class="color-active">{{ $ctrl.errorText }}</span> -->
                 <!-- <label class="checkbox">
                   <input ng-model="$ctrl.agreeToRemember" type="checkbox" name="#">
@@ -75,21 +70,18 @@
           </form>
           <div class="row">
             <div class="col-lg-3">
-              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.facebook()"
-                style="background-color: rgba(0, 0, 0, 0); ">
+              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.facebook()" style="background-color: rgba(0, 0, 0, 0); ">
                 <i class="fa fa-facebook-square" style="font-size: 40px;"></i>
               </button>
               <fb:login-button style="display:none" scope="public_profile,email" onlogin="$ctrl.facebook();"></fb:login-button>
             </div>
             <div class="col-lg-3">
-              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.twitter()"
-                style="background-color: rgba(0, 0, 0, 0); ">
+              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.twitter()" style="background-color: rgba(0, 0, 0, 0); ">
                 <i class="fa fa-twitter-square" style="font-size: 40px;"></i>
               </button>
             </div>
             <div class="col-lg-3">
-              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.google()"
-                style="background-color: rgba(0, 0, 0, 0); ">
+              <button ng-disabled="$ctrl.disableSubmit" class="btn" ng-click="$ctrl.google()" style="background-color: rgba(0, 0, 0, 0); ">
                 <i class="fa fa-google-plus-square" style="font-size: 40px;"></i>
               </button>
             </div>

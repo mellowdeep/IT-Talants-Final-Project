@@ -4,11 +4,11 @@
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
-  const injection = ['dataService'];
   const bindings = { user: '=', videoParams: '=', saveChanges: '=' };
 
-  function controller(dataService) {
-    console.log(`${moduleName} started`);
+  const injection = ['dataService', 'helperService'];
+  function controller(dataService, helperService) {
+    helperService.log(`${moduleName} started`);
 
     this.saveChangesButton = () => {
       swal({
@@ -16,30 +16,18 @@
         icon: 'warning',
         buttons: { approve: 'Approve', block: 'Block', cancel: 'Cancel' },
       }).then(v => {
-        console.log(v);
-
         switch (v) {
           case 'approve':
             this.videoParams.approveVideo = 'YES';
             this.saveChanges();
-            return;
+            break;
           case 'block':
             this.videoParams.approveVideo = 'NO';
             this.saveChanges();
-            return;
+            break;
           default:
-            return;
+            break;
         }
-
-        // this.videoParams.approveVideo = 'YES';
-
-        // if (v === 'ok') {
-        //   vm.saveChanges().then(() => {
-        //     vm.buttonDisable = false;
-        //   });
-        // } else {
-        //   vm.buttonDisable = false;
-        // }
       });
     };
 

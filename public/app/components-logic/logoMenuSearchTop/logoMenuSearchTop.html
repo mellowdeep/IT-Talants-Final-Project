@@ -4,40 +4,15 @@
       <span class="input-group-addon" id="sizing-addon2">
         <i class="fa fa-search"></i>
       </span>
-      <input ng-model="$ctrl.searchText" type="text" class="form-control" placeholder="Search"
-        aria-describedby="sizing-addon2">
-      <div class="input-group-btn" id="logo-menu-search-top-drop-down-logout"
-        ng-class="{'open':$ctrl.dropDownSearchMenu}">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false" ng-click="$ctrl.submit()">
-          <!-- ng-click="$ctrl.dropDownSearchMenu=!$ctrl.dropDownSearchMenu" -->
+      <input ng-model="$ctrl.searchText" type="text" class="form-control" placeholder="Search" aria-describedby="sizing-addon2">
+      <div class="input-group-btn" id="logo-menu-search-top-drop-down-logout" ng-class="{'open':$ctrl.dropDownSearchMenu}">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+          ng-click="$ctrl.submit()">
           <i class="cv cvicon-cv-video-file"></i>&nbsp;&nbsp;&nbsp;
-          <!-- <span class="caret"></span> -->
         </button>
         <ul class="dropdown-menu">
-          <!-- <li>
-            <a href="#">
-              <i class="cv cvicon-cv-relevant"></i> Relevant</a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="cv cvicon-cv-calender"></i> Recent</a>
-          </li> -->
-          <!-- <li>
-            <a href="#/search?topic=viewed">
-              <i class="cv cvicon-cv-view-stats"></i> Viewed</a>
-          </li>
-          <li>
-            <a href="#/search?topic=toprated">
-              <i class="cv cvicon-cv-star"></i> Top Rated</a>
-          </li> -->
-          <!-- <li>
-            <a href="#">
-              <i class="cv cvicon-cv-watch-later"></i> Longest</a>
-          </li> -->
         </ul>
       </div>
-      <!-- /btn-group -->
     </div>
   </div>
 </form>

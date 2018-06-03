@@ -3,21 +3,12 @@
   const moduleName = 'signUp';
   // eslint-disable-next-line
   const templateUrl = `/app/pages/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
-  const injection = ['authService', '$window'];
-  function controller(authService, $window) {
-    console.log(`${moduleName} started`);
-
-    // const status = await authService.isLogin();
-    // // console.log(status, $window);
-    // if (status.data !== false) {
-    //   $window.location.href = '#/';
-    //   // return;
-    // }
+  const injection = ['authService', '$window', 'helperServices'];
+  function controller(authService, $window, helperServices) {
+    helperServices.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------

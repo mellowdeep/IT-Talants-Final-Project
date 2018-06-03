@@ -12,10 +12,18 @@
     '$element',
     '$q',
     '$timeout',
+    'helperService',
   ];
-
-  function controller(dataService, $window, $document, $element, $q, $timeout) {
-    console.log(`${moduleName} started`);
+  function controller(
+    dataService,
+    $window,
+    $document,
+    $element,
+    $q,
+    $timeout,
+    helperService,
+  ) {
+    helperService.log(`${moduleName} started`);
 
     this.commentsToVideo = [];
     this.commentsToVideoMain = [];
@@ -29,19 +37,6 @@
     };
 
     this.inputByUser = '';
-
-    this.modalParams = {
-      hideNo: true,
-      text: 'Please login',
-      showModal: false,
-      get accept() {
-        return this._value;
-      },
-      set accept(v) {
-        this.showModal = false;
-      },
-      _value: false,
-    };
 
     const vm = this;
     this.scroll = {
@@ -108,7 +103,6 @@
 
     this.userSubmitComment = () => {
       if (!this.user.auth) {
-        // this.modalParams.showModal = true;
         swal({ title: 'Please login' });
         return;
       }
@@ -128,8 +122,6 @@
         })
         .then(comments => {
           const elem = comments.data.find(x => x.id === +newId);
-          console.log(elem);
-          console.log(comments);
           if (elem) {
             this.commentsToVideoMain.unshift(elem);
             this.showComments(1);
@@ -139,7 +131,7 @@
           this.inputByUser = '';
         })
         .catch(e => {
-          console.log(e);
+          helperService.log(e);
         });
     };
 

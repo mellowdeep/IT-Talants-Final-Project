@@ -33,7 +33,8 @@
     ]
   },
   "globals": {
-    "angular": true
+    "angular": true,
+    "swal": true
   },
   "settings": {
     "angular": 1

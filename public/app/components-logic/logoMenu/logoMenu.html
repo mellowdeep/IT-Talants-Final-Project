@@ -13,51 +13,11 @@
           </div>
           <div class="col-lg-1 col-sm-10 col-xs-10">
             <ul class="list-inline menu">
-              <!-- <li class="pages color-active">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Pages</a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="#/">Home Page</a>
-                    </li>
-                    <li>
-                      <a href="#/single-video">Single Video Page</a>
-                    </li>
-                    <li>
-                      <a href="#/upload.html">Upload Video Page</a>
-                    </li>
-                    <li>
-                      <a href="#/upload-edit.html">Upload Video Edit Page</a>
-                    </li>
-                    <li>
-                      <a href="#/search.html">Searched Videos Page</a>
-                    </li>
-                    <li>
-                      <a href="#/channel.html">Single Channel Page</a>
-                    </li>
-                    <li>
-                      <a href="#/channels.html">Channels Page</a>
-                    </li>
-                    <li>
-                      <a href="#/single-video-playlist.html">Single Videos Page With Playlist</a>
-                    </li>
-                    <li>
-                      <a href="#/history.html">History Page</a>
-                    </li>
-                    <li>
-                      <a href="#/login.html">Login Page</a>
-                    </li>
-                    <li>
-                      <a href="#/signup.html">Signup Page</a>
-                    </li>
-                  </ul>
-                </li> -->
+
               <li>
                 <a class="pages color-active" href="#/" style="font-size: 23px;">play</a>
               </li>
-              <!-- <li>
-                <a href="channel.html">Channels</a>
-              </li> -->
+
             </ul>
           </div>
           <div class="visible-xs visible-sm clearfix"></div>
@@ -69,15 +29,14 @@
           <div class="col-lg-4 col-sm-6  col-xs-8">
             <div class="avatar pull-right" ng-if="$ctrl.user.auth">
               <a ng-href="{{ $ctrl.user.linkToPage }}">
-                <img class="img-circle" ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}"
-                  alt="avatar" style="width:50px" />
+                <img class="img-circle" ng-src="{{ $ctrl.user.image ? $ctrl.user.image : 'images/user-admin-ava.png' }}" alt="avatar" style="width:50px"
+                />
               </a>
               <span class="status"></span>
             </div>
             <div class="selectuser pull-right" id="logo-menu-drop-down-logout">
               <div class="btn-group pull-right dropdown" ng-class="{'open':$ctrl.dropDownUser}">
-                <button ng-click="$ctrl.buttonLogin()" class="btn btn-default dropdown-toggle"
-                  type="button" id="dropdownMenu1" data-toggle="dropdown"
+                <button ng-click="$ctrl.buttonLogin()" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="true">
                   {{ $ctrl.user.name || 'SIGN IN' }}
                   <span class="caret"></span>
@@ -116,4 +75,3 @@
     </div>
   </div>
 </div>
-<confirm modal-params="$ctrl.modal"></confirm>

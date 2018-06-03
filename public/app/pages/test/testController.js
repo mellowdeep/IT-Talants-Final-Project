@@ -3,14 +3,12 @@
   const moduleName = 'test';
   // eslint-disable-next-line
   const templateUrl = `/app/pages/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
   const bindings = {};
-  const injection = ['dataService', '$window', 'linkService'];
-  function controller(dataService, $window, linkService) {
-    console.log(`${moduleName} started`);
+  const injection = ['dataService', '$window', 'linkService', 'helperService'];
+  function controller(dataService, $window, linkService, helperService) {
+    helperService.log(`${moduleName} started`);
 
     this.myInterval = 5000;
     this.noWrapSlides = false;
@@ -35,8 +33,6 @@
     for (var i = 0; i < 4; i++) {
       this.addSlide();
     }
-
-    // Randomize logic below
   }
 
   // --------------------------------------------------

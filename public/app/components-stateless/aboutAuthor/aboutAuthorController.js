@@ -8,8 +8,9 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=', user: '=' };
-  const injection = ['dataService', 'linkService', '$window'];
-  function controller(dataService, linkService, $window) {
+  const injection = ['dataService', 'linkService', 'helperService'];
+  function controller(dataService, linkService, helperService) {
+    helperService.log(`${moduleName} started`);
     this.aboutAuthor = {};
 
     const updateData = () => {
@@ -20,45 +21,17 @@
           this.aboutAuthor.linkToChannel = linkService.makeChannelLink(
             this.watchVideo.userId,
           );
-          console.log('about author', this.aboutAuthor);
         });
-
-      // dislikes;
-      // id;
-      // likes;
-      // name;
-      // videos;
-      // views;
-      // ? image
-      // ? subscribes
-    };
-
-    this.modal = {
-      get accept() {
-        return this._value;
-      },
-      set accept(v) {
-        this.showModal = false;
-      },
-      _value: false,
-      showModal: false,
-      hideNo: true,
-      text: 'Please login for subscribe',
-      textYes: 'Ok',
     };
 
     this.subscribe = () => {
       if (!this.user.auth) {
-        // this.modal.showModal = true;
-
         swal({
           title: 'Please login for subscribe',
           icon: 'info',
-          // buttons: { cancel: 'cancel', logout: 'logout' },
         }).then(() => {
-          $window.location.href = `#/login`;
+          linkService.redirect(linkService.loginLink());
         });
-
         return;
       }
 

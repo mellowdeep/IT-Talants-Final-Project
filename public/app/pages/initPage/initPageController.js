@@ -13,20 +13,18 @@
     subscribes: '=',
     initDataReady: '=',
   };
-  function controller() {
-    console.log(`${moduleName} started`);
-
-    this.$postLink = () => {
-      console.log('promise', this.initDataReady);
-    };
-    // Object.keys(this.initData).forEach()
+  const injection = ['helperService'];
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------
   // LOAD component
-  angular
-    .module('app')
-    .component(moduleName, { templateUrl, controller, bindings });
+  angular.module('app').component(moduleName, {
+    templateUrl,
+    controller: [...injection, controller],
+    bindings,
+  });
   // END module
   // eslint-disable-next-line
 })();

@@ -1,24 +1,10 @@
+/* eslint-disable no-param-reassign */
 angular.module('app').factory('dataService', [
   '$http',
   'Upload',
   'linkService',
-  '$q',
   // --------API-----------
-  function($http, Upload, linkService, $q) {
-    // const crpl = () => ({
-    //   name: 'Test',
-    //   userId: 2,
-    //   videoCount: 14,
-    //   playlistId: 1,
-    //   videoViewsCount: 40,
-    //   videoLikesCount: 40,
-    //   videoDislikesCount: 40,
-    //   visibility: 'public',
-    //   image: '/upload/thumbnails/SquyWl8h.png',
-    // });
-
-    // const playlistsArray = [crpl(), crpl()];
-
+  function($http, Upload, linkService) {
     return {
       getVideo,
       aboutAuthor,
@@ -54,7 +40,8 @@ angular.module('app').factory('dataService', [
       const url = `/playlist/lastest`;
 
       return $http.get(url).then(res => {
-        res.data = res.data.map(item => {
+        res.data = res.data.map(videoItem => {
+          const item = videoItem;
           item.playlistId = item.id;
           item.userId = item.userId || item.user_id;
           item.videoCount = item.videoCount || item.video_count;
@@ -97,7 +84,6 @@ angular.module('app').factory('dataService', [
           .then(res => {
             res.data = res.data.map((video, id) => {
               video.playlistVideoId = id + 1;
-              const { uuid } = video;
               video.linkInPlaylist = linkService.makeVideoLinkInPlaylist({
                 playlistId,
                 num: id,
@@ -302,8 +288,7 @@ angular.module('app').factory('dataService', [
         Object.keys(res.data).forEach(key => {
           res.data[key] = res.data[key].map((item, id) => {
             const sum = item.likesCount + item.dislikesCount;
-            if (sum)
-              item.percent = Math.floor(item.likesCount * 100 / sum);
+            if (sum) item.percent = Math.floor(item.likesCount * 100 / sum);
             else item.percent = 0;
 
             item.slideId = id;
@@ -419,7 +404,6 @@ angular.module('app').factory('dataService', [
     }
 
     function setVideoLike({ uuid, type, likeSign, dislikeSign }) {
-      console.log(uuid, type, likeSign, dislikeSign);
       if (type === -1 && likeSign === 0 && dislikeSign === 0) {
         return $http.put(`/${uuid}/dislike/true`);
       }

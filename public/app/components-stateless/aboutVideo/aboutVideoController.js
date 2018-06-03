@@ -8,8 +8,10 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { watchVideo: '=' };
-  const injection = [];
-  function controller() {}
+  const injection = ['helperService'];
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
+  }
 
   // --------------------------------------------------
   // LOAD component

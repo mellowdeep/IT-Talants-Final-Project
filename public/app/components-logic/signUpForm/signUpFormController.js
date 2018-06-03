@@ -3,14 +3,12 @@
   const moduleName = 'signUpForm';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
-  const injection = ['authService', '$window'];
-  function controller(authService, $window) {
-    console.log(`${moduleName} started`);
+  const injection = ['authService', '$window', 'helperService', 'linkService'];
+  function controller(authService, $window, helperService, linkService) {
+    helperService.log(`${moduleName} started`);
 
     this.name = '';
     this.username = '';
@@ -19,7 +17,6 @@
     this.error = [];
 
     this.submit = () => {
-      console.log('ajax');
       const { name, username, password1, password2 } = this;
       authService
         .signUp({
@@ -28,17 +25,16 @@
           password1,
           password2,
         })
-        .then(res => {
-          $window.location.href = '#/login';
+        .then(() => {
+          linkService.redirect(linkService.loginLink());
         })
         .catch(e => {
-          console.log(e.data);
+          helperService.log(e.data);
           this.error = e.data.map(({ msg }) => msg);
           this.password1 = '';
           this.password2 = '';
         });
     };
-    // setInterval(() => console.log(this), 1000);
   }
 
   // --------------------------------------------------

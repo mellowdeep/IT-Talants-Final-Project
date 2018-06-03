@@ -12,12 +12,12 @@
     tabValue: '=',
     playlists: '=',
   };
-  const injection = ['$location'];
-  function controller($location) {
+  const injection = ['helperService'];
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
     const vm = this;
 
     vm.$onInit = () => {
-      console.log('channel--------------', this.aboutAuthor);
       vm.menu = {
         get page() {
           return this._page;
@@ -31,8 +31,6 @@
         _page: vm.tabValue || 'videos',
       };
     };
-
-    console.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------

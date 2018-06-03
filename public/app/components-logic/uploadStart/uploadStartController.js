@@ -3,23 +3,13 @@
   const moduleName = 'uploadStart';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
   const bindings = { user: '<', uploadFile: '=' };
-  const injection = [];
-  function controller() {
-    // this.$postLink = () => {
-    //   // input = $element.find('input')[0];
-    //   console.log(this.uploadFile);
-    // };
-    // this.uploadInput = () => {
-    //   console.log('uploadinput');
-    // };
-    // this.upload = () => {
-    // };
+  const injection = ['helperService'];
+  function controller(helperService) {
+    helperService.log(`${moduleName} started`);
   }
 
   // --------------------------------------------------

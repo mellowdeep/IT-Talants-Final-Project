@@ -4,26 +4,23 @@
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
   // --------------------------------------------------
-  const injection = ['dataService'];
   const bindings = { user: '=', aboutAuthor: '=', myPlaylists: '=' };
 
-  function controller(dataService) {
-    console.log(`${moduleName} started`);
+  const injection = ['dataService', 'helperService'];
+  function controller(dataService, helperService) {
+    helperService.log(`${moduleName} started`);
     this.playlists = [];
 
     this.updateData = () => {
       dataService.getPlaylists(this.aboutAuthor.id).then(({ data }) => {
         this.playlists.length = 0;
         this.playlists.push(...data);
-        console.log('playlists', this.playlists);
       });
     };
 
     this.$postLink = () => {
       this.aboutAuthor.aboutAuthorPromise.then(() => {
-        console.log('test', this.myPlaylists);
         if (this.aboutAuthor.id === this.user.id) {
-          console.log('equal-------------');
           this.playlists = this.myPlaylists;
         } else {
           this.updateData();

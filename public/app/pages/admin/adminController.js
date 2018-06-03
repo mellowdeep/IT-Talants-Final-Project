@@ -7,9 +7,9 @@
   // START MODULE
   // --------------------------------------------------
   const bindings = { user: '=', videosToApprove: '=' };
-  const injection = ['adminService', '$q'];
-  function controller(adminService, $q) {
-    console.log(`${moduleName} started`);
+  const injection = ['adminService', '$q', 'helperService'];
+  function controller(adminService, $q, helperService) {
+    helperService.log(`${moduleName} started`);
     this.buttonDisable = false;
 
     this.checkedFilter = false;
@@ -43,28 +43,6 @@
       this.filter();
     };
 
-    this.modal = {
-      get accept() {
-        return this._value;
-      },
-      set accept(v) {
-        this.showModal = false;
-        if (v) {
-          vm.saveChanges().then(() => {
-            vm.buttonDisable = false;
-          });
-        } else {
-          vm.buttonDisable = false;
-        }
-      },
-      _value: false,
-      showModal: false,
-      hideNo: false,
-      text: 'Save changes?',
-      textYes: 'Ok',
-      textNo: 'Cancel',
-    };
-
     this.saveChangesButton = () => {
       this.buttonDisable = true;
 
@@ -81,8 +59,6 @@
           vm.buttonDisable = false;
         }
       });
-
-      // this.modal.showModal = true;
     };
 
     this.saveChanges = () => {
@@ -113,8 +89,6 @@
           this.buttonDisable = false;
         });
     };
-
-    // setTimeout(() => console.log(this.videosToApprove), 2000);
   }
 
   // --------------------------------------------------

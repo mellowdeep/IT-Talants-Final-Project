@@ -3,20 +3,18 @@
   const moduleName = 'rowPlaylists';
   // eslint-disable-next-line
   const templateUrl = `/app/components-logic/${moduleName}/${moduleName}.html`;
-  // templateUrlGenerate(moduleName);
-  // '/app/components/head-search/head-search.template.html';
   // START MODULE
   // --------------------------------------------------
 
-  const injection = ['dataService'];
-  function controller(dataService) {
-    console.log(`${moduleName} started`);
+  const injection = ['dataService', 'helperService'];
+  function controller(dataService, helperService) {
+    helperService.log(`${moduleName} started`);
 
     this.playlistLatest = [];
     this.$onInit = () => {
       dataService.playlistLatest().then(res => {
         this.playlistLatest.push(...res.data);
-        console.log(this.playlistLatest);
+        helperService.log(this.playlistLatest);
       });
     };
   }
